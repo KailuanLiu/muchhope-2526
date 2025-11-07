@@ -9,6 +9,10 @@
   - [Team](#team)
 - [Getting Started And Contributing](#getting-started-and-contributing)
 
+## Outside Resource
+- [Much Hope Facebook] (https://www.facebook.com/MuchHopeSanJose/)
+- [Much Hope Website] (https://altosfoundation.org/ministries/much-hope/) 
+
 ## Overview
 
 ### Purpose
