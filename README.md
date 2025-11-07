@@ -13,11 +13,11 @@
 
 ### Purpose
 
-{Short paragraph description of the non-profit mission and the purpose of this project. Who will this project help, why is it necessary. Impact of the project.}
+A website for Much Hope, which is a nonprofit to provide resources for the homeless community in San Jose.
 
 ### Team
 
-The {non-profit name} team consists of {#} Cal Poly students. Over the course of about 9 months, we worked as a team to deploy this web application. The team members are listed below:
+The Much Hope team consists of {#} Cal Poly students. Over the course of about 9 months, we worked as a team to deploy this web application. The team members are listed below:
 
 - [First Last](https://www.linkedin.com/) - Project Manager
 - [First Last](https://www.linkedin.com/) - Designer
