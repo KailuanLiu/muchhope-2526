@@ -1,4 +1,4 @@
-# name of non-profit
+# Much Hope
 
 {One sentence description of the project}
 
@@ -23,9 +23,9 @@ A website for Much Hope, which is a nonprofit to provide resources for the homel
 
 The Much Hope team consists of {#} Cal Poly students. Over the course of about 9 months, we worked as a team to deploy this web application. The team members are listed below:
 
-- [Ansita Agrawal](https://www.linkedin.com/) - Project Manager
-- [Kailuan Liu](https://www.linkedin.com/) - Tech Lead
-- [Anna Huang](https://www.linkedin.com/) - Tech Lead
+- [Ansita Agrawal](https://www.linkedin.com/in/ansitaa/) - Project Manager
+- [Kailuan Liu](https://www.linkedin.com/in/kailuanliu/) - Tech Lead
+- [Anna Huang](https://www.linkedin.com//in/anna-huang) - Tech Lead
 - [Tracy Le](https://www.linkedin.com/) - Designer
 - [Siqi Liang](https://www.linkedin.com/) - Designer
 - [Meher Anklesaria](https://www.linkedin.com/) - Designer
