@@ -23,11 +23,20 @@ A website for Much Hope, which is a nonprofit to provide resources for the homel
 
 The Much Hope team consists of {#} Cal Poly students. Over the course of about 9 months, we worked as a team to deploy this web application. The team members are listed below:
 
-- [First Last](https://www.linkedin.com/) - Project Manager
-- [First Last](https://www.linkedin.com/) - Designer
-- [First Last](https://www.linkedin.com/) - Tech Lead
-- [First Last](https://www.linkedin.com/) - Tech Lead
-- [First Last](https://www.linkedin.com/) - Software Developer
+- [Ansita Agrawal](https://www.linkedin.com/) - Project Manager
+- [Kailuan Liu](https://www.linkedin.com/) - Tech Lead
+- [Anna Huang](https://www.linkedin.com/) - Tech Lead
+- [Tracy Le](https://www.linkedin.com/) - Designer
+- [Siqi Liang](https://www.linkedin.com/) - Designer
+- [Meher Anklesaria](https://www.linkedin.com/) - Designer
+- [Briana Kirkman](https://www.linkedin.com/) - Software Developer
+- [Caleb So](https://www.linkedin.com/) - Software Developer
+- [Farid Rohana](https://www.linkedin.com/) - Software Developer
+- [Tyler Kim](https://www.linkedin.com/) - Software Developer
+- [Siddharth Balaji](https://www.linkedin.com/) - Software Developer
+- [Kayla Tran](https://www.linkedin.com/) - Software Developer
+- [Hayes Lao](https://www.linkedin.com/) - Software Developer
+
 
 ## Getting Started And Contributing
 
