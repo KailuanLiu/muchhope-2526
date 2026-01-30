@@ -5,6 +5,7 @@
   flex-direction: column;
   align-items: center;
   padding: 100px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .pageTitle {
   font-size: 30px;
