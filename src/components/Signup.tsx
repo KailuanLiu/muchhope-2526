@@ -4,15 +4,19 @@ import { useState } from "react";
 import styles from "../styles/signup.module.css";
 
 export default function Signup() {
+  //Helper functions to handle change for inputs in form
   const handleChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  //Helper function to avoid needing browser reload to submit form
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
   };
+
+  //Saved variables to store input data
   const [formData, setFormData] = useState({
     name: "",
     password: "",

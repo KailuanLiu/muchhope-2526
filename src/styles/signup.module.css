@@ -8,15 +8,17 @@
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .pageTitle {
-  font-size: 30px;
+  font-size: 35px;
   margin: 40px 0;
   color: #000000;
+  padding-right: 20%;
+  margin-bottom: 60px;
 }
 .formBox {
   background-color: #ababab;
   padding: 18px;
   border-radius: 10px;
-  width: 500px;
+  width: 450px;
   max-width: 90%;
 }
 .formTitle {
@@ -34,7 +36,7 @@
 .input {
   width: 100%;
   padding: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 14px;
   border: none;
   border-radius: 10px;
   background-color: #e6e6e6;
