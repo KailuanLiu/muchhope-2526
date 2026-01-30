@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import styles from "../styles/signup.module.css";
 
 export default function Signup() {
   const handleChange = (e: { target: { name: any; value: any } }) => {
@@ -20,39 +21,51 @@ export default function Signup() {
     age: "",
   });
   return (
-    <div className="">
-      <h1>Sign Up or Login to your Account</h1>
+    <div className={styles.pageContainer}>
+      <h1 className={styles.pageTitle}>Sign Up or Login to your Account</h1>
 
-      <div className="form-box">
+      <div className={styles.formBox}>
         <form onSubmit={handleSubmit}>
-          <h2>Sign up </h2>
-          <label>First & Last Name</label>
-          <br />
+          <h2 className={styles.formTitle}>Sign up </h2>
+          <label className={styles.label}>First & Last Name</label>
           <input
+            className={styles.input}
             type="text"
             name="name"
             value={formData.name}
             onChange={handleChange}
             placeholder="First & Last Name"
           />
-          <br />
-          <label>Password</label> <br />
+          <label className={styles.label}>Password</label>
           <input
+            className={styles.input}
             type="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
             placeholder="Password"
           />
-          <br />
-          <label>Email</label> <br />
-          <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
-          <br />
-          <label>Phone Number</label> <br />
-          <input type="tel" name="number" value={formData.number} onChange={handleChange} placeholder="Phone Number" />
-          <br />
-          <label>Are you over 18?</label> <br />
+          <label className={styles.label}>Email</label>
           <input
+            className={styles.input}
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Email"
+          />
+          <label className={styles.label}>Phone Number</label>
+          <input
+            className={styles.input}
+            type="tel"
+            name="number"
+            value={formData.number}
+            onChange={handleChange}
+            placeholder="Phone Number"
+          />
+          <label className={styles.label}>Are you over 18?</label>
+          <input
+            className={styles.radioGroup}
             type="radio"
             id="over18"
             name="age"
@@ -62,6 +75,7 @@ export default function Signup() {
           />
           <label htmlFor="over18">Yes</label>
           <input
+            className={styles.radioGroup}
             type="radio"
             id="under18"
             name="age"
@@ -70,8 +84,9 @@ export default function Signup() {
             onChange={handleChange}
           />
           <label htmlFor="under18">No</label>
-          <br />
-          <button type="submit">Submit</button>
+          <button className={styles.button} type="submit">
+            Submit
+          </button>
         </form>
       </div>
     </div>

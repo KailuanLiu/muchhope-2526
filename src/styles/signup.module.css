@@ -1,2 +1,58 @@
 .pageContainer {
+  background-color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 100px;
+}
+.pageTitle {
+  font-size: 30px;
+  margin: 40px 0;
+  color: #000000;
+}
+.formBox {
+  background-color: #ababab;
+  padding: 10px;
+  border-radius: 10px;
+  width: 300px;
+  max-width: 90%;
+}
+.formTitle {
+  text-align: center;
+  font-size: 25px;
+  margin-bottom: 10px;
+  color: #000000;
+}
+.label {
+  display: block;
+  font-weight: bold; /* bold or normal? */
+  margin-bottom: 10px;
+  color: #000000;
+}
+.input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 10px;
+  background-color: #e6e6e6;
+  font-size: 15px;
+}
+.radioGroup {
+  margin: 15px 0;
+}
+.button {
+  width: 30%;
+  padding: 7px 10px;
+  background-color: #e6e6e6;
+  color: #000000;
+  border: none;
+  border-radius: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+.button:hover {
+  background-color: #f7f7f7;
 }
