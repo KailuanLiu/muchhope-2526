@@ -63,27 +63,21 @@ export default function Signup() {
             onChange={handleChange}
             placeholder="Phone Number"
           />
-          <label className={styles.label}>Are you over 18?</label>
-          <input
-            className={styles.radioGroup}
-            type="radio"
-            id="over18"
-            name="age"
-            value="Yes"
-            checked={formData.age === "Yes"}
-            onChange={handleChange}
-          />
-          <label htmlFor="over18">Yes</label>
-          <input
-            className={styles.radioGroup}
-            type="radio"
-            id="under18"
-            name="age"
-            value="No"
-            checked={formData.age === "No"}
-            onChange={handleChange}
-          />
-          <label htmlFor="under18">No</label>
+          <div className={styles.radioGroup}>
+            <label className={styles.label}>Are you over 18?</label>
+
+            <div className={styles.radioOptions}>
+              <label className={styles.radioLabel}>
+                <input type="radio" name="age" value="Yes" checked={formData.age === "Yes"} onChange={handleChange} />
+                Yes
+              </label>
+
+              <label className={styles.radioLabel}>
+                <input type="radio" name="age" value="No" checked={formData.age === "No"} onChange={handleChange} />
+                No
+              </label>
+            </div>
+          </div>
           <button className={styles.button} type="submit">
             Submit
           </button>
