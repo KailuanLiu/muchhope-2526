@@ -10,5 +10,11 @@ export default function Signup() {
     number: "",
     role: "",
   });
-  return <div></div>;
+  return (
+    <div className="">
+      <form action="">
+        <h2>Hello</h2>
+      </form>
+    </div>
+  );
 }
