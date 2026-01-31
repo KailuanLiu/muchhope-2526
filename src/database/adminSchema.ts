@@ -1,5 +1,10 @@
 import mongoose, { Schema } from "mongoose";
 
+export type TimeSlot = {
+  start: string;
+  end: string;
+};
+
 export type Admin = {
   clerkUserID: string;
   first_name: string;
@@ -7,8 +12,8 @@ export type Admin = {
   email: string;
   password: string;
   phone_number: string;
-  time_slots: [];
-  events: [];
+  time_slots: TimeSlot[];
+  events: mongoose.Types.ObjectId[];
   role: "admin" | "main_admin";
 };
 
@@ -19,8 +24,16 @@ const adminSchema = new Schema<Admin>({
   email: { type: String, required: true },
   password: { type: String, required: true },
   phone_number: { type: String, required: true },
-  time_slots: { type: Array, default: [] },
-  events: { type: Array, default: [] },
+  time_slots: {
+    type: [
+      {
+        start: { type: String, required: true },
+        end: { type: String, required: true },
+      },
+    ],
+    default: [],
+  },
+  events: { type: [Schema.Types.ObjectId], default: [] },
   role: { type: String, enum: ["admin", "main_admin"], required: true },
 });
 
