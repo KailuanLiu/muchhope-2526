@@ -2,6 +2,6 @@
 
 import Signup from "@/components/Signup";
 
-export default function SignupPage() {
+export default function Page() {
   return <Signup />;
 }
