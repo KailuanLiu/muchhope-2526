@@ -8,5 +8,4 @@ const VolunteerEventSchema = new Schema({
   description: { type: String, required: true },
 });
 
-export default mongoose.models.VolunteerEvent ||
-  mongoose.model("VolunteerEvent", VolunteerEventSchema);
+export default mongoose.models.VolunteerEvent || mongoose.model("VolunteerEvent", VolunteerEventSchema);
