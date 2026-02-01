@@ -1,11 +1,13 @@
 import mongoose, { Schema } from "mongoose";
 
-const VolunteerEventSchema = new Schema({
-  event_name: { type: String, required: true },
-  date: { type: String, required: true },
-  time: { type: String, required: true },
-  location: { type: String, required: true },
-  description: { type: String, required: true },
+const VolunteerSchema = new Schema({
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  phoneNumber: { type: String, required: true },
+  availabilities: { type: [String], default: [] },
+  eventsAttending: { type: [String], default: [] },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
 });
 
-export default mongoose.models.VolunteerEvent || mongoose.model("VolunteerEvent", VolunteerEventSchema);
+export default mongoose.models.Volunteer || mongoose.model("Volunteer", VolunteerSchema);
