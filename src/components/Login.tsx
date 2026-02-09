@@ -24,7 +24,6 @@ export default function Login() {
   return (
     <div className={styles.pageContainer}>
       <h1 className={styles.pageTitle}>Sign Up or Login to your Account</h1>
-
       <div className={styles.formBox}>
         <form onSubmit={handleSubmit}>
           <h2 className={styles.formTitle}>Login</h2>
@@ -49,6 +48,12 @@ export default function Login() {
           <button className={styles.button} type="submit">
             Login
           </button>
+          <a href="" className={styles.textLink}>
+            Forgot password?
+          </a>
+          <a href="" className={styles.textLink}>
+            Create Account
+          </a>
         </form>
       </div>
     </div>
