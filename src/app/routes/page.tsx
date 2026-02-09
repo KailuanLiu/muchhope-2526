@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import Signup from "@/components/Signup";
+import Login from "@/components/Login";
 
 const ROUTES = [
   { path: "/", label: "Home" },
   { path: "/signup", label: "Signup" },
+  { path: "/login", label: "Login" },
 ];
 
 export default function Page() {
@@ -22,6 +24,7 @@ export default function Page() {
       </nav>
 
       <Signup />
+      <Login />
     </main>
   );
 }
