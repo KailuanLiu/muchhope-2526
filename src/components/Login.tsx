@@ -27,7 +27,7 @@ export default function Login() {
 
       <div className={styles.formBox}>
         <form onSubmit={handleSubmit}>
-          <h2 className={styles.formTitle}>Sign up </h2>
+          <h2 className={styles.formTitle}>Login</h2>
           <label className={styles.label}>Email</label>
           <input
             className={styles.input}
@@ -47,7 +47,7 @@ export default function Login() {
             placeholder="Password"
           />
           <button className={styles.button} type="submit">
-            Submit
+            Login
           </button>
         </form>
       </div>
