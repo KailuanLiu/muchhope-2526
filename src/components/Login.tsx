@@ -51,7 +51,7 @@ export default function Login() {
           <a href="" className={styles.textLink}>
             Forgot password?
           </a>
-          <a href="" className={styles.textLink}>
+          <a href="./signup" className={styles.textLink}>
             Create Account
           </a>
         </form>
