@@ -1,10 +1,9 @@
-import Navbar from "@/components/Navbar";
-import Signup from "@/components/Signup";
+import LandingPage from "@/components/LandingPage";
 
 export default function Home() {
   return (
     <main>
-      <Navbar />
+      <LandingPage />
     </main>
   );
 }
