@@ -21,7 +21,7 @@ function makeNewConnection(url) {
   let DBname;
   try {
     DBname = new URL(url).pathname.split("/").pop() || "default";
-  } catch (e) {
+  } catch (_e) {
     DBname = "unknown";
   }
 

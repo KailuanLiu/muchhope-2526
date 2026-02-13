@@ -6,10 +6,11 @@ const cors = require("cors");
 const session = require("express-session");
 
 const connectDB = require("./database/db.js");
+// uncomment below when implemented
 // const authRoutes = require("./routes/authRoutes.js");
-const adminRoutes = require("./routes/adminRoutes.js");
-const eventsRoutes = require("./routes/eventRoutes.js");
-const volunteersRoutes = require("./routes/volunteerRoutes.js");
+// const adminRoutes = require("./routes/adminRoutes.js");
+// const eventsRoutes = require("./routes/eventRoutes.js");
+// const volunteersRoutes = require("./routes/volunteerRoutes.js");
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -46,14 +47,14 @@ app.use((req, res, next) => {
 // Static files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Routes
+// Routes (uncomment below when implemented)
 // app.use("/api/auth", authRoutes);
-app.use("/api/admin", adminRoutes);
-app.use("/api/volunteers", volunteersRoutes);
-app.use("/api/events", eventsRoutes);
-app.use("/api/Admin", adminRoutes);
-app.use("/api/Volunteers", volunteersRoutes);
-app.use("/api/Events", eventsRoutes);
+// app.use("/api/admin", adminRoutes);
+// app.use("/api/volunteers", volunteersRoutes);
+// app.use("/api/events", eventsRoutes);
+// app.use("/api/Admin", adminRoutes);
+// app.use("/api/Volunteers", volunteersRoutes);
+// app.use("/api/Events", eventsRoutes);
 
 app.get("/", (req, res) => {
   console.log("Hello World, I am here");

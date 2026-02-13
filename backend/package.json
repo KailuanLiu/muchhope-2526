@@ -4,10 +4,9 @@
   "main": "connection.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "next dev",
-    "build": "next build",
-    "lint": "next lint",
-    "lint:fix": "next lint --fix"
+    "dev": "node server.js",
+    "lint-check": "eslint --ext .js,.ts --ignore-path .gitignore . && prettier --check .",
+    "lint-write": "npx lint-staged"
   },
   "keywords": [],
   "author": "",
