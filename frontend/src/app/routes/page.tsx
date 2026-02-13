@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Signup from "@/components/Signup";
+import Signup from "../../components/Signup";
 
 const ROUTES = [
   { path: "/", label: "Home" },
