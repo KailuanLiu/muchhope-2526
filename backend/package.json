@@ -1,0 +1,23 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "connection.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "next dev",
+    "build": "next build",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.4",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "mongoose": "^8.22.1"
+  }
+}

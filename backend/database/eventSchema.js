@@ -1,4 +1,5 @@
-import mongoose, { Schema } from "mongoose";
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
 const EventSchema = new Schema({
   event_name: { type: String, required: true },
@@ -11,6 +12,7 @@ const EventSchema = new Schema({
       name: { type: String, required: true },
       email: { type: String, required: true },
       phoneNumber: { type: String, required: true },
+      isAdult: { type: Boolean, required: true },
     },
   ],
 });
