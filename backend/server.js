@@ -5,7 +5,7 @@ const path = require("path");
 const cors = require("cors");
 const session = require("express-session");
 
-const connectDB = require("./database/db.js");
+const connectDB = require("../frontend/src/lib/db.js");
 // uncomment below when implemented
 // const authRoutes = require("./routes/authRoutes.js");
 // const adminRoutes = require("./routes/adminRoutes.js");
@@ -30,10 +30,7 @@ app.use(
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:5173");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization",
-  );
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE, PUT");
   next();
 });
