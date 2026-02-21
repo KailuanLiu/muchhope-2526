@@ -1,5 +1,6 @@
 "use client";
 
+/* eslint-disable no-undef */
 import React, { useState } from "react";
 import styles from "../styles/contact.module.css";
 
@@ -83,7 +84,7 @@ export default function Contact() {
           message: data.message || "Something went wrong. Please try again.",
         });
       }
-    } catch (error) {
+    } catch {
       setSubmitStatus({
         type: "error",
         message: "Failed to send message. Please try again later.",
