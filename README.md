@@ -12,8 +12,7 @@
 ## Outside Resource
 
 - [Much Hope Facebook] (https://www.facebook.com/MuchHopeSanJose/)
-- [Much Hope Website] (https://altosfoundation.org/ministries/much-hope/)
-- [Much Hope Figma] (https://www.figma.com/design/KgeDyd4UAJtaQ6DEq448O6/Much-Hope-Mock-Up?node-id=0-1&p=f&t=SDSVvwKuRUOvLhIY-0)
+- [Much Hope Website] (https://altosfoundation.org/ministries/much-hope/) 
 
 ## Overview
 
