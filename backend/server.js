@@ -52,6 +52,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // app.use("/api/Admin", adminRoutes);
 // app.use("/api/Volunteers", volunteersRoutes);
 // app.use("/api/Events", eventsRoutes);
+app.use("api/events", require("./routes/events"));
 
 app.get("/", (req, res) => {
   console.log("Hello World, I am here");
