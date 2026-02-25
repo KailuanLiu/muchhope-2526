@@ -12,8 +12,7 @@ function makeNewConnection(url) {
 
   if (
     process.env.NODE_ENV !== "test" &&
-    (typeof url !== "string" ||
-      (!url.startsWith("mongodb://") && !url.startsWith("mongodb+srv://")))
+    (typeof url !== "string" || (!url.startsWith("mongodb://") && !url.startsWith("mongodb+srv://")))
   ) {
     throw new Error(`Invalid MongoDB connection string: ${url}`);
   }

@@ -8,14 +8,14 @@
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .pageTitle {
-  font-size: 35px;
+  font-size: 33px;
   margin: 40px 0;
   color: #000000;
-  margin-bottom: 60px;
 }
 .formBox {
   background-color: #ababab;
   padding: 18px;
+  padding-bottom: 50px;
   border-radius: 10px;
   width: 450px;
   max-width: 90%;
@@ -23,7 +23,7 @@
 .formTitle {
   text-align: center;
   font-size: 30px;
-  margin-bottom: 10px;
+  margin-bottom: 60px;
   color: #000000;
 }
 .label {
@@ -42,29 +42,6 @@
   font-size: 15px;
   box-sizing: border-box;
 }
-.radioGroup {
-  margin: 15px 0;
-}
-
-.radioOptions {
-  display: flex;
-  gap: 20px;
-  margin-top: 8px;
-}
-
-.radioLabel {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  font-weight: normal;
-  cursor: pointer;
-}
-
-.radioLabel input[type="radio"] {
-  cursor: pointer;
-  width: 18px;
-  height: 18px;
-}
 .button {
   width: 30%;
   padding: 7px 10px;
@@ -82,4 +59,14 @@
 }
 .button:hover {
   background-color: #f7f7f7;
+}
+.textLink {
+  text-decoration: none;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-size: 15px;
+  margin-top: 20px;
+  color: #000000;
 }
