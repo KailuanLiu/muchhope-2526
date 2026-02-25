@@ -13,7 +13,7 @@ export default function Login() {
   //Helper function to avoid needing browser reload to submit form
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+    // console.log("Form submitted:", formData);
   };
 
   //Saved variables to store input data

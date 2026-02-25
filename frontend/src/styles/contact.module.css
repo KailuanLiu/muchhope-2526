@@ -8,8 +8,14 @@
 }
 
 .content {
-  max-width: 600px;
+  max-width: 1200px;
   width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.section {
   background: white;
   padding: 2.5rem;
   border-radius: 12px;

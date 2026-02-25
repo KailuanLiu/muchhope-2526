@@ -18,11 +18,23 @@
         "name": "next"
       }
     ],
-    "baseUrl": "./src/",
+    "baseUrl": "frontend/src",
     "paths": {
       "@/*": ["*"]
+    },
+    "env": {
+      "browser": true,
+      "node": true
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "backend/database/db.js",
+    "backend/database/eventSchema.js",
+    "backend/database/volunteerSchema.js"
+  ],
   "exclude": ["node_modules"]
 }
