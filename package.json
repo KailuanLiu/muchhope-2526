@@ -29,5 +29,8 @@
     "husky": "^9",
     "lint-staged": "^15",
     "prettier": "^3"
+  },
+  "dependencies": {
+    "@clerk/nextjs": "^6.39.0"
   }
 }
