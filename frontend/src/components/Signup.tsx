@@ -11,6 +11,11 @@ interface SignupProps {
 }
 
 export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
+  // Clerk constants
+  const router = useRouter();
+  const [code, setCode] = useState("");
+  const [showEmailCode, setShowEmailCode] = useState(false);
+
   //Helper functions to handle change for inputs in form
   const handleChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
@@ -18,9 +23,28 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
   };
 
   //Helper function to avoid needing browser reload to submit form
-  const handleSubmit = (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+
+    if (!isLoaded) return;
+
+    try {
+      // Create user with clerk
+      await signUp.create({
+        emailAddress: formData.email,
+        password: formData.password,
+      });
+
+      // Send verification email
+      await signUp.prepareEmailAddressVerification({
+        strategy: "email_code",
+      });
+
+      // Verification code input 
+      setShowEmailCode(true);
+    } catch (err: any) {
+      console.error("Error during sign up:", JSON.stringify(err, null, 2));
+    }
   };
 
   //Saved variables to store input data
