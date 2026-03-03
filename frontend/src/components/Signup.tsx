@@ -4,7 +4,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "../styles/signup.module.css";
 
-export default function Signup() {
+interface SignupProps {
+  signUp: any;
+  setActive: any;
+  isLoaded: boolean;
+}
+
+export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
   //Helper functions to handle change for inputs in form
   const handleChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
