@@ -83,3 +83,14 @@
 .button:hover {
   background-color: #f7f7f7;
 }
+
+.error {
+  color: #d32f2f;
+  font-size: 14px;
+  margin-top: -10px;
+  margin-bottom: 14px;
+  padding: 8px;
+  background-color: #ffebee;
+  border-left: 3px solid #d32f2f;
+  border-radius: 4px;
+}

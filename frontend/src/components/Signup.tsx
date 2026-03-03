@@ -15,6 +15,7 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
   const router = useRouter();
   const [code, setCode] = useState("");
   const [showEmailCode, setShowEmailCode] = useState(false);
+  const [error, setError] = useState("");
 
   //Saved variables to store input data
   const [formData, setFormData] = useState({
@@ -35,6 +36,8 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
+    setError(""); // Clear previous errors
+
     if (!isLoaded) return;
 
     try {
@@ -53,6 +56,13 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
       setShowEmailCode(true);
     } catch (err: any) {
       console.error("Error during sign up:", JSON.stringify(err, null, 2));
+
+      // Extract and display the error message
+      if (err.errors && err.errors[0]) {
+        setError(err.errors[0].message);
+      } else {
+        setError("An error occurred during sign up. Please try again.");
+      }
     }
   };
 
@@ -136,6 +146,7 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
             onChange={handleChange}
             placeholder="Password"
           />
+          {error && <p className={styles.error}>{error}</p>}
           <label className={styles.label}>Email</label>
           <input
             className={styles.input}
