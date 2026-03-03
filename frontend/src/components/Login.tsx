@@ -11,6 +11,15 @@ interface LoginProps {
 }
 
 export default function Login({ signIn, setActive, isLoaded }: LoginProps) {
+
+  //Saved variables to store input data
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const router = useRouter();
+  const [error, setError] = useState("");
+  
   //Helper functions to handle change for inputs in form
   const handleChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
@@ -23,11 +32,7 @@ export default function Login({ signIn, setActive, isLoaded }: LoginProps) {
     // console.log("Form submitted:", formData);
   };
 
-  //Saved variables to store input data
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+
   return (
     <div className={styles.pageContainer}>
       <h1 className={styles.pageTitle}>Sign Up or Login to your Account</h1>
