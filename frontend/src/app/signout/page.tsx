@@ -12,9 +12,7 @@ export default function SignOutPage() {
 
   return (
     <div className={styles.pageContainer}>
-      <h1 className={styles.pageTitle}>Sign Out</h1>
       <div className={styles.formBox}>
-        <h2 className={styles.formTitle}>Are you sure you want to sign out?</h2>
         <button className={styles.button} onClick={handleSignOut}>
           Sign Out
         </button>
