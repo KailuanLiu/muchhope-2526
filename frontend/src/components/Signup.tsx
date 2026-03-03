@@ -172,6 +172,8 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
           <button className={styles.button} type="submit">
             Submit
           </button>
+          {/* Clerk captcha */}
+          <div id="clerk-captcha" />
         </form>
       </div>
     </div>
