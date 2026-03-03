@@ -28,7 +28,7 @@ export default function Login({ signIn, setActive, isLoaded }: LoginProps) {
   //Helper function to avoid needing browser reload to submit form
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    setError(""); 
+    setError("");
 
     if (!isLoaded) return;
     try {
@@ -87,6 +87,7 @@ export default function Login({ signIn, setActive, isLoaded }: LoginProps) {
             onChange={handleChange}
             placeholder="Password"
           />
+          {error && <p className={styles.error}>{error}</p>}
           <button className={styles.button} type="submit">
             Login
           </button>
