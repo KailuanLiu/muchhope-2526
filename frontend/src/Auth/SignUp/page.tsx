@@ -1,3 +1,5 @@
+"use client";
+
 import { useSignUp } from "@clerk/nextjs";
 import Signup from "../../components/Signup";
 
