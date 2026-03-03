@@ -4,7 +4,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "../styles/login.module.css";
 
-export default function Login() {
+interface LoginProps {
+  signIn: any;
+  setActive: any;
+  isLoaded: boolean;
+}
+
+export default function Login({ signIn, setActive, isLoaded }: LoginProps) {
   //Helper functions to handle change for inputs in form
   const handleChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
