@@ -47,6 +47,35 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
     }
   };
 
+  // Handle email verification code submission
+  const handleEmailCode = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+
+    if (!isLoaded) return;
+    try {
+      // Verify email w code
+      const signUpAttempt = await signUp.attemptEmailAddressVerification({
+        code,
+      });
+
+      // Set session as active if verify is successful
+      if (signUpAttempt.status === "complete") {
+        await setActive({
+          session: signUpAttempt.createdSessionId,
+        });
+        
+        // Go back to home page
+        router.push("/");
+      } else {
+        console.error("Sign-up attempt not complete:", signUpAttempt.status);
+      }
+    } catch (err: any) {
+      console.error("Error verifying email:", JSON.stringify(err, null, 2));
+    }
+  };
+
+
+  
   //Saved variables to store input data
   const [formData, setFormData] = useState({
     name: "",
