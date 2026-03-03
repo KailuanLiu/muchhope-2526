@@ -1,7 +1,7 @@
 "use client";
 
 import { useSignUp } from "@clerk/nextjs";
-import Signup from "../../components/Signup";
+import Signup from "../../../components/Signup";
 
 export default function Page() {
   const { isLoaded, signUp, setActive } = useSignUp();
