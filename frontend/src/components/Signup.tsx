@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import styles from "../styles/signup.module.css";
+
 export default function Signup() {
   //Helper functions to handle change for inputs in form
   const handleChange = (e: { target: { name: any; value: any } }) => {
