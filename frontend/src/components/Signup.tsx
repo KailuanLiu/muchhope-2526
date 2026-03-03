@@ -16,6 +16,15 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
   const [code, setCode] = useState("");
   const [showEmailCode, setShowEmailCode] = useState(false);
 
+  //Saved variables to store input data
+  const [formData, setFormData] = useState({
+    name: "",
+    password: "",
+    email: "",
+    number: "",
+    age: "",
+  });
+
   //Helper functions to handle change for inputs in form
   const handleChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
@@ -40,7 +49,7 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
         strategy: "email_code",
       });
 
-      // Verification code input 
+      // Verification code input
       setShowEmailCode(true);
     } catch (err: any) {
       console.error("Error during sign up:", JSON.stringify(err, null, 2));
@@ -63,7 +72,7 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
         await setActive({
           session: signUpAttempt.createdSessionId,
         });
-        
+
         // Go back to home page
         router.push("/");
       } else {
@@ -74,16 +83,34 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
     }
   };
 
+  // cond. rendering if email verification is needed
+  if (showEmailCode) {
+    return (
+      <div className={styles.pageContainer}>
+        <h1 className={styles.pageTitle}>Verify your email</h1>
+        <div className={styles.formBox}>
+          <form onSubmit={handleEmailCode}>
+            <h2 className={styles.formTitle}>Enter verification code</h2>
+            <p>A verification code has been sent to {formData.email}</p>
+            <label className={styles.label}>Verification Code</label>
+            <input
+              className={styles.input}
+              type="text"
+              name="code"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              placeholder="Enter code"
+              inputMode="numeric"
+            />
+            <button className={styles.button} type="submit">
+              Verify Email
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
-  
-  //Saved variables to store input data
-  const [formData, setFormData] = useState({
-    name: "",
-    password: "",
-    email: "",
-    number: "",
-    age: "",
-  });
   return (
     <div className={styles.pageContainer}>
       <h1 className={styles.pageTitle}>Sign Up</h1>
