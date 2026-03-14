@@ -1,6 +1,7 @@
 "use client";
 
-import styles from "@/styles/landingPage.module.css";
+import Link from "next/link";
+import styles from "../styles/landingPage.module.css";
 
 export default function LandingPage() {
   return (
@@ -8,9 +9,10 @@ export default function LandingPage() {
       <div className={styles.overlay}>
         <h1 className={styles.title}>MuchHope</h1>
         <p className={styles.subtitle}>Providing resources and support for the homeless community in San Jose.</p>
-        <a href="/signup" className={styles.ctaButton}>
+
+        <Link href="/Auth/Login" className={styles.ctaButton}>
           Get Involved
-        </a>
+        </Link>
       </div>
     </div>
   );
