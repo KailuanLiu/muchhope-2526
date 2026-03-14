@@ -1,0 +1,72 @@
+.pageContainer {
+  background-color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 100px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.pageTitle {
+  font-size: 33px;
+  margin: 40px 0;
+  color: #000000;
+}
+.formBox {
+  background-color: #ababab;
+  padding: 18px;
+  padding-bottom: 50px;
+  border-radius: 10px;
+  width: 450px;
+  max-width: 90%;
+}
+.formTitle {
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 60px;
+  color: #000000;
+}
+.label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #000000;
+}
+.input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 14px;
+  border: none;
+  border-radius: 10px;
+  background-color: #e6e6e6;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+.button {
+  width: 30%;
+  padding: 7px 10px;
+  margin-bottom: 10px;
+  background-color: #e6e6e6;
+  color: #000000;
+  border: none;
+  border-radius: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  margin-top: 15px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.button:hover {
+  background-color: #f7f7f7;
+}
+.textLink {
+  text-decoration: none;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-size: 15px;
+  margin-top: 20px;
+  color: #000000;
+}

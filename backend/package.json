@@ -1,0 +1,22 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "connection.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "lint-check": "eslint --ext .js,.ts --ignore-path .gitignore . && prettier --check .",
+    "lint-write": "npx lint-staged"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.4",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "mongoose": "^8.22.1"
+  }
+}

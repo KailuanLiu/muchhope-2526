@@ -26,7 +26,7 @@ export default function Signup() {
   });
   return (
     <div className={styles.pageContainer}>
-      <h1 className={styles.pageTitle}>Sign Up or Login to your Account</h1>
+      <h1 className={styles.pageTitle}>Sign Up</h1>
 
       <div className={styles.formBox}>
         <form onSubmit={handleSubmit}>
