@@ -11,4 +11,4 @@ const VolunteerSchema = new Schema({
   isAdult: { type: Boolean, required: true }, // If volunteer is 18+ or not
 });
 
-export default mongoose.models.Volunteer || mongoose.model("Volunteer", VolunteerSchema);
+module.exports = { VolunteerSchema };
