@@ -1,13 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import Signup from "../../components/Signup";
-import Login from "../../components/Login";
 
 const ROUTES = [
   { path: "/", label: "Home" },
-  { path: "/signup", label: "Signup" },
-  { path: "/login", label: "Login" },
+  { path: "/Auth/SignUp", label: "Signup" },
+  { path: "/Auth/Login", label: "Login" },
 ];
 
 export default function Page() {
@@ -22,9 +20,6 @@ export default function Page() {
           ))}
         </ul>
       </nav>
-
-      <Signup />
-      <Login />
     </main>
   );
 }
