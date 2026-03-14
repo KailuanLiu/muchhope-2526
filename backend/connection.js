@@ -20,7 +20,8 @@ function makeNewConnection(url) {
   let DBname;
   try {
     DBname = new URL(url).pathname.split("/").pop() || "default";
-  } catch (_e) {
+  } catch (err) {
+    console.error("Error parsing MongoDB URL:", err);
     DBname = "unknown";
   }
 
