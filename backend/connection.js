@@ -12,8 +12,7 @@ function makeNewConnection(url) {
 
   if (
     process.env.NODE_ENV !== "test" &&
-    (typeof url !== "string" ||
-      (!url.startsWith("mongodb://") && !url.startsWith("mongodb+srv://")))
+    (typeof url !== "string" || (!url.startsWith("mongodb://") && !url.startsWith("mongodb+srv://")))
   ) {
     throw new Error(`Invalid MongoDB connection string: ${url}`);
   }
@@ -21,7 +20,8 @@ function makeNewConnection(url) {
   let DBname;
   try {
     DBname = new URL(url).pathname.split("/").pop() || "default";
-  } catch (_e) {
+  } catch (err) {
+    console.error("Error parsing MongoDB URL:", err);
     DBname = "unknown";
   }
 
