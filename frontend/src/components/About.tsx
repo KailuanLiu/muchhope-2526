@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import styles from "../styles/about.module.css";
 
 export default function About() {
