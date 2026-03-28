@@ -13,7 +13,7 @@ export default function Navbar() {
     { label: "Volunteer", href: "/volunteer" },
     { label: "Upcoming Events", href: "/events/upcoming" },
     { label: "Past Events", href: "/events/past" },
-    { label: "About Us", href: "/about" },
+    { label: "About Us", href: "/About" },
     { label: "Contact", href: "/ContactUs" },
     { label: "Donate", href: "/donate" },
   ];
