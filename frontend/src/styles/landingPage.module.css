@@ -1,5 +1,6 @@
 .heroContainer {
   position: relative;
+  flex: 1;
   min-height: 100vh;
   background-image: url("/cat-placeholder.jpg");
   background-size: cover;
@@ -49,3 +50,9 @@
 .ctaButton:hover {
   background-color: #e6e6e6;
 }
+
+/* .pageLayout {
+  display: flex;
+  min-height: 100vh;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+} */
