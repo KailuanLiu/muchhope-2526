@@ -4,8 +4,8 @@ import Link from "next/link";
 
 const ROUTES = [
   { path: "/", label: "Home" },
-  { path: "/Auth/SignUp", label: "Signup" },
-  { path: "/Auth/Login", label: "Login" },
+  { path: "/auth/signup", label: "Signup" },
+  { path: "/auth/login", label: "Login" },
 ];
 
 export default function Page() {
