@@ -4,10 +4,60 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "../styles/signup.module.css";
 
+type ClerkError = {
+  code?: string;
+  longMessage?: string;
+  message?: string;
+  meta?: {
+    name?: string;
+  };
+};
+
 interface SignupProps {
   signUp: any;
   setActive: any;
   isLoaded: boolean;
+}
+
+const SIGN_UP_ERROR_MESSAGES: Record<string, string> = {
+  form_identifier_exists: "An account with this email already exists. Try signing in instead.",
+  form_password_length_too_short: "Password must be at least 8 characters long.",
+  form_password_length_too_long: "Password is too long. Please choose a shorter password.",
+  form_password_no_lowercase: "Password must contain at least one lowercase letter.",
+  form_password_no_uppercase: "Password must contain at least one uppercase letter.",
+  form_password_no_number: "Password must contain at least one number.",
+  form_password_no_special_char: "Password must contain at least one special character.",
+  form_password_not_strong_enough: "Password is not strong enough. Choose a stronger password.",
+  form_password_pwned: "This password has appeared in a known data breach. Choose a different password.",
+  form_password_compromised: "This password may be compromised. Choose a different password.",
+  form_param_format_invalid: "Please enter a valid email address.",
+  captcha_verification_required: "Complete the CAPTCHA challenge and try again.",
+  form_param_missing: "Please fill out all required fields.",
+};
+
+const VERIFY_ERROR_MESSAGES: Record<string, string> = {
+  form_code_incorrect: "The verification code is incorrect. Try again.",
+  form_identifier_not_found: "We could not find a pending email verification for this account.",
+  form_param_missing: "Enter the verification code to continue.",
+  captcha_verification_required: "Complete the CAPTCHA challenge and try again.",
+};
+
+function getClerkErrorMessage(err: any, errorMessages: Record<string, string>, fallbackMessage: string) {
+  const clerkError = err?.errors?.[0] as ClerkError | undefined;
+
+  if (!clerkError) {
+    return fallbackMessage;
+  }
+
+  if (clerkError.code && errorMessages[clerkError.code]) {
+    return errorMessages[clerkError.code];
+  }
+
+  if (clerkError.code === "form_param_value_invalid" && clerkError.meta?.name === "email_address") {
+    return "Please enter a valid email address.";
+  }
+
+  return clerkError.longMessage || clerkError.message || fallbackMessage;
 }
 
 export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
@@ -55,12 +105,9 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
       // Verification code input
       setShowEmailCode(true);
     } catch (err: any) {
-      // Extract and display the error message
-      if (err.errors && err.errors[0]) {
-        setError(err.errors[0].message);
-      } else {
-        setError("An error occurred during sign up. Please try again.");
-      }
+      setError(
+        getClerkErrorMessage(err, SIGN_UP_ERROR_MESSAGES, "An error occurred during sign up. Please try again."),
+      );
     }
   };
 
@@ -89,11 +136,13 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
         setError("Verification could not be completed. Please try again.");
       }
     } catch (err: any) {
-      if (err.errors && err.errors[0]) {
-        setError(err.errors[0].message);
-      } else {
-        setError("An error occurred while verifying your email. Please try again.");
-      }
+      setError(
+        getClerkErrorMessage(
+          err,
+          VERIFY_ERROR_MESSAGES,
+          "An error occurred while verifying your email. Please try again.",
+        ),
+      );
     }
   };
 
