@@ -55,8 +55,6 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
       // Verification code input
       setShowEmailCode(true);
     } catch (err: any) {
-      console.error("Error during sign up:", JSON.stringify(err, null, 2));
-
       // Extract and display the error message
       if (err.errors && err.errors[0]) {
         setError(err.errors[0].message);
@@ -69,6 +67,8 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
   // Handle email verification code submission
   const handleEmailCode = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+
+    setError("");
 
     if (!isLoaded) return;
     try {
@@ -86,10 +86,14 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
         // Go back to home page
         router.push("/");
       } else {
-        console.error("Sign-up attempt not complete:", signUpAttempt.status);
+        setError("Verification could not be completed. Please try again.");
       }
     } catch (err: any) {
-      console.error("Error verifying email:", JSON.stringify(err, null, 2));
+      if (err.errors && err.errors[0]) {
+        setError(err.errors[0].message);
+      } else {
+        setError("An error occurred while verifying your email. Please try again.");
+      }
     }
   };
 
@@ -112,6 +116,7 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
               placeholder="Enter code"
               inputMode="numeric"
             />
+            {error && <p className={styles.error}>{error}</p>}
             <button className={styles.button} type="submit">
               Verify Email
             </button>
