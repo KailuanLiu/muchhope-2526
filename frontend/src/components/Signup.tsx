@@ -101,12 +101,10 @@ const VERIFY_ERROR_MESSAGES: Record<string, ClerkErrorConfig> = {
 };
 
 function getClerkErrorMessage(
-  err: any,
+  clerkError: ClerkError | undefined,
   errorMessages: Record<string, ClerkErrorConfig>,
   fallbackMessage: string,
 ): ClerkErrorConfig {
-  const clerkError = err?.errors?.[0] as ClerkError | undefined;
-
   if (!clerkError) {
     return { field: "form", message: fallbackMessage };
   }
@@ -123,6 +121,20 @@ function getClerkErrorMessage(
     field: "form",
     message: clerkError.longMessage || clerkError.message || fallbackMessage,
   };
+}
+
+function getClerkErrorMessages(
+  err: any,
+  errorMessages: Record<string, ClerkErrorConfig>,
+  fallbackMessage: string,
+): ClerkErrorConfig[] {
+  const clerkErrors = err?.errors as ClerkError[] | undefined;
+
+  if (!clerkErrors?.length) {
+    return [{ field: "form", message: fallbackMessage }];
+  }
+
+  return clerkErrors.map((clerkError) => getClerkErrorMessage(clerkError, errorMessages, fallbackMessage));
 }
 
 export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
@@ -175,19 +187,19 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
       // Verification code input
       setShowEmailCode(true);
     } catch (err: any) {
-      const { field, message } = getClerkErrorMessage(
+      const clerkErrors = getClerkErrorMessages(
         err,
         SIGN_UP_ERROR_MESSAGES,
         "An error occurred during sign up. Please try again.",
       );
 
-      if (field === "email") {
-        setEmailError(message);
-      } else if (field === "password") {
-        setPasswordError(message);
-      } else {
-        setFormError(message);
-      }
+      const nextEmailErrors = clerkErrors.filter(({ field }) => field === "email").map(({ message }) => message);
+      const nextPasswordErrors = clerkErrors.filter(({ field }) => field === "password").map(({ message }) => message);
+      const nextFormErrors = clerkErrors.filter(({ field }) => field === "form").map(({ message }) => message);
+
+      setEmailError(nextEmailErrors.join(" "));
+      setPasswordError(nextPasswordErrors.join(" "));
+      setFormError(nextFormErrors.join(" "));
     }
   };
 
@@ -216,13 +228,17 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
         setVerificationCodeError("Verification could not be completed. Please try again.");
       }
     } catch (err: any) {
-      const { message } = getClerkErrorMessage(
+      const clerkErrors = getClerkErrorMessages(
         err,
         VERIFY_ERROR_MESSAGES,
         "An error occurred while verifying your email. Please try again.",
       );
 
-      setVerificationCodeError(message);
+      const nextVerificationErrors = clerkErrors
+        .filter(({ field }) => field === "verificationCode" || field === "form")
+        .map(({ message }) => message);
+
+      setVerificationCodeError(nextVerificationErrors.join(" "));
     }
   };
 
