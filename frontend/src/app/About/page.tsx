@@ -1,5 +1,5 @@
 import About from "../../components/About";
-import Navbar from "../../components/Navbar";
+import Navbar from "../../components/VolunteerNavbar";
 
 export default function ContactUsPage() {
   return (

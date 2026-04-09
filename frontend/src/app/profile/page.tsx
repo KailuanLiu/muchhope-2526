@@ -2,7 +2,7 @@
 
 import ProfileForm from "../../components/ProfileForm";
 import UpcomingShifts from "../../components/UpcomingShifts";
-import Navbar from "../../components/Navbar";
+import Navbar from "../../components/VolunteerNavbar";
 import styles from "../../styles/profile.module.css";
 
 export default function ProfilePage() {
