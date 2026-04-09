@@ -1,10 +1,12 @@
 "use client";
 
-/* eslint-disable no-undef */
+ 
 import React, { useState } from "react";
 import styles from "../styles/contact.module.css";
+import Navbar from "../components/VolunteerNavbar";
 
 export default function Contact() {
+  const [collapsed, setCollapsed] = useState(false);
   //variable to store form data inputted by the user
   const [formData, setFormData] = useState({
     firstName: "",
@@ -193,197 +195,203 @@ export default function Contact() {
 
   //return the contact form
   return (
-    <div className={styles.container}>
-      <div className={styles.content}>
-        <div className={styles.section}>
-          <h1 className={styles.title}>Contact Us</h1>
-          <p className={styles.description}>
-            Have a question or want to get in touch? Send us a message and we&apos;ll respond as soon as possible.
-          </p>
+    <div className={styles.pageLayout}>
+      <Navbar collapsed={collapsed} setCollapsed={setCollapsed} />
 
-          <form className={styles.form} onSubmit={handleSubmit}>
-            <div className={styles.formGroup}>
-              <label htmlFor="firstName" className={styles.label}>
-                First & Last Name *
-              </label>
-              <div className={styles.nameRow}>
-                <input
-                  type="text"
-                  id="firstName"
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  className={styles.input}
-                  placeholder="First Name"
-                  required
-                />
-                <input
-                  type="text"
-                  id="lastName"
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  className={styles.input}
-                  placeholder="Last Name"
-                  required
-                />
-              </div>
+      <main className={`${styles.mainContent} ${collapsed ? styles.mainContentCollapsed : styles.mainContentExpanded}`}>
+        <div className={styles.container}>
+          <div className={styles.content}>
+            <div className={styles.section}>
+              <h1 className={styles.title}>Contact Us</h1>
+              <p className={styles.description}>
+                Have a question or want to get in touch? Send us a message and we&apos;ll respond as soon as possible.
+              </p>
+
+              <form className={styles.form} onSubmit={handleSubmit}>
+                <div className={styles.formGroup}>
+                  <label htmlFor="firstName" className={styles.label}>
+                    First & Last Name *
+                  </label>
+                  <div className={styles.nameRow}>
+                    <input
+                      type="text"
+                      id="firstName"
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleChange}
+                      className={styles.input}
+                      placeholder="First Name"
+                      required
+                    />
+                    <input
+                      type="text"
+                      id="lastName"
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleChange}
+                      className={styles.input}
+                      placeholder="Last Name"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label htmlFor="email" className={styles.label}>
+                    Email *
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className={styles.input}
+                    placeholder="your.email@example.com"
+                    required
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label htmlFor="message" className={styles.label}>
+                    Message *
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    className={styles.textarea}
+                    placeholder="Your message..."
+                    rows={6}
+                    required
+                  />
+                </div>
+
+                {submitStatus.type && (
+                  <div
+                    className={`${styles.statusMessage} ${submitStatus.type === "success" ? styles.success : styles.error}`}
+                  >
+                    {submitStatus.message}
+                  </div>
+                )}
+
+                <button type="submit" className={styles.submitButton} disabled={isSubmitting}>
+                  {isSubmitting ? "Sending..." : "Send"}
+                </button>
+              </form>
             </div>
 
-            <div className={styles.formGroup}>
-              <label htmlFor="email" className={styles.label}>
-                Email *
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className={styles.input}
-                placeholder="your.email@example.com"
-                required
-              />
+            <div className={styles.section}>
+              <h1 className={styles.title}>Support Our Mission</h1>
+              <p className={styles.description}>
+                Help us make a difference in the lives of those in need. Your donation supports our mission to provide
+                resources for the homeless community.
+              </p>
+
+              <form className={styles.form} onSubmit={handleDonationSubmit}>
+                <div className={styles.formGroup}>
+                  <label htmlFor="donationFirstName" className={styles.label}>
+                    First & Last Name *
+                  </label>
+                  <div className={styles.nameRow}>
+                    <input
+                      type="text"
+                      id="donationFirstName"
+                      name="firstName"
+                      value={donationData.firstName}
+                      onChange={handleDonationChange}
+                      className={styles.input}
+                      placeholder="First Name"
+                      required
+                    />
+                    <input
+                      type="text"
+                      id="donationLastName"
+                      name="lastName"
+                      value={donationData.lastName}
+                      onChange={handleDonationChange}
+                      className={styles.input}
+                      placeholder="Last Name"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label htmlFor="donationEmail" className={styles.label}>
+                    Email *
+                  </label>
+                  <input
+                    type="email"
+                    id="donationEmail"
+                    name="email"
+                    value={donationData.email}
+                    onChange={handleDonationChange}
+                    className={styles.input}
+                    placeholder="your.email@example.com"
+                    required
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label htmlFor="amount" className={styles.label}>
+                    Select Amount *
+                  </label>
+                  <select
+                    id="amount"
+                    name="amount"
+                    value={donationData.amount}
+                    onChange={handleDonationChange}
+                    className={styles.input}
+                    required
+                  >
+                    <option value="">Choose an amount</option>
+                    <option value="25">$25</option>
+                    <option value="50">$50</option>
+                    <option value="100">$100</option>
+                    <option value="250">$250</option>
+                    <option value="500">$500</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label htmlFor="paymentMethod" className={styles.label}>
+                    Payment Method *
+                  </label>
+                  <select
+                    id="paymentMethod"
+                    name="paymentMethod"
+                    value={donationData.paymentMethod}
+                    onChange={handleDonationChange}
+                    className={styles.input}
+                    required
+                  >
+                    <option value="">Select payment method</option>
+                    <option value="credit">Credit Card</option>
+                    <option value="debit">Debit Card</option>
+                    <option value="paypal">PayPal</option>
+                    <option value="bank">Bank Transfer</option>
+                  </select>
+                </div>
+
+                {donationStatus.type && (
+                  <div
+                    className={`${styles.statusMessage} ${donationStatus.type === "success" ? styles.success : styles.error}`}
+                  >
+                    {donationStatus.message}
+                  </div>
+                )}
+
+                <button type="submit" className={styles.submitButton} disabled={isSubmittingDonation}>
+                  {isSubmittingDonation ? "Processing..." : "Submit"}
+                </button>
+              </form>
             </div>
-
-            <div className={styles.formGroup}>
-              <label htmlFor="message" className={styles.label}>
-                Message *
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                className={styles.textarea}
-                placeholder="Your message..."
-                rows={6}
-                required
-              />
-            </div>
-
-            {submitStatus.type && (
-              <div
-                className={`${styles.statusMessage} ${submitStatus.type === "success" ? styles.success : styles.error}`}
-              >
-                {submitStatus.message}
-              </div>
-            )}
-
-            <button type="submit" className={styles.submitButton} disabled={isSubmitting}>
-              {isSubmitting ? "Sending..." : "Send"}
-            </button>
-          </form>
+          </div>
         </div>
-
-        <div className={styles.section}>
-          <h1 className={styles.title}>Support Our Mission</h1>
-          <p className={styles.description}>
-            Help us make a difference in the lives of those in need. Your donation supports our mission to provide
-            resources for the homeless community.
-          </p>
-
-          <form className={styles.form} onSubmit={handleDonationSubmit}>
-            <div className={styles.formGroup}>
-              <label htmlFor="donationFirstName" className={styles.label}>
-                First & Last Name *
-              </label>
-              <div className={styles.nameRow}>
-                <input
-                  type="text"
-                  id="donationFirstName"
-                  name="firstName"
-                  value={donationData.firstName}
-                  onChange={handleDonationChange}
-                  className={styles.input}
-                  placeholder="First Name"
-                  required
-                />
-                <input
-                  type="text"
-                  id="donationLastName"
-                  name="lastName"
-                  value={donationData.lastName}
-                  onChange={handleDonationChange}
-                  className={styles.input}
-                  placeholder="Last Name"
-                  required
-                />
-              </div>
-            </div>
-
-            <div className={styles.formGroup}>
-              <label htmlFor="donationEmail" className={styles.label}>
-                Email *
-              </label>
-              <input
-                type="email"
-                id="donationEmail"
-                name="email"
-                value={donationData.email}
-                onChange={handleDonationChange}
-                className={styles.input}
-                placeholder="your.email@example.com"
-                required
-              />
-            </div>
-
-            <div className={styles.formGroup}>
-              <label htmlFor="amount" className={styles.label}>
-                Select Amount *
-              </label>
-              <select
-                id="amount"
-                name="amount"
-                value={donationData.amount}
-                onChange={handleDonationChange}
-                className={styles.input}
-                required
-              >
-                <option value="">Choose an amount</option>
-                <option value="25">$25</option>
-                <option value="50">$50</option>
-                <option value="100">$100</option>
-                <option value="250">$250</option>
-                <option value="500">$500</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-
-            <div className={styles.formGroup}>
-              <label htmlFor="paymentMethod" className={styles.label}>
-                Payment Method *
-              </label>
-              <select
-                id="paymentMethod"
-                name="paymentMethod"
-                value={donationData.paymentMethod}
-                onChange={handleDonationChange}
-                className={styles.input}
-                required
-              >
-                <option value="">Select payment method</option>
-                <option value="credit">Credit Card</option>
-                <option value="debit">Debit Card</option>
-                <option value="paypal">PayPal</option>
-                <option value="bank">Bank Transfer</option>
-              </select>
-            </div>
-
-            {donationStatus.type && (
-              <div
-                className={`${styles.statusMessage} ${donationStatus.type === "success" ? styles.success : styles.error}`}
-              >
-                {donationStatus.message}
-              </div>
-            )}
-
-            <button type="submit" className={styles.submitButton} disabled={isSubmittingDonation}>
-              {isSubmittingDonation ? "Processing..." : "Submit"}
-            </button>
-          </form>
-        </div>
-      </div>
+      </main>
     </div>
   );
 }

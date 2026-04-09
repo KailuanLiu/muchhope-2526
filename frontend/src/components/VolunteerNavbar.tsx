@@ -2,12 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
 import styles from "../styles/volunteernavbar.module.css";
 
-export default function Navbar() {
+export default function Navbar({ collapsed, setCollapsed }) {
   const pathname = usePathname();
-  const [collapsed, setCollapsed] = useState(false);
 
   const navItems = [
     { label: "Home", href: "/" },

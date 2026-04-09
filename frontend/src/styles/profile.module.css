@@ -296,3 +296,21 @@
     font-size: 1.75rem;
   }
 }
+
+.pageLayout {
+  min-height: 100vh;
+}
+
+.mainContent {
+  min-height: 100vh;
+  padding: 2rem;
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mainContentExpanded {
+  margin-left: 200px;
+}
+
+.mainContentCollapsed {
+  margin-left: 60px;
+}
