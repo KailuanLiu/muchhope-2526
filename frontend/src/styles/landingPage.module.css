@@ -6,6 +6,7 @@
 
 .heroContainer {
   position: relative;
+  flex: 1;
   min-height: 100vh;
   background-image: url("/cat-placeholder.jpg");
   background-size: cover;
@@ -110,3 +111,9 @@
 .card p {
   color: #555;
 }
+
+/* .pageLayout {
+  display: flex;
+  min-height: 100vh;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+} */
