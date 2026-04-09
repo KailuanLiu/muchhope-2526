@@ -16,14 +16,13 @@
     "lint:fix": "npm run lint:fix:frontend",
     "lint:fix:frontend": "cd frontend && npm run lint:fix",
     "format": "prettier --write .",
-    "test": "echo 'Install jest (or another unit test suite) to use this command.'",
+    "test": "jest",
     "prepare": "husky"
   },
   "dependencies": {
-    "mongoose": "^8",
-    "next": "^14",
-    "react": "^18",
-    "react-dom": "^18"
+    "@clerk/nextjs": "^6.39.0",
+    "jest": "^30.3.0",
+    "mongodb-memory-server": "^11.0.1"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.55.0",
@@ -32,11 +31,9 @@
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^9",
     "eslint-plugin-prettier": "^5",
+    "globals": "^17.4.0",
     "husky": "^9",
     "lint-staged": "^15",
     "prettier": "^3"
-  },
-  "dependencies": {
-    "@clerk/nextjs": "^6.39.0"
   }
 }
