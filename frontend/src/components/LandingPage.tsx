@@ -1,6 +1,5 @@
 import Link from "next/link";
 import styles from "../styles/landingPage.module.css";
-// import { prisma } from "@/lib/prisma"; // example
 
 type Event = {
   id: string;
@@ -11,13 +10,6 @@ type Event = {
 };
 
 async function getEvents(): Promise<Event[]> {
-  // Replace this with your real DB call
-  // const events = await prisma.event.findMany({
-  //   orderBy: { date: "asc" },
-  // });
-
-  // return events;
-
   return [];
 }
 

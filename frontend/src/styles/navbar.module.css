@@ -1,4 +1,6 @@
 .sidebar {
+  position: fixed;
+  z-index: 100;
   width: 200px;
   min-height: 100vh;
   box-sizing: border-box;
@@ -78,6 +80,11 @@
 
 .collapsed .navLink {
   opacity: 0;
+  display: none;
+}
+
+.collapsed .signOut {
+  display: none;
 }
 
 .toggleButton {

@@ -3,9 +3,11 @@ import LandingPage from "../components/LandingPage";
 
 export default function Home() {
   return (
-    <main style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
+    <main style={{ display: "flex", minHeight: "100vh" }}>
       <Navbar />
-      <LandingPage />
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <LandingPage />
+      </div>
     </main>
   );
 }
