@@ -1,11 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import ProfileForm from "../../components/ProfileForm";
 import UpcomingShifts from "../../components/UpcomingShifts";
 import Navbar from "../../components/VolunteerNavbar";
 import styles from "../../styles/profile.module.css";
 
 export default function ProfilePage() {
+  const [collapsed, setCollapsed] = useState(false);
   // TODO: Replace with actual user data from authentication/database
   // Once team decides on architecture (Option A or B), wire up real data
   const mockVolunteerData = {
@@ -23,8 +25,8 @@ export default function ProfilePage() {
 
   return (
     <div className={styles.pageLayout}>
-      <Navbar />
-      <main className={styles.mainContent}>
+      <Navbar collapsed={collapsed} setCollapsed={setCollapsed} />
+      <main className={`${styles.mainContent} ${collapsed ? styles.mainContentCollapsed : styles.mainContentExpanded}`}>
         <h1 className={styles.pageTitle}>Volunteer Dashboard</h1>
 
         <div className={styles.profileHeader}>
