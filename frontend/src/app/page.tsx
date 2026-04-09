@@ -1,4 +1,4 @@
-import Navbar from "../components/Navbar";
+import Navbar from "../components/VolunteerNavbar";
 import LandingPage from "../components/LandingPage";
 
 export default function Home() {
