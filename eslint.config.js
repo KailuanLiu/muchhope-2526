@@ -38,12 +38,23 @@ module.exports = [
           jsx: true,
         },
       },
+      globals: {
+        process: "readonly",
+        fetch: "readonly",
+        Request: "readonly",
+        Response: "readonly",
+        URL: "readonly",
+        console: "readonly",
+        window: "readonly",
+        document: "readonly",
+      },
     },
     plugins: {
       "@typescript-eslint": tsPlugin,
     },
     rules: {
       ...prettierConfig.rules,
+      "no-undef": "off",
       "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
     },
