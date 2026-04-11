@@ -1,9 +1,8 @@
 "use client";
 
- 
 import React, { useState } from "react";
 import styles from "../styles/contact.module.css";
-import Navbar from "../components/VolunteerNavbar";
+import Navbar from "./AppNavbar";
 
 export default function Contact() {
   const [collapsed, setCollapsed] = useState(false);

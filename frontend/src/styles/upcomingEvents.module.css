@@ -1,0 +1,44 @@
+.pageLayout {
+  min-height: 100vh;
+}
+
+.mainContent {
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.mainContentExpanded {
+  margin-left: 200px;
+}
+
+.mainContentCollapsed {
+  margin-left: 60px;
+}
+
+.hero {
+  width: 100%;
+  padding: 3rem 2rem;
+  background-color: #d9d9d9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heroTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #555;
+  margin: 0;
+}
+
+.eventGrid {
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  max-width: 900px;
+}

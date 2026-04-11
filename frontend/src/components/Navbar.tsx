@@ -34,7 +34,7 @@ export default function Navbar() {
           <Link href="/Auth/Login" className={styles.dropdownItem}>
             Sign Up / Login
           </Link>
-          <Link href="/Events" className={styles.dropdownItem}>
+          <Link href="/Events/Upcoming" className={styles.dropdownItem}>
             Events
           </Link>
           <Link href="/Donate" className={styles.dropdownItem}>

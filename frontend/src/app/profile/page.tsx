@@ -3,7 +3,7 @@
 import { useState } from "react";
 import ProfileForm from "../../components/ProfileForm";
 import UpcomingShifts from "../../components/UpcomingShifts";
-import Navbar from "../../components/VolunteerNavbar";
+import Navbar from "../../components/AppNavbar";
 import styles from "../../styles/profile.module.css";
 
 export default function ProfilePage() {
