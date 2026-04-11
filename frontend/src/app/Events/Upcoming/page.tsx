@@ -56,10 +56,10 @@ export default function UpcomingEventsPage() {
     <div className={styles.pageLayout}>
       {/* use with vertical AppNavbar <Navbar collapsed={collapsed} setCollapsed={setCollapsed} /> */}
       <Navbar />
+      <div className={styles.hero}>
+        <h1 className={styles.heroTitle}>Explore Our Upcoming Events!</h1>
+      </div>
       <main className={`${styles.mainContent} ${collapsed ? styles.mainContentCollapsed : styles.mainContentExpanded}`}>
-        <div className={styles.hero}>
-          <h1 className={styles.heroTitle}>Explore Our Upcoming Events!</h1>
-        </div>
         <div className={styles.eventGrid}>
           {DUMMY_EVENTS.map((event) => (
             <EventCard key={event.id} {...event} />
