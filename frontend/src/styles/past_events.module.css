@@ -1,0 +1,12 @@
+.pastEventContainer {
+  display: flex;
+  margin: 50px 0;
+}
+
+.pastEventInfo {
+  margin-left: 20px;
+}
+
+.pastEventTitle {
+  margin: 0;
+}
