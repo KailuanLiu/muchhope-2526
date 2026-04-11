@@ -6,10 +6,15 @@ import Link from "next/link";
 interface EventCardProps {
   id: string;
   title: string;
+  date: string;
+  time: string;
+  location: string;
+  description: string;
   imageUrl?: string;
+  onMoreInfo?: () => void;
 }
 
-export default function EventCard({ id, title, imageUrl }: EventCardProps) {
+export default function EventCard({ id, title, imageUrl, onMoreInfo }: EventCardProps) {
   return (
     <div className={styles.card}>
       <div className={styles.imageWrapper}>
@@ -31,7 +36,9 @@ export default function EventCard({ id, title, imageUrl }: EventCardProps) {
 
       <div className={styles.cardBody}>
         <p className={styles.title}>{title}</p>
-        <button className={styles.moreInfoButton}>More Info &rsaquo;</button>
+        <button className={styles.moreInfoButton} onClick={onMoreInfo}>
+          More Info &rsaquo;
+        </button>
       </div>
     </div>
   );
