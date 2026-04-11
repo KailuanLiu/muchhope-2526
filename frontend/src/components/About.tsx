@@ -2,7 +2,7 @@
 
 import styles from "../styles/about.module.css";
 import { useState } from "react";
-import Navbar from "../components/VolunteerNavbar";
+import Navbar from "./AppNavbar";
 
 export default function About() {
   const [collapsed, setCollapsed] = useState(false);

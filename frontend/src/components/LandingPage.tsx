@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import Navbar from "../components/VolunteerNavbar";
+import Navbar from "./AppNavbar";
 import styles from "../styles/landingPage.module.css";
 
 type Event = {
