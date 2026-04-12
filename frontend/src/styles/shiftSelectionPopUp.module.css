@@ -1,0 +1,132 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 480px;
+  position: relative;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+}
+
+.closeButton {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #888;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+}
+
+.closeButton:hover {
+  color: #111;
+}
+
+.modalTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 0.5rem 0;
+}
+
+.modalMeta {
+  font-size: 0.85rem;
+  color: #777;
+  margin: 0 0 0.25rem 0;
+}
+
+.modalDescription {
+  font-size: 0.95rem;
+  color: #444;
+  margin: 0.75rem 0 1.5rem 0;
+}
+
+.primaryButton {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.primaryButton:hover:not(:disabled) {
+  background-color: #111;
+}
+
+.primaryButton:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+.shiftList {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.shiftItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+}
+
+.shiftInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.shiftType {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111;
+}
+
+.shiftTime {
+  font-size: 0.8rem;
+  color: #777;
+}
+
+.selectButton {
+  padding: 0.4rem 1.25rem;
+  background-color: #8aacb8;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.selectButton:hover {
+  background-color: #7a9daa;
+}
+
+.selectButtonActive {
+  background-color: #5a8494;
+}

@@ -4,6 +4,17 @@ import { useState } from "react";
 import Navbar from "../../../components/Navbar";
 import styles from "../../../styles/upcomingEvents.module.css";
 import EventCard from "../../../components/EventCard";
+import EventInfoPopUp from "../../../components/EventInfoPopUp";
+import ShiftSelectionPopUp from "../../../components/ShiftSelectionPopUp";
+
+interface EventData {
+  id: string;
+  title: string;
+  date: string;
+  time: string;
+  location: string;
+  description: string;
+}
 
 const DUMMY_EVENTS = [
   {
@@ -48,9 +59,32 @@ const DUMMY_EVENTS = [
   },
 ];
 
+type ModalState = "none" | "moreInfo" | "shiftSelect";
+
 export default function UpcomingEventsPage() {
   // user with vertical AppNavbar const [collapsed, setCollapsed] = useState(false);
   const [collapsed] = useState(false);
+  const [modalState, setModalState] = useState<ModalState>("none");
+  const [selectedEvent, setSelectedEvent] = useState<EventData | null>(null);
+
+  const handleRegister = () => {
+    setModalState("shiftSelect");
+  };
+  const handleSave = (shiftId: string) => {
+    // TODO: wire up to API once backend endpoint is ready
+    console.log("Saved shift:", shiftId, "for event:", selectedEvent?.id);
+    closeModal();
+  };
+
+  const openMoreInfo = (event: EventData) => {
+    setSelectedEvent(event);
+    setModalState("moreInfo");
+  };
+
+  const closeModal = () => {
+    setModalState("none");
+    setSelectedEvent(null);
+  };
 
   return (
     <div className={styles.pageLayout}>
@@ -62,10 +96,18 @@ export default function UpcomingEventsPage() {
       <main className={`${styles.mainContent} ${collapsed ? styles.mainContentCollapsed : styles.mainContentExpanded}`}>
         <div className={styles.eventGrid}>
           {DUMMY_EVENTS.map((event) => (
-            <EventCard key={event.id} {...event} />
+            <EventCard key={event.id} {...event} onMoreInfo={() => openMoreInfo(event)} />
           ))}
         </div>
       </main>
+
+      {modalState === "moreInfo" && selectedEvent && (
+        <EventInfoPopUp event={selectedEvent} onClose={closeModal} onRegister={handleRegister} />
+      )}
+
+      {modalState === "shiftSelect" && selectedEvent && (
+        <ShiftSelectionPopUp event={selectedEvent} onClose={closeModal} onSave={handleSave} />
+      )}
     </div>
   );
 }
