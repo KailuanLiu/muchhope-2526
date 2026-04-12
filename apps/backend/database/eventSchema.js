@@ -7,6 +7,13 @@ const EventSchema = new Schema({
   time: { type: String, required: true },
   location: { type: String, required: true },
   description: { type: String, required: true },
+  admins: [
+    {
+      id: { type: String, required: true },
+      name: { type: String, required: true },
+      email: { type: String, required: true },
+    },
+  ],
   volunteers: [
     {
       name: { type: String, required: true },

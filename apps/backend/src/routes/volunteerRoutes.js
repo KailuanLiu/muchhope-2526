@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { getModels } = require("../../database/initModels");
+const { getModels, Event } = require("../../database/initModels");
 
 router.get("/", async (req, res) => {
   try {
@@ -34,6 +34,43 @@ router.delete("/:id", async (req, res) => {
       return res.status(404).json({ message: "Volunteer not found" });
     }
     res.status(200).json({ message: "Volunteer deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.put("/:id/make-event-admin", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { eventId } = req.body;
+
+    // first check if the volunteer exists and error if they don't
+    const volunteer = await Volunteer.findOne({ id });
+    if (!volunteer) {
+      return res.status(404).json({ message: "Volunteer not found" });
+    }
+    
+    // check if the event exists and error if it doesn't
+    const event = await Event.findById(eventId);
+    if (!event) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    volunteer.userType = "event admin";
+    await volunteer.save();
+
+    // if they aren't already an admin, then change their status to being an admin
+    const alreadyAdmin = event.admins.some((a) => a.id === id);
+    if (!alreadyAdmin) {
+      event.admins.push({
+        id: volunteer.id,
+        name: `${volunteer.firstName} ${volunteer.lastName}`,
+        email: volunteer.email,
+      });
+      await event.save();
+    }
+
+    res.status(200).json({ volunteer, event });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
