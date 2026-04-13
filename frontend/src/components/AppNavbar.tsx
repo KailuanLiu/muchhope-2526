@@ -1,11 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useClerk } from "@clerk/nextjs";
 import styles from "../styles/volunteernavbar.module.css";
 
-export default function Navbar({ collapsed, setCollapsed }) {
+export default function AppNavbar({ collapsed, setCollapsed }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const { signOut } = useClerk();
+
+  async function handleSignOut() {
+    await signOut();
+    router.push("/");
+  }
 
   const navItems = [
     { label: "Home", href: "/" },
@@ -36,7 +44,7 @@ export default function Navbar({ collapsed, setCollapsed }) {
         ))}
       </ul>
       <div className={styles.signOut}>
-        <button className={styles.signOutButton}>
+        <button className={styles.signOutButton} onClick={handleSignOut}>
           <span className={styles.linkText}>Sign Out</span>
         </button>
       </div>

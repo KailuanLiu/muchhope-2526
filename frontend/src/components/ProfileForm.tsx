@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import styles from "../styles/profile.module.css";
+import { useRouter } from "next/navigation";
 
 interface ProfileFormProps {
   initialData: {
@@ -10,6 +11,7 @@ interface ProfileFormProps {
     phoneNumber: string;
     isAdult: boolean;
   };
+  onSave?: () => Promise<any>;
 }
 
 // Format phone number as (XXX) XXX-XXXX
@@ -26,7 +28,9 @@ const getPhoneDigits = (value: string): string => {
   return value.replace(/\D/g, "");
 };
 
-export default function ProfileForm({ initialData }: ProfileFormProps) {
+export default function ProfileForm({ initialData, onSave }: ProfileFormProps) {
+  const router = useRouter();
+
   const [formData, setFormData] = useState({
     firstName: initialData.firstName,
     lastName: initialData.lastName,
@@ -34,7 +38,7 @@ export default function ProfileForm({ initialData }: ProfileFormProps) {
     isAdult: initialData.isAdult,
   });
 
-  const [originalData] = useState(formData);
+  const [originalData, setOriginalData] = useState(formData);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{
     type: "success" | "error" | null;
@@ -92,37 +96,36 @@ export default function ProfileForm({ initialData }: ProfileFormProps) {
     setIsSubmitting(true);
     setSubmitStatus({ type: null, message: "" });
 
-    // waiting for backend API to write to database
-    // try {
-    //   const response = await fetch("/api/profile", {
-    //     method: "PUT",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(formData),
-    //   });
+    try {
+      const response = await fetch("/api/profile", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-    //   const data = await response.json();
+      const data = await response.json();
 
-    //   if (response.ok) {
-    //     setSubmitStatus({
-    //       type: "success",
-    //       message: "Profile updated successfully!",
-    //     });
-    //   } else {
-    //     setSubmitStatus({
-    //       type: "error",
-    //       message: data.message || "Something went wrong. Please try again.",
-    //     });
-    //   }
-    // } catch {
-    //   setSubmitStatus({
-    //     type: "error",
-    //     message: "Failed to update profile. Please try again later.",
-    //   });
-    // } finally {
-    //   setIsSubmitting(false);
-    // }
+      if (response.ok) {
+        setOriginalData(formData);
+        setSubmitStatus({ type: "success", message: "Profile updated successfully!" });
+        await onSave?.();
+        router.refresh();
+      } else {
+        setSubmitStatus({
+          type: "error",
+          message: data.message || "Something went wrong. Please try again.",
+        });
+      }
+    } catch {
+      setSubmitStatus({
+        type: "error",
+        message: "Failed to update profile. Please try again later.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

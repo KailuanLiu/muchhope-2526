@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import styles from "../styles/login.module.css";
+import AuthLayout from "../app/AuthLayout";
 
 interface LoginProps {
   signIn: any;
@@ -59,47 +60,49 @@ export default function Login({ signIn, setActive, isLoaded }: LoginProps) {
   };
 
   return (
-    <div className={styles.pageContainer}>
-      <h1 className={styles.pageTitle}>Sign Up or Login to your Account</h1>
-      <div className={styles.formBox}>
-        <form onSubmit={handleSubmit}>
-          <h2 className={styles.formTitle}>Login</h2>
+    <AuthLayout>
+      <div className={styles.pageContainer}>
+        {/* <h1 className={styles.pageTitle}>Sign Up or Login to your Account</h1> */}
+        <div className={styles.formBox}>
+          <form onSubmit={handleSubmit}>
+            <h2 className={styles.formTitle}>Login</h2>
 
-          <label className={styles.label}>Email</label>
-          <input
-            className={styles.input}
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Email"
-          />
+            <label className={styles.label}>Email</label>
+            <input
+              className={styles.input}
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Email"
+            />
 
-          <label className={styles.label}>Password</label>
-          <input
-            className={styles.input}
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Password"
-          />
+            <label className={styles.label}>Password</label>
+            <input
+              className={styles.input}
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Password"
+            />
 
-          {error && <p className={styles.error}>{error}</p>}
+            {error && <p className={styles.error}>{error}</p>}
 
-          <button className={styles.button} type="submit">
-            Login
-          </button>
+            <button className={styles.button} type="submit">
+              Login
+            </button>
 
-          <Link href="/forgot-password" className={styles.textLink}>
-            Forgot password?
-          </Link>
+            <Link href="/forgot-password" className={styles.textLink}>
+              Forgot password?
+            </Link>
 
-          <Link href="/Auth/SignUp" className={styles.textLink}>
-            Create Account
-          </Link>
-        </form>
+            <Link href="/Auth/SignUp" className={styles.textLink}>
+              Create Account
+            </Link>
+          </form>
+        </div>
       </div>
-    </div>
+    </AuthLayout>
   );
 }

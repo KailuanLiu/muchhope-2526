@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import Navbar from "../../../components/Navbar";
 import styles from "../../../styles/upcomingEvents.module.css";
 import EventCard from "../../../components/EventCard";
 import EventInfoPopUp from "../../../components/EventInfoPopUp";
 import ShiftSelectionPopUp from "../../../components/ShiftSelectionPopUp";
+import AuthLayout from "../../AuthLayout";
 
 interface EventData {
   id: string;
@@ -87,9 +87,7 @@ export default function UpcomingEventsPage() {
   };
 
   return (
-    <div className={styles.pageLayout}>
-      {/* use with vertical AppNavbar <Navbar collapsed={collapsed} setCollapsed={setCollapsed} /> */}
-      <Navbar />
+    <AuthLayout>
       <div className={styles.hero}>
         <h1 className={styles.heroTitle}>Explore Our Upcoming Events!</h1>
       </div>
@@ -108,6 +106,6 @@ export default function UpcomingEventsPage() {
       {modalState === "shiftSelect" && selectedEvent && (
         <ShiftSelectionPopUp event={selectedEvent} onClose={closeModal} onSave={handleSave} />
       )}
-    </div>
+    </AuthLayout>
   );
 }
