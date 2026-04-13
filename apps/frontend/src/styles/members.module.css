@@ -1,0 +1,155 @@
+.pageLayout {
+  display: flex;
+  min-height: 100vh;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.mainContent {
+  flex: 1;
+  min-height: 100vh;
+  padding: 2rem 3rem;
+  background-color: #ffffff;
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mainContentExpanded {
+  margin-left: 200px;
+}
+
+.mainContentCollapsed {
+  margin-left: 60px;
+}
+
+.sectionTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #8aacb8;
+  margin: 0 0 1rem 0;
+}
+
+.sectionTitle + .list + .sectionTitle {
+  margin-top: 2.5rem;
+}
+
+.list {
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.statusText,
+.emptyText {
+  text-align: center;
+  padding: 2rem;
+  color: #999;
+  font-size: 1rem;
+}
+
+.errorText {
+  text-align: center;
+  padding: 2rem;
+  color: #721c24;
+  font-size: 1rem;
+}
+
+/* Manage modal */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 1.5rem;
+}
+
+.manageModal {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2.5rem 3rem;
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
+}
+
+.closeButton {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  font-size: 1.75rem;
+  color: #111;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  font-weight: 300;
+}
+
+.closeButton:hover {
+  color: #555;
+}
+
+.manageTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 1.5rem 0;
+}
+
+.manageActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.deleteButton,
+.adminButton {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.deleteButton {
+  background-color: #d9534f;
+  color: #fff;
+}
+
+.deleteButton:hover {
+  background-color: #c9302c;
+}
+
+.adminButton {
+  background-color: #8aacb8;
+  color: #fff;
+}
+
+.adminButton:hover {
+  background-color: #7a9daa;
+}
+
+@media (max-width: 768px) {
+  .pageLayout {
+    flex-direction: column;
+  }
+
+  .mainContent {
+    padding: 1.5rem;
+    margin-left: 0 !important;
+  }
+
+  .sectionTitle {
+    font-size: 1.5rem;
+  }
+
+  .manageModal {
+    padding: 1.5rem;
+  }
+}
