@@ -1,9 +1,13 @@
 import { createClerkClient } from "@clerk/backend";
+import { config } from "dotenv";
+import { resolve } from "path";
+
+config({ path: resolve(process.cwd(), ".env.local") });
 
 async function main() {
   const email = process.env.MAIN_ADMIN_EMAIL;
   if (!email) {
-    console.error(" MAIN_ADMIN_EMAIL env var is not set.");
+    console.error("MAIN_ADMIN_EMAIL env var is not set.");
     process.exit(1);
   }
 
@@ -17,6 +21,7 @@ async function main() {
 
   if (!users.length) {
     console.error(`No Clerk user found with email: ${email}`);
+    console.error("Make sure the account exists and CLERK_SECRET_KEY is correct.");
     process.exit(1);
   }
 
