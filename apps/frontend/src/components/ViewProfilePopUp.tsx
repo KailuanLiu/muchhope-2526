@@ -31,12 +31,9 @@ export default function ViewProfilePopUp({ volunteer, onClose }: ViewProfilePopU
   useEffect(() => {
     async function fetchEvents() {
       try {
-        const res = await fetch("/api/events");
+        const res = await fetch(`/api/volunteers/${volunteer.id}/events`);
         if (!res.ok) throw new Error("Failed to fetch events");
-        const allEvents: EventData[] = await res.json();
-        const volunteerEvents = allEvents.filter((event: any) =>
-          event.volunteers?.some((v: any) => v.email === volunteer.email),
-        );
+        const volunteerEvents: EventData[] = await res.json();
         setEvents(volunteerEvents);
       } catch {
         setEvents([]);
