@@ -1,0 +1,136 @@
+.pageWrapper {
+  display: flex;
+}
+
+.mainContent {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  width: 100%;
+  background: white;
+  min-height: 100vh;
+  transition: margin-left 0.3s ease;
+}
+
+.leftColumn {
+  width: 180px;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  white-space: nowrap;
+}
+
+.profileCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profileCircle {
+  width: 100px;
+  height: 100px;
+  background: #d3d3d3;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.editProfileButton {
+  background: #8fa3ad;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+
+.rightColumn {
+  flex: 1;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-top: 80px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.image {
+  height: 160px;
+  background: #ddd;
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.datetime {
+  color: gray;
+  font-size: 0.9rem;
+  margin: 0.25rem 0 0.5rem 0;
+}
+
+.buttonRow {
+  display: flex;
+  gap: 10px;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.button {
+  background: #aab8c2;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.avatarRow {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  background: #bbb;
+  border-radius: 50%;
+  border: 2px solid white;
+  margin-left: -8px;
+}
+
+.avatar:first-child {
+  margin-left: 0;
+}
+
+.moreText {
+  margin-left: 10px;
+  font-size: 0.85rem;
+  color: #666;
+  display: flex;
+  align-items: center;
+}

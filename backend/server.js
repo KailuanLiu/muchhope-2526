@@ -1,4 +1,8 @@
-require("dotenv").config({ path: __dirname + "/.env" });
+require("dotenv").config({
+  path: require("path").resolve(__dirname, ".env"),
+});
+
+console.log("ENV TEST:", process.env.MONGO_URI);
 
 const express = require("express");
 const path = require("path");
@@ -10,7 +14,7 @@ const volunteersRoutes = require("./src/routes/volunteerRoutes.js");
 // uncomment below when implemented
 // const authRoutes = require("./routes/authRoutes.js");
 // const adminRoutes = require("./routes/adminRoutes.js");
-// const eventsRoutes = require("./routes/eventRoutes.js");
+const eventsRoutes = require("./routes/events.js");
 // const volunteersRoutes = require("./routes/volunteerRoutes.js");
 
 const app = express();
@@ -22,7 +26,7 @@ app.use(express.json());
 
 app.use(
   session({
-    secret: process.env.TOKEN_SECRET_KEY,
+    secret: "supersecretkey", //tempoary to see actual response data for testing
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false },
@@ -51,7 +55,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // app.use("/api/auth", authRoutes);
 // app.use("/api/admin", adminRoutes);
 // app.use("/api/volunteers", volunteersRoutes);
-// app.use("/api/events", eventsRoutes);
+app.use("/api/events", eventsRoutes);
 // app.use("/api/Admin", adminRoutes);
 // app.use("/api/Volunteers", volunteersRoutes);
 // app.use("/api/Events", eventsRoutes);
