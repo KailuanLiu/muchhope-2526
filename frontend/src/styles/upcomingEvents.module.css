@@ -44,3 +44,17 @@
   gap: 1.5rem;
   max-width: 900px;
 }
+
+.adminActions {
+  padding: 2rem 2rem 0 2rem;
+}
+
+.adminButton {
+  background-color: #111;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font: inherit;
+  cursor: pointer;
+}

@@ -12,9 +12,11 @@ interface EventCardProps {
   description: string;
   imageUrl?: string;
   onMoreInfo?: () => void;
+  showEditButton?: boolean;
+  onEdit?: () => void;
 }
 
-export default function EventCard({ id, title, imageUrl, onMoreInfo }: EventCardProps) {
+export default function EventCard({ id, title, imageUrl, onMoreInfo, showEditButton, onEdit }: EventCardProps) {
   return (
     <div className={styles.card}>
       <div className={styles.imageWrapper}>
@@ -39,6 +41,11 @@ export default function EventCard({ id, title, imageUrl, onMoreInfo }: EventCard
         <button className={styles.moreInfoButton} onClick={onMoreInfo}>
           More Info &rsaquo;
         </button>
+        {showEditButton ? (
+          <button className={styles.editButton} onClick={onEdit} type="button">
+            Edit Event
+          </button>
+        ) : null}
       </div>
     </div>
   );

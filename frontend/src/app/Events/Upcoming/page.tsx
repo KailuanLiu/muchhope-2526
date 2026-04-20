@@ -6,6 +6,7 @@ import EventCard from "../../../components/EventCard";
 import EventInfoPopUp from "../../../components/EventInfoPopUp";
 import ShiftSelectionPopUp from "../../../components/ShiftSelectionPopUp";
 import AuthLayout from "../../AuthLayout";
+import { useIsSuperAdmin } from "../../../lib/roles";
 
 interface EventData {
   id: string;
@@ -21,6 +22,7 @@ type ModalState = "none" | "moreInfo" | "shiftSelect";
 export default function UpcomingEventsPage() {
   // user with vertical AppNavbar const [collapsed, setCollapsed] = useState(false);
   const [collapsed] = useState(false);
+  const isMainAdmin = useIsSuperAdmin();
   const [events, setEvents] = useState<EventData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
@@ -78,11 +80,26 @@ export default function UpcomingEventsPage() {
         <h1 className={styles.heroTitle}>Explore Our Upcoming Events!</h1>
       </div>
       <main className={`${styles.mainContent} ${collapsed ? styles.mainContentCollapsed : styles.mainContentExpanded}`}>
+        {isMainAdmin ? (
+          <div className={styles.adminActions}>
+            <button className={styles.adminButton} type="button">
+              Create Event
+            </button>
+          </div>
+        ) : null}
         <div className={styles.eventGrid}>
           {isLoading ? <p>Loading events...</p> : null}
           {error ? <p>{error}</p> : null}
           {!isLoading && !error
-            ? events.map((event) => <EventCard key={event.id} {...event} onMoreInfo={() => openMoreInfo(event)} />)
+            ? events.map((event) => (
+                <EventCard
+                  key={event.id}
+                  {...event}
+                  onMoreInfo={() => openMoreInfo(event)}
+                  onEdit={() => {}}
+                  showEditButton={isMainAdmin}
+                />
+              ))
             : null}
         </div>
       </main>
