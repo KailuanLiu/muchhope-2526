@@ -77,7 +77,7 @@ export default function MembersPage() {
 
   const handleMakeEventAdmin = async (volunteerId: string, eventId: string) => {
     try {
-      const res = await fetch(`/api/volunteers/${volunteerId}`, {
+      const res = await fetch(`/api/volunteers/${volunteerId}/make-event-admin`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ eventId }),
