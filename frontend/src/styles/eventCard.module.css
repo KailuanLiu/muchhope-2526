@@ -1,0 +1,71 @@
+.card {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #e0e0e0;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 100%;
+  background-color: #d9d9d9;
+}
+
+.externalIcon {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: #111;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.externalIcon:hover {
+  background-color: #fff;
+}
+
+.cardBody {
+  padding: 0.6rem 0 0 0;
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111;
+  margin: 0 0 0.25rem 0;
+}
+
+.moreInfoButton {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.875rem;
+  color: #555;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: underline;
+}
+
+.moreInfoButton:hover {
+  color: #111;
+}

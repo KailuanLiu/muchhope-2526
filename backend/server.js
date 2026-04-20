@@ -6,6 +6,7 @@ const cors = require("cors");
 const session = require("express-session");
 
 const connectDB = require("../frontend/src/lib/db.js");
+const volunteersRoutes = require("./src/routes/volunteerRoutes.js");
 // uncomment below when implemented
 // const authRoutes = require("./routes/authRoutes.js");
 // const adminRoutes = require("./routes/adminRoutes.js");
@@ -40,6 +41,8 @@ app.use((req, res, next) => {
   console.log(`${req.method} ${req.path}`);
   next();
 });
+
+app.use("/volunteers", volunteersRoutes);
 
 // Static files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));

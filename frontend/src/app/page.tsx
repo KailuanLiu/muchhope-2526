@@ -1,13 +1,14 @@
-import Navbar from "../components/Navbar";
-import Navbar from "../components/Navbar";
+// import Navbar from "../components/Navbar";
 import LandingPage from "../components/LandingPage";
+// import About from "../components/About";
 
 export default function Home() {
   return (
-    <main>
-      <Navbar />
-      <h1>Home</h1>
-      <LandingPage />
+    <main style={{ display: "flex", minHeight: "100vh" }}>
+      {/* <Navbar /> */}
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <LandingPage />
+      </div>
     </main>
   );
 }

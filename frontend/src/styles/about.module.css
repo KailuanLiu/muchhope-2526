@@ -1,10 +1,13 @@
 .aboutContainer {
   max-width: 800px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   margin: auto;
   gap: 20px;
   margin-bottom: 40px;
+  padding: 2rem;
+  box-sizing: border-box;
 }
 
 .aboutTitle {
@@ -16,9 +19,14 @@
 
 .aboutImageContainer {
   width: 100%;
+}
+
+/* .aboutImage {
+  width: 100%;
+  max-width: 800px;
   height: 400px;
   margin: 0 auto;
-}
+} */
 
 .aboutImage {
   width: 100%;

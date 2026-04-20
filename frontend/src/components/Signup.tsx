@@ -3,6 +3,16 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "../styles/signup.module.css";
+import AuthLayout from "../app/AuthLayout";
+
+type ClerkError = {
+  code?: string;
+  longMessage?: string;
+  message?: string;
+  meta?: {
+    name?: string;
+  };
+};
 
 interface SignupProps {
   signUp: any;
@@ -10,16 +20,138 @@ interface SignupProps {
   isLoaded: boolean;
 }
 
+type ErrorField = "email" | "password" | "verificationCode" | "form";
+
+type ClerkErrorConfig = {
+  field: ErrorField;
+  message: string;
+};
+
+const SIGN_UP_ERROR_MESSAGES: Record<string, ClerkErrorConfig> = {
+  form_identifier_exists: {
+    field: "email",
+    message: "An account with this email already exists. Try signing in instead.",
+  },
+  form_password_length_too_short: {
+    field: "password",
+    message: "Password must be at least 8 characters long.",
+  },
+  form_password_length_too_long: {
+    field: "password",
+    message: "Password is too long. Please choose a shorter password.",
+  },
+  form_password_no_lowercase: {
+    field: "password",
+    message: "Password must contain at least one lowercase letter.",
+  },
+  form_password_no_uppercase: {
+    field: "password",
+    message: "Password must contain at least one uppercase letter.",
+  },
+  form_password_no_number: {
+    field: "password",
+    message: "Password must contain at least one number.",
+  },
+  form_password_no_special_char: {
+    field: "password",
+    message: "Password must contain at least one special character.",
+  },
+  form_password_not_strong_enough: {
+    field: "password",
+    message: "Password is not strong enough. Choose a stronger password.",
+  },
+  form_password_pwned: {
+    field: "password",
+    message: "This password has appeared in a known data breach. Choose a different password.",
+  },
+  form_password_compromised: {
+    field: "password",
+    message: "This password may be compromised. Choose a different password.",
+  },
+  form_param_format_invalid: {
+    field: "email",
+    message: "Please enter a valid email address.",
+  },
+  captcha_verification_required: {
+    field: "form",
+    message: "Complete the CAPTCHA challenge and try again.",
+  },
+  form_param_missing: {
+    field: "form",
+    message: "Please fill out all required fields.",
+  },
+};
+
+const VERIFY_ERROR_MESSAGES: Record<string, ClerkErrorConfig> = {
+  form_code_incorrect: {
+    field: "verificationCode",
+    message: "The verification code is incorrect. Try again.",
+  },
+  form_identifier_not_found: {
+    field: "verificationCode",
+    message: "We could not find a pending email verification for this account.",
+  },
+  form_param_missing: {
+    field: "verificationCode",
+    message: "Enter the verification code to continue.",
+  },
+  captcha_verification_required: {
+    field: "verificationCode",
+    message: "Complete the CAPTCHA challenge and try again.",
+  },
+};
+
+function getClerkErrorMessage(
+  clerkError: ClerkError | undefined,
+  errorMessages: Record<string, ClerkErrorConfig>,
+  fallbackMessage: string,
+): ClerkErrorConfig {
+  if (!clerkError) {
+    return { field: "form", message: fallbackMessage };
+  }
+
+  if (clerkError.code && errorMessages[clerkError.code]) {
+    return errorMessages[clerkError.code];
+  }
+
+  if (clerkError.code === "form_param_value_invalid" && clerkError.meta?.name === "email_address") {
+    return { field: "email", message: "Please enter a valid email address." };
+  }
+
+  return {
+    field: "form",
+    message: clerkError.longMessage || clerkError.message || fallbackMessage,
+  };
+}
+
+function getClerkErrorMessages(
+  err: any,
+  errorMessages: Record<string, ClerkErrorConfig>,
+  fallbackMessage: string,
+): ClerkErrorConfig[] {
+  const clerkErrors = err?.errors as ClerkError[] | undefined;
+
+  if (!clerkErrors?.length) {
+    return [{ field: "form", message: fallbackMessage }];
+  }
+
+  return clerkErrors.map((clerkError) => getClerkErrorMessage(clerkError, errorMessages, fallbackMessage));
+}
+
 export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
   // Clerk constants
   const router = useRouter();
   const [code, setCode] = useState("");
   const [showEmailCode, setShowEmailCode] = useState(false);
-  const [error, setError] = useState("");
+  const [formError, setFormError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [verificationCodeError, setVerificationCodeError] = useState("");
 
   //Saved variables to store input data
   const [formData, setFormData] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     password: "",
     email: "",
     number: "",
@@ -36,15 +168,25 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    setError(""); // Clear previous errors
+    setFormError("");
+    setEmailError("");
+    setPasswordError("");
 
     if (!isLoaded) return;
+
+    const phoneDigits = formData.number.replace(/\D/g, "");
+    if (phoneDigits.length !== 10) {
+      setFormError("Please enter a valid 10-digit phone number.");
+      return;
+    }
 
     try {
       // Create user with clerk
       await signUp.create({
         emailAddress: formData.email,
         password: formData.password,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
       });
 
       // Send verification email
@@ -55,20 +197,27 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
       // Verification code input
       setShowEmailCode(true);
     } catch (err: any) {
-      console.error("Error during sign up:", JSON.stringify(err, null, 2));
+      const clerkErrors = getClerkErrorMessages(
+        err,
+        SIGN_UP_ERROR_MESSAGES,
+        "An error occurred during sign up. Please try again.",
+      );
 
-      // Extract and display the error message
-      if (err.errors && err.errors[0]) {
-        setError(err.errors[0].message);
-      } else {
-        setError("An error occurred during sign up. Please try again.");
-      }
+      const nextEmailErrors = clerkErrors.filter(({ field }) => field === "email").map(({ message }) => message);
+      const nextPasswordErrors = clerkErrors.filter(({ field }) => field === "password").map(({ message }) => message);
+      const nextFormErrors = clerkErrors.filter(({ field }) => field === "form").map(({ message }) => message);
+
+      setEmailError(nextEmailErrors.join(" "));
+      setPasswordError(nextPasswordErrors.join(" "));
+      setFormError(nextFormErrors.join(" "));
     }
   };
 
   // Handle email verification code submission
   const handleEmailCode = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+
+    setVerificationCodeError("");
 
     if (!isLoaded) return;
     try {
@@ -83,13 +232,32 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
           session: signUpAttempt.createdSessionId,
         });
 
+        await fetch("/api/profile", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            phoneNumber: formData.number,
+            isAdult: formData.age === "Yes",
+          }),
+        });
+
         // Go back to home page
         router.push("/");
       } else {
-        console.error("Sign-up attempt not complete:", signUpAttempt.status);
+        setVerificationCodeError("Verification could not be completed. Please try again.");
       }
     } catch (err: any) {
-      console.error("Error verifying email:", JSON.stringify(err, null, 2));
+      const clerkErrors = getClerkErrorMessages(
+        err,
+        VERIFY_ERROR_MESSAGES,
+        "An error occurred while verifying your email. Please try again.",
+      );
+
+      const nextVerificationErrors = clerkErrors
+        .filter(({ field }) => field === "verificationCode" || field === "form")
+        .map(({ message }) => message);
+
+      setVerificationCodeError(nextVerificationErrors.join(" "));
     }
   };
 
@@ -112,6 +280,7 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
               placeholder="Enter code"
               inputMode="numeric"
             />
+            {verificationCodeError && <p className={styles.error}>{verificationCodeError}</p>}
             <button className={styles.button} type="submit">
               Verify Email
             </button>
@@ -122,71 +291,82 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
   }
 
   return (
-    <div className={styles.pageContainer}>
-      <h1 className={styles.pageTitle}>Sign Up</h1>
+    <AuthLayout>
+      <div className={styles.pageContainer}>
+        <div className={styles.formBox}>
+          <form onSubmit={handleSubmit}>
+            <h2 className={styles.formTitle}>Sign up </h2>
+            <label className={styles.label}>First Name</label>
+            <input
+              className={styles.input}
+              type="text"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              placeholder="First Name"
+            />
+            <label className={styles.label}>Last Name</label>
+            <input
+              className={styles.input}
+              type="text"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              placeholder="Last Name"
+            />
+            <label className={styles.label}>Password</label>
+            <input
+              className={styles.input}
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Password"
+            />
+            {passwordError && <p className={styles.error}>{passwordError}</p>}
+            <label className={styles.label}>Email</label>
+            <input
+              className={styles.input}
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Email"
+            />
+            {emailError && <p className={styles.error}>{emailError}</p>}
+            <label className={styles.label}>Phone Number</label>
+            <input
+              className={styles.input}
+              type="tel"
+              name="number"
+              value={formData.number}
+              onChange={handleChange}
+              placeholder="Phone Number"
+            />
+            <div className={styles.radioGroup}>
+              <label className={styles.label}>Are you over 18?</label>
 
-      <div className={styles.formBox}>
-        <form onSubmit={handleSubmit}>
-          <h2 className={styles.formTitle}>Sign up </h2>
-          <label className={styles.label}>First & Last Name</label>
-          <input
-            className={styles.input}
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="First & Last Name"
-          />
-          <label className={styles.label}>Password</label>
-          <input
-            className={styles.input}
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Password"
-          />
-          {error && <p className={styles.error}>{error}</p>}
-          <label className={styles.label}>Email</label>
-          <input
-            className={styles.input}
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Email"
-          />
-          <label className={styles.label}>Phone Number</label>
-          <input
-            className={styles.input}
-            type="tel"
-            name="number"
-            value={formData.number}
-            onChange={handleChange}
-            placeholder="Phone Number"
-          />
-          <div className={styles.radioGroup}>
-            <label className={styles.label}>Are you over 18?</label>
+              <div className={styles.radioOptions}>
+                <label className={styles.radioLabel}>
+                  <input type="radio" name="age" value="Yes" checked={formData.age === "Yes"} onChange={handleChange} />
+                  Yes
+                </label>
 
-            <div className={styles.radioOptions}>
-              <label className={styles.radioLabel}>
-                <input type="radio" name="age" value="Yes" checked={formData.age === "Yes"} onChange={handleChange} />
-                Yes
-              </label>
-
-              <label className={styles.radioLabel}>
-                <input type="radio" name="age" value="No" checked={formData.age === "No"} onChange={handleChange} />
-                No
-              </label>
+                <label className={styles.radioLabel}>
+                  <input type="radio" name="age" value="No" checked={formData.age === "No"} onChange={handleChange} />
+                  No
+                </label>
+              </div>
             </div>
-          </div>
-          <button className={styles.button} type="submit">
-            Submit
-          </button>
-          {/* Clerk captcha */}
-          <div id="clerk-captcha" />
-        </form>
+            <button className={styles.button} type="submit">
+              Submit
+            </button>
+            {formError && <p className={styles.error}>{formError}</p>}
+            {/* Clerk captcha */}
+            <div id="clerk-captcha" />
+          </form>
+        </div>
       </div>
-    </div>
+    </AuthLayout>
   );
 }

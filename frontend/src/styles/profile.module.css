@@ -1,14 +1,10 @@
 /* Page layout with sidebar */
-.pageLayout {
-  display: flex;
-  min-height: 100vh;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-.mainContent {
-  flex: 1;
-  padding: 2rem 3rem;
-  background-color: #ffffff;
+.pageContainer {
+  padding: 2rem 6rem;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .pageTitle {
@@ -284,14 +280,6 @@
 }
 
 @media (max-width: 768px) {
-  .pageLayout {
-    flex-direction: column;
-  }
-
-  .mainContent {
-    padding: 1.5rem;
-  }
-
   .pageTitle {
     font-size: 1.75rem;
   }
