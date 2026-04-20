@@ -7,6 +7,7 @@ const ROUTES = [
   { path: "/Auth/SignUp", label: "Signup" },
   { path: "/Auth/Login", label: "Login" },
   { path: "/About", label: "About" },
+  { path: "/Donate", label: "Donate" },
 ];
 
 export default function Page() {

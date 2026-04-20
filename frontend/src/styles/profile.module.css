@@ -1,14 +1,10 @@
 /* Page layout with sidebar */
-.pageLayout {
-  display: flex;
-  min-height: 100vh;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-.mainContent {
-  flex: 1;
-  padding: 2rem 3rem;
-  background-color: #ffffff;
+.pageContainer {
+  padding: 2rem 6rem;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .pageTitle {
@@ -284,33 +280,7 @@
 }
 
 @media (max-width: 768px) {
-  .pageLayout {
-    flex-direction: column;
-  }
-
-  .mainContent {
-    padding: 1.5rem;
-  }
-
   .pageTitle {
     font-size: 1.75rem;
   }
-}
-
-.pageLayout {
-  min-height: 100vh;
-}
-
-.mainContent {
-  min-height: 100vh;
-  padding: 2rem;
-  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.mainContentExpanded {
-  margin-left: 200px;
-}
-
-.mainContentCollapsed {
-  margin-left: 60px;
 }
