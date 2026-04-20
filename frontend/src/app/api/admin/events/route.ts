@@ -1,4 +1,4 @@
-import { auth, clerkClient } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 import type { UserRole } from "../../../../lib/roles.types";
 import { isSuperAdmin } from "../../../../lib/roles";
@@ -21,19 +21,11 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const client = await clerkClient();
-    const caller = await client.users.getUser(callerId);
-    const callerEmail = caller.emailAddresses[0]?.emailAddress;
-
-    if (!callerEmail) {
-      return NextResponse.json({ error: "Unable to determine caller email." }, { status: 400 });
-    }
-
     const response = await fetch(`${API_BASE}/events`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-user-email": callerEmail,
+        "x-user-role": callerRole,
       },
       body: JSON.stringify(body),
     });

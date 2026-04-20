@@ -1,49 +1,32 @@
 const express = require("express");
-const { Event, Volunteer } = require("../../database/initModels");
+const { Event } = require("../../database/initModels");
 
 const router = express.Router();
 
-function normalizeRole(userType) {
-  return String(userType || "")
+function normalizeRole(role) {
+  return String(role || "")
     .trim()
     .toLowerCase()
     .replace(/\s+/g, " ");
 }
 
-function getRequesterEmail(req) {
-  const headerEmail = req.headers["x-user-email"];
-  const bodyEmail = req.body?.userEmail;
-
-  if (typeof headerEmail === "string" && headerEmail.trim()) {
-    return headerEmail.trim().toLowerCase();
-  }
-
-  if (typeof bodyEmail === "string" && bodyEmail.trim()) {
-    return bodyEmail.trim().toLowerCase();
-  }
-
-  return null;
+function getRequesterRole(req) {
+  const headerRole = req.headers["x-user-role"];
+  return typeof headerRole === "string" ? normalizeRole(headerRole) : null;
 }
 
 async function requireMainAdmin(req, res, next) {
   try {
-    const email = getRequesterEmail(req);
+    const role = getRequesterRole(req);
 
-    if (!email) {
-      return res.status(401).json({ message: "User email is required" });
+    if (!role) {
+      return res.status(401).json({ message: "User role is required" });
     }
 
-    const volunteer = await Volunteer.findOne({ email });
-
-    if (!volunteer) {
-      return res.status(404).json({ message: "Volunteer not found" });
-    }
-
-    if (normalizeRole(volunteer.userType) !== "main admin") {
+    if (role !== "mainadmin") {
       return res.status(403).json({ message: "Main admin access required" });
     }
 
-    req.currentVolunteer = volunteer;
     next();
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -99,7 +82,6 @@ router.get("/", async (req, res) => {
 router.post("/", requireMainAdmin, async (req, res) => {
   try {
     const eventPayload = { ...req.body };
-    delete eventPayload.userEmail;
 
     const event = await Event.create(eventPayload);
     res.status(201).json(event);
@@ -112,7 +94,6 @@ router.put("/:id", requireMainAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const updates = { ...req.body };
-    delete updates.userEmail;
 
     const event = await Event.findByIdAndUpdate(id, updates, {
       new: true,
