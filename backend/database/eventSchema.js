@@ -17,4 +17,4 @@ const EventSchema = new Schema({
   ],
 });
 
-module.exports = { EventSchema };
+module.exports = EventSchema;

@@ -7,10 +7,10 @@ const session = require("express-session");
 
 const connectDB = require("../frontend/src/lib/db.js");
 const volunteersRoutes = require("./src/routes/volunteerRoutes.js");
+const eventRoutes = require("./src/routes/eventRoutes.js");
 // uncomment below when implemented
 // const authRoutes = require("./routes/authRoutes.js");
 // const adminRoutes = require("./routes/adminRoutes.js");
-// const eventsRoutes = require("./routes/eventRoutes.js");
 // const volunteersRoutes = require("./routes/volunteerRoutes.js");
 
 const app = express();
@@ -43,6 +43,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/volunteers", volunteersRoutes);
+app.use("/events", eventRoutes);
 
 // Static files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -51,10 +52,10 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // app.use("/api/auth", authRoutes);
 // app.use("/api/admin", adminRoutes);
 // app.use("/api/volunteers", volunteersRoutes);
-// app.use("/api/events", eventsRoutes);
+// app.use("/api/events", eventRoutes);
 // app.use("/api/Admin", adminRoutes);
 // app.use("/api/Volunteers", volunteersRoutes);
-// app.use("/api/Events", eventsRoutes);
+// app.use("/api/Events", eventRoutes);
 
 app.get("/", (req, res) => {
   console.log("Hello World, I am here");

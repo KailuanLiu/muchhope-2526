@@ -11,4 +11,4 @@ const VolunteerSchema = new Schema({
   isAdult: { type: Boolean, required: true }, // If volunteer is 18+ or not
 });
 
-module.exports = { VolunteerSchema };
+module.exports = VolunteerSchema;
