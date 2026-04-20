@@ -1,10 +1,8 @@
 import About from "../../components/About";
-import Navbar from "../../components/Navbar";
 
-export default function ContactUsPage() {
+export default function AboutUsPage() {
   return (
-    <main>
-      <Navbar />
+    <main style={{ display: "flex", height: "100vh", overflowY: "auto" }}>
       <About />
     </main>
   );

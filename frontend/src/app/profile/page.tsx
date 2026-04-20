@@ -1,50 +1,55 @@
 "use client";
 
+import { useUser } from "@clerk/nextjs";
+import AuthLayout from "../AuthLayout";
 import ProfileForm from "../../components/ProfileForm";
 import UpcomingShifts from "../../components/UpcomingShifts";
-import Navbar from "../../components/Navbar";
 import styles from "../../styles/profile.module.css";
 
 export default function ProfilePage() {
-  // TODO: Replace with actual user data from authentication/database
-  // Once team decides on architecture (Option A or B), wire up real data
-  const mockVolunteerData = {
-    firstName: "Jane",
-    lastName: "Doe",
-    phoneNumber: "(555) 123-4567",
-    email: "jane.doe@example.com",
-    isAdult: true,
-    photoUrl: "",
-  };
+  const { user, isLoaded } = useUser();
 
   const handleEditPhoto = () => {
     // TODO: Handle photo upload
   };
 
-  return (
-    <div className={styles.pageLayout}>
-      <Navbar />
-      <main className={styles.mainContent}>
-        <h1 className={styles.pageTitle}>Volunteer Dashboard</h1>
+  if (!isLoaded) {
+    return (
+      <AuthLayout>
+        <div className={styles.pageContainer}>
+          <p>Loading...</p>
+        </div>
+      </AuthLayout>
+    );
+  }
 
+  const firstName = user?.firstName ?? "";
+  const lastName = user?.lastName ?? "";
+  const email = user?.primaryEmailAddress?.emailAddress ?? "";
+  const photoUrl = user?.imageUrl ?? "";
+
+  return (
+    <AuthLayout>
+      <div className={styles.pageContainer}>
+        <h1 className={styles.pageTitle}>Volunteer Dashboard</h1>
         <div className={styles.profileHeader}>
           <div className={styles.photoContainer}>
-            {mockVolunteerData.photoUrl ? (
-              <img src={mockVolunteerData.photoUrl} alt="Profile" className={styles.profilePhoto} />
+            {photoUrl ? (
+              <img src={photoUrl} alt="Profile" className={styles.profilePhoto} />
             ) : (
               <div className={styles.photoPlaceholder}>
                 <span className={styles.photoInitials}>
-                  {mockVolunteerData.firstName.charAt(0)}
-                  {mockVolunteerData.lastName.charAt(0)}
+                  {firstName.charAt(0)}
+                  {lastName.charAt(0)}
                 </span>
               </div>
             )}
           </div>
           <div className={styles.headerInfo}>
             <h2 className={styles.userName}>
-              {mockVolunteerData.firstName} {mockVolunteerData.lastName}
+              {firstName} {lastName}
             </h2>
-            <p className={styles.userEmail}>{mockVolunteerData.email}</p>
+            <p className={styles.userEmail}>{email}</p>
           </div>
           <button className={styles.editPhotoButton} onClick={handleEditPhoto}>
             Edit Photo
@@ -55,18 +60,19 @@ export default function ProfilePage() {
           <div className={styles.leftColumn}>
             <ProfileForm
               initialData={{
-                firstName: mockVolunteerData.firstName,
-                lastName: mockVolunteerData.lastName,
-                phoneNumber: mockVolunteerData.phoneNumber,
-                isAdult: mockVolunteerData.isAdult,
+                firstName: firstName,
+                lastName: lastName,
+                phoneNumber: (user?.publicMetadata?.phoneNumber as string) ?? "",
+                isAdult: (user?.publicMetadata?.isAdult as boolean) ?? false,
               }}
+              onSave={() => user!.reload()}
             />
           </div>
           <div className={styles.rightColumn}>
-            <UpcomingShifts volunteerEmail={mockVolunteerData.email} />
+            <UpcomingShifts volunteerEmail={email} />
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </AuthLayout>
   );
 }

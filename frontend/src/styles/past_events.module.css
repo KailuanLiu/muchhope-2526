@@ -1,0 +1,27 @@
+.pastEventContainer {
+  display: flex;
+  margin: 50px 0;
+}
+
+.pastEventInfo {
+  margin-left: 30px;
+}
+
+.pastEventTitle {
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: 30px;
+}
+
+.pastEventDesc {
+  font-family: "Helvetica Neue", sans-serif;
+}
+
+.pastEventImage {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.07);
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: 4px;
+  width: 400px;
+  height: auto;
+}
