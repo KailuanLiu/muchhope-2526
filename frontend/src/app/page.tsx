@@ -1,3 +1,4 @@
+// import Navbar from "../components/Navbar";
 import LandingPage from "../components/LandingPage";
 // import About from "../components/About";
 
