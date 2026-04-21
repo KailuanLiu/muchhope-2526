@@ -67,7 +67,7 @@ export default function EventDetailPage() {
             </div>
           </>
         ) : (
-          <p className={styles.notFound}>Dummy Event {id} not found.</p>
+          <PastEvents />
         )}
       </main>
     </div>
