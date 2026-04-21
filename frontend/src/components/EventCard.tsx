@@ -12,10 +12,20 @@ interface EventCardProps {
   description: string;
   imageUrl?: string;
   onMoreInfo?: () => void;
+  showEditButton?: boolean;
+  onEdit?: () => void;
   hideMoreInfo?: boolean;
 }
 
-export default function EventCard({ id, title, imageUrl, onMoreInfo, hideMoreInfo }: EventCardProps) {
+export default function EventCard({
+  id,
+  title,
+  imageUrl,
+  onMoreInfo,
+  hideMoreInfo,
+  showEditButton,
+  onEdit,
+}: EventCardProps) {
   return (
     <div className={styles.card}>
       <div className={styles.imageWrapper}>
@@ -38,9 +48,16 @@ export default function EventCard({ id, title, imageUrl, onMoreInfo, hideMoreInf
       <div className={styles.cardBody}>
         <p className={styles.title}>{title}</p>
         {!hideMoreInfo && (
-          <button className={styles.moreInfoButton} onClick={onMoreInfo}>
-            More Info &rsaquo;
-          </button>
+          <div className={styles.cardActions}>
+            <button className={styles.moreInfoButton} onClick={onMoreInfo}>
+              More Info &rsaquo;
+            </button>
+            {showEditButton && (
+              <button className={styles.editButton} onClick={onEdit} type="button">
+                Edit Event
+              </button>
+            )}
+          </div>
         )}
       </div>
     </div>

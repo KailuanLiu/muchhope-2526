@@ -1,58 +1,67 @@
+// app/Events/[id]/page.tsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import styles from "../../../styles/eventDetail.module.css";
 import Navbar from "../../../components/Navbar";
 
-// TODO: Replace with real API call once backend event endpoint is ready
-const DUMMY_EVENTS = [
-  {
-    id: "1",
-    title: "Community Meal Service",
-    date: "April 5, 2026",
-    time: "10:00 AM - 1:00 PM",
-    location: "St. James Park, San Jose",
-    description: "Help serve hot meals to members of our unhoused community.",
-  },
-  {
-    id: "2",
-    title: "Hygiene Kit Distribution",
-    date: "April 12, 2026",
-    time: "9:00 AM - 12:00 PM",
-    location: "Downtown San Jose",
-    description: "Assemble and distribute hygiene kits to those in need.",
-  },
-  {
-    id: "3",
-    title: "Clothing Drive & Sorting",
-    date: "April 19, 2026",
-    time: "11:00 AM - 3:00 PM",
-    location: "MuchHope Warehouse, San Jose",
-    description: "Sort and organize donated clothing items.",
-  },
-  {
-    id: "4",
-    title: "Resource Fair",
-    date: "April 26, 2026",
-    time: "10:00 AM - 2:00 PM",
-    location: "City Hall Plaza, San Jose",
-    description: "Connect community members with local services.",
-  },
-];
+type EventData = {
+  id: string;
+  title: string;
+  date: string;
+  time: string;
+  location: string;
+  description: string;
+};
 
 export default function EventDetailPage() {
   // use with vertical AppNavbar const [collapsed, setCollapsed] = useState(false);
   const [collapsed] = useState(false);
   const { id } = useParams<{ id: string }>();
-  const event = DUMMY_EVENTS.find((e) => e.id === id);
+  const [event, setEvent] = useState<EventData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    async function loadEvent() {
+      try {
+        setIsLoading(true);
+        setError("");
+
+        const response = await fetch("/api/events", {
+          cache: "no-store",
+        });
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Failed to load event.");
+        }
+
+        const matchedEvent = Array.isArray(data) ? data.find((item) => item.id === id) : null;
+        setEvent(matchedEvent || null);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to load event.");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    if (id) {
+      loadEvent();
+    }
+  }, [id]);
 
   return (
     <div className={styles.pageLayout}>
       {/*use with vertical AppNavbar <Navbar collapsed={collapsed} setCollapsed={setCollapsed} /> */}
       <Navbar />
       <main className={`${styles.mainContent} ${collapsed ? styles.mainContentCollapsed : styles.mainContentExpanded}`}>
-        {event ? (
+        {isLoading ? (
+          <p className={styles.notFound}>Loading event...</p>
+        ) : error ? (
+          <p className={styles.notFound}>{error}</p>
+        ) : event ? (
           <>
             <h1 className={styles.title}>{event.title}</h1>
             <div className={styles.body}>
@@ -67,7 +76,7 @@ export default function EventDetailPage() {
             </div>
           </>
         ) : (
-          <PastEvents />
+          <p className={styles.notFound}>Event not found.</p>
         )}
       </main>
     </div>
