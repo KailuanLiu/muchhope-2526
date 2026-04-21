@@ -1,3 +1,4 @@
+// app/Events/[id]/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -75,7 +76,7 @@ export default function EventDetailPage() {
             </div>
           </>
         ) : (
-          <p className={styles.notFound}>Event {id} not found.</p>
+          <p className={styles.notFound}>Event not found.</p>
         )}
       </main>
     </div>

@@ -22,7 +22,7 @@ export default function AppNavbar({ collapsed, setCollapsed }) {
     // don't have events implemented
     { label: "My Events", href: "/MyEvents" },
     { label: "Upcoming Events", href: "/Events/Upcoming" },
-    { label: "Past Events", href: "/Events/Past" },
+    { label: "Past Events", href: "/Events/PastEvents" },
     { label: "About Us", href: "/About" },
     { label: "Contact Us", href: "/ContactUs" },
     // donate also not implemented

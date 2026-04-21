@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "../styles/past_events.module.css";
+import styles from "../styles/pastEvents.module.css";
 
 type Event = {
   name: string;

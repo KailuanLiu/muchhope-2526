@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
-import PastEvent from "../../components/past_events";
-import styles from "../../styles/past_events_page.module.css";
+import PastEvent from "../../components/PastEvents";
+import styles from "../../styles/pastEvents.module.css";
 
 type PastEventData = {
   id: string;

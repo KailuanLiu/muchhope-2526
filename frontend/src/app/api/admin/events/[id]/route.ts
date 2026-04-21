@@ -1,3 +1,4 @@
+//api/admin/events/[id]/route.ts
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 import type { UserRole } from "../../../../../lib/roles.types";
