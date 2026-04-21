@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import type { UserRole } from "../../../../lib/roles.types";
 import { isSuperAdmin } from "../../../../lib/roles";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 export async function POST(req: NextRequest) {
   const { userId: callerId, sessionClaims } = await auth();

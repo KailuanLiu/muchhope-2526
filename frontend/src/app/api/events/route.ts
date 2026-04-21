@@ -1,7 +1,7 @@
 // api/events/route.ts
 import { NextRequest, NextResponse } from "next/server";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 type BackendEvent = {
   _id?: string;
@@ -48,12 +48,13 @@ export async function GET(req: NextRequest) {
     url.searchParams.set("timeframe", timeframe);
   }
 
-  const res = await fetch(url.toString(), {
-    cache: "no-store",
-  });
-
-  const data = await res.json();
-  const normalizedData = Array.isArray(data) ? data.map(normalizeEvent) : data;
-
-  return NextResponse.json(normalizedData, { status: res.status });
+  try {
+    const res = await fetch(url.toString(), { cache: "no-store" });
+    const data = await res.json();
+    const normalizedData = Array.isArray(data) ? data.map(normalizeEvent) : data;
+    return NextResponse.json(normalizedData, { status: res.status });
+  } catch (err) {
+    console.error("[api/event] Failed to fetch from backend:", err);
+    return NextResponse.json([], { status: 200 });
+  }
 }

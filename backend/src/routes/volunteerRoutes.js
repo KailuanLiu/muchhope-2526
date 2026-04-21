@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { Volunteer } = require("../../database/initModels");
+const { getModels } = require("../../database/initModels");
 
 router.get("/", async (req, res) => {
   try {
+    const { Volunteer } = getModels();
     const volunteers = await Volunteer.find();
     res.status(200).json(volunteers);
   } catch (error) {
@@ -13,9 +14,9 @@ router.get("/", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
+    const { Volunteer } = getModels();
     const { email } = req.body;
     const volunteer = await Volunteer.findOne({ email });
-
     if (!volunteer) {
       return res.status(404).json({ message: "Volunteer not found" });
     }
@@ -27,6 +28,7 @@ router.post("/login", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   try {
+    const { Volunteer } = getModels();
     const { id } = req.params;
     const updates = req.body;
     const volunteer = await Volunteer.findOneAndUpdate({ id }, updates, {

@@ -2,10 +2,18 @@ const { makeNewConnection } = require("../connection");
 const volunteerSchema = require("./volunteerSchema");
 const eventSchema = require("./eventSchema");
 
-const volunteerConnection = makeNewConnection(process.env.volunteerDB);
-const Volunteer = volunteerConnection.model("Volunteer", volunteerSchema);
+let Volunteer, Event;
 
-const eventConnection = makeNewConnection(process.env.eventDB);
-const Event = eventConnection.model("Event", eventSchema);
+function getModels() {
+  if (!Volunteer) {
+    const volunteerConnection = makeNewConnection(process.env.volunteerDB);
+    Volunteer = volunteerConnection.model("Volunteer", volunteerSchema);
+  }
+  if (!Event) {
+    const eventConnection = makeNewConnection(process.env.eventDB);
+    Event = eventConnection.model("Event", eventSchema);
+  }
+  return { Volunteer, Event };
+}
 
-module.exports = { Volunteer, Event };
+module.exports = { getModels };
