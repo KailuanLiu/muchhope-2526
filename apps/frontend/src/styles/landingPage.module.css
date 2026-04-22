@@ -15,7 +15,7 @@ body {
 .heroContainer {
   position: relative;
   min-height: 100vh;
-  background-image: url("/cat-placeholder.jpg");
+  background-image: url("/event-photos/landing-page-image.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

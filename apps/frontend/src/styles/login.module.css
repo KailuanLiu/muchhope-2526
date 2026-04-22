@@ -1,82 +1,201 @@
-.pageContainer {
-  background-color: #ffffff;
+.page {
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  padding: 50px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  justify-content: center;
+  padding: 40px 20px;
+  background: var(--bg);
 }
-.pageTitle {
-  font-size: 33px;
-  margin: 40px 0;
-  color: #000000;
-}
-.formBox {
-  background-color: #ababab;
-  padding: 18px;
-  padding-bottom: 50px;
-  border-radius: 10px;
-  width: 450px;
-  max-width: 90%;
-}
-.formTitle {
-  text-align: center;
-  font-size: 30px;
-  margin-bottom: 60px;
-  color: #000000;
-}
-.label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #000000;
-}
-.input {
+
+.card {
   width: 100%;
-  padding: 8px;
-  margin-bottom: 14px;
-  border: none;
-  border-radius: 10px;
-  background-color: #e6e6e6;
-  font-size: 15px;
+  max-width: 1080px;
+  min-height: 640px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.formPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 64px;
+  background: var(--surface);
+  width: 100%;
   box-sizing: border-box;
 }
+
+.formHeader {
+  margin-bottom: 32px;
+}
+
+.title {
+  margin: 0 0 10px;
+  font-size: 3rem;
+  line-height: 1.05;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--primary);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.input {
+  width: 100%;
+  height: 56px;
+  border: 1.5px solid #cfc7bb;
+  border-radius: 14px;
+  padding: 0 16px;
+  font-size: 1rem;
+  background: #ffffff;
+  color: var(--text);
+  outline: none;
+  box-sizing: border-box;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.input::placeholder {
+  color: #8a8a8a;
+}
+
+.input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(75, 46, 131, 0.12);
+}
+
 .button {
-  width: 30%;
-  padding: 7px 10px;
-  margin-bottom: 10px;
-  background-color: #e6e6e6;
-  color: #000000;
+  margin-top: 10px;
+  width: 100%;
+  height: 56px;
   border: none;
-  border-radius: 10px;
-  font-size: 20px;
+  border-radius: 14px;
+  background: var(--primary);
+  color: #212121;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  margin-top: 15px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 22px rgba(75, 46, 131, 0.18);
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
 }
+
 .button:hover {
-  background-color: #f7f7f7;
+  background: var(--primary-hover);
+  transform: translateY(-1px);
 }
-.textLink {
-  text-decoration: none;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  font-size: 15px;
-  margin-top: 20px;
-  color: #000000;
-}
+
 .error {
-  color: #d32f2f;
-  font-size: 14px;
-  margin-top: -10px;
-  margin-bottom: 14px;
-  padding: 8px;
-  background-color: #ffebee;
-  border-left: 3px solid #d32f2f;
-  border-radius: 4px;
+  margin: 0;
+  font-size: 0.95rem;
+  color: #b42318;
+}
+
+.links {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.textLink {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.textLink:hover {
+  text-decoration: underline;
+}
+
+.signupText {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.imagePanel {
+  position: relative;
+  min-height: 640px;
+  background: url("/event-photos/login-photo.jpeg") center/cover no-repeat;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+.imageOverlay {
+  width: 100%;
+  padding: 40px;
+  background: linear-gradient(to top, rgba(35, 35, 35, 0.28), rgba(35, 35, 35, 0));
+}
+
+.brandTitle {
+  margin: 0 0 10px;
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.brandText {
+  margin: 0;
+  max-width: 420px;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: auto;
+  }
+
+  .imagePanel {
+    min-height: 260px;
+    order: -1;
+  }
+
+  .formPanel {
+    padding: 36px 24px;
+  }
+
+  .title {
+    font-size: 2.2rem;
+  }
 }

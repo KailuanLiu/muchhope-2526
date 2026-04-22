@@ -2,7 +2,8 @@
 
 import { useAuth } from "@clerk/nextjs";
 import { useState } from "react";
-import AppNavbar from "../components/AppNavbar";
+import VolunteerNavbar from "../components/volunteer/VolunteerNavbar";
+import AdminNavbar from "../components/admin/AdminNavbar";
 import Navbar from "../components/Navbar";
 import styles from "../styles/landingPage.module.css";
 
@@ -12,16 +13,29 @@ interface AuthLayoutProps {
 }
 
 export default function AuthLayout({ children, onCollapse }: AuthLayoutProps) {
-  const { isSignedIn, isLoaded } = useAuth();
+  const { isSignedIn, isLoaded, sessionClaims } = useAuth();
   const [collapsed, setCollapsed] = useState(false);
+
+  const role = (sessionClaims?.metadata?.role as string | undefined) ?? "user";
 
   function handleCollapse(value: boolean) {
     setCollapsed(value);
     onCollapse?.(value);
   }
+
   return (
     <div className={styles.pageLayout}>
-      {isLoaded && (isSignedIn ? <AppNavbar collapsed={collapsed} setCollapsed={handleCollapse} /> : <Navbar />)}
+      {isLoaded &&
+        (isSignedIn ? (
+          role === "admin" || role === "mainadmin" ? (
+            <AdminNavbar collapsed={collapsed} setCollapsed={handleCollapse} />
+          ) : (
+            <VolunteerNavbar collapsed={collapsed} setCollapsed={handleCollapse} />
+          )
+        ) : (
+          <Navbar />
+        ))}
+
       <main
         data-collapsed={collapsed}
         className={`${styles.mainContent} ${

@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useClerk } from "@clerk/nextjs";
-import styles from "../styles/volunteernavbar.module.css";
+import styles from "../../styles/adminnavbar.module.css";
 
-export default function AppNavbar({
+export default function AdminNavbar({
   collapsed,
   setCollapsed,
 }: {
@@ -22,17 +22,13 @@ export default function AppNavbar({
   }
 
   const navItems = [
-    { label: "Home", href: "/", icon: "/icons/home.svg" },
-    { label: "My Profile", href: "/Profile", icon: "/icons/User.svg" },
-    { label: "Volunteer", href: "/Volunteer" },
-    // don't have events implemented
-    { label: "My Events", href: "/MyEvents" },
-    { label: "Upcoming Events", href: "/Events/Upcoming" },
-    { label: "Past Events", href: "/Events/PastEvents" },
-    { label: "About Us", href: "/About" },
-    { label: "Contact Us", href: "/ContactUs" },
-    // donate also not implemented
-    { label: "Donate", href: "/Donate" },
+    { label: "Home", href: "/Admin", icon: "/icons/house-chimney-floor.svg" },
+    { label: "Dashboard", href: "/Admin/Dashboard", icon: "/icons/apps.svg" },
+    { label: "My Profile", href: "/Profile", icon: "/icons/user-alt-1.svg" },
+    { label: "Manage Events", href: "/Admin/Events", icon: "/icons/calendar.svg" },
+    { label: "View Volunteers", href: "/Admin/Volunteers", icon: "/icons/users.svg" },
+    { label: "About Us", href: "/About", icon: "/icons/circle-information.svg" },
+    { label: "Contact Us", href: "/ContactUs", icon: "/icons/send-icon.svg" },
   ];
 
   return (
@@ -40,16 +36,18 @@ export default function AppNavbar({
       <button className={styles.toggleButton} onClick={() => setCollapsed(!collapsed)}>
         ☰
       </button>
+
       <ul className={styles.navList}>
         {navItems.map((item) => (
           <li key={item.href}>
             <Link href={item.href} className={`${styles.navLink} ${pathname === item.href ? styles.active : ""}`}>
-              <img src={item.icon} alt="" className={styles.icon} />
+              {item.icon && <img src={item.icon} alt="" className={styles.icon} />}
               <span className={styles.linkText}>{item.label}</span>
             </Link>
           </li>
         ))}
       </ul>
+
       <div className={styles.signOut}>
         <button className={styles.signOutButton} onClick={handleSignOut}>
           <span className={styles.linkText}>Sign Out</span>

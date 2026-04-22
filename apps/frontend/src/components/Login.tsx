@@ -21,12 +21,12 @@ export default function Login({ signIn, setActive, isLoaded }: LoginProps) {
   const router = useRouter();
   const [error, setError] = useState("");
 
-  const handleChange = (e: { target: { name: any; value: any } }) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
 
@@ -61,46 +61,74 @@ export default function Login({ signIn, setActive, isLoaded }: LoginProps) {
 
   return (
     <AuthLayout>
-      <div className={styles.pageContainer}>
-        {/* <h1 className={styles.pageTitle}>Sign Up or Login to your Account</h1> */}
-        <div className={styles.formBox}>
-          <form onSubmit={handleSubmit}>
-            <h2 className={styles.formTitle}>Login</h2>
+      <div className={styles.page}>
+        <div className={styles.card}>
+          {/* IMAGE PANEL FIRST (LEFT SIDE) */}
+          <div className={styles.imagePanel}>
+            <div className={styles.imageOverlay}>
+              <h2 className={styles.brandTitle}>Much Hope</h2>
+              <p className={styles.brandText}>Supporting the homeless community with compassion, dignity, and care.</p>
+            </div>
+          </div>
 
-            <label className={styles.label}>Email</label>
-            <input
-              className={styles.input}
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email"
-            />
+          {/* FORM PANEL SECOND (RIGHT SIDE) */}
+          <div className={styles.formPanel}>
+            <div className={styles.formHeader}>
+              <h1 className={styles.title}>Login</h1>
+              <p className={styles.subtitle}>Welcome back to Much Hope</p>
+            </div>
 
-            <label className={styles.label}>Password</label>
-            <input
-              className={styles.input}
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Password"
-            />
+            <form onSubmit={handleSubmit} className={styles.form}>
+              <div className={styles.field}>
+                <label htmlFor="email" className={styles.label}>
+                  Email
+                </label>
+                <input
+                  id="email"
+                  className={styles.input}
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Enter your email"
+                />
+              </div>
 
-            {error && <p className={styles.error}>{error}</p>}
+              <div className={styles.field}>
+                <label htmlFor="password" className={styles.label}>
+                  Password
+                </label>
+                <input
+                  id="password"
+                  className={styles.input}
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Enter your password"
+                />
+              </div>
 
-            <button className={styles.button} type="submit">
-              Login
-            </button>
+              {error && <p className={styles.error}>{error}</p>}
 
-            <Link href="/forgot-password" className={styles.textLink}>
-              Forgot password?
-            </Link>
+              <button className={styles.button} type="submit">
+                Login
+              </button>
+            </form>
 
-            <Link href="/Auth/SignUp" className={styles.textLink}>
-              Create Account
-            </Link>
-          </form>
+            <div className={styles.links}>
+              <Link href="/forgot-password" className={styles.textLink}>
+                Forgot password?
+              </Link>
+
+              <p className={styles.signupText}>
+                Don&apos;t have an account?{" "}
+                <Link href="/Auth/SignUp" className={styles.textLink}>
+                  Create Account
+                </Link>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </AuthLayout>
