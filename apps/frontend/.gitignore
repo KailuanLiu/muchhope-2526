@@ -1,3 +1,4 @@
+//.gitignore
 
 # clerk configuration (can include secrets)
 /.clerk/
@@ -5,3 +6,4 @@
 # local env files
 .env*.local
 .env*
+

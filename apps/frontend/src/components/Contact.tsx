@@ -10,7 +10,6 @@ export default function Contact() {
     firstName: "",
     lastName: "",
     email: "",
-    subject: "",
     message: "",
   });
 
@@ -35,7 +34,7 @@ export default function Contact() {
     e.preventDefault();
 
     // Basic validation
-    if (!formData.firstName.trim() || !formData.lastName.trim() || !formData.email.trim() || !formData.subject.trim() || !formData.message.trim()) {
+    if (!formData.firstName.trim() || !formData.lastName.trim() || !formData.email.trim() || !formData.message.trim()) {
       setSubmitStatus({
         type: "error",
         message: "Please fill in all fields.",
@@ -77,7 +76,6 @@ export default function Contact() {
           firstName: "",
           lastName: "",
           email: "",
-          subject: "",
           message: "",
         });
       } else {
@@ -147,22 +145,6 @@ export default function Contact() {
                 onChange={handleChange}
                 className={styles.input}
                 placeholder="your.email@example.com"
-                required
-              />
-            </div>
-
-            <div className={styles.formGroup}>
-              <label htmlFor="subject" className={styles.label}>
-                Subject *
-              </label>
-              <input
-                type="text"
-                id="subject"
-                name="subject"
-                value={formData.subject}
-                onChange={handleChange}
-                className={styles.input}
-                placeholder="What is this regarding?"
                 required
               />
             </div>

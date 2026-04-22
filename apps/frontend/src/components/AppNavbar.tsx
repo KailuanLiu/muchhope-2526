@@ -5,7 +5,13 @@ import { usePathname, useRouter } from "next/navigation";
 import { useClerk } from "@clerk/nextjs";
 import styles from "../styles/volunteernavbar.module.css";
 
-export default function AppNavbar({ collapsed, setCollapsed }) {
+export default function AppNavbar({
+  collapsed,
+  setCollapsed,
+}: {
+  collapsed: boolean;
+  setCollapsed: (value: boolean) => void;
+}) {
   const pathname = usePathname();
   const router = useRouter();
   const { signOut } = useClerk();
@@ -16,8 +22,8 @@ export default function AppNavbar({ collapsed, setCollapsed }) {
   }
 
   const navItems = [
-    { label: "Home", href: "/" },
-    { label: "My Profile", href: "/Profile" },
+    { label: "Home", href: "/", icon: "/icons/home.svg" },
+    { label: "My Profile", href: "/Profile", icon: "/icons/User.svg" },
     { label: "Volunteer", href: "/Volunteer" },
     // don't have events implemented
     { label: "My Events", href: "/MyEvents" },
@@ -38,6 +44,7 @@ export default function AppNavbar({ collapsed, setCollapsed }) {
         {navItems.map((item) => (
           <li key={item.href}>
             <Link href={item.href} className={`${styles.navLink} ${pathname === item.href ? styles.active : ""}`}>
+              <img src={item.icon} alt="" className={styles.icon} />
               <span className={styles.linkText}>{item.label}</span>
             </Link>
           </li>

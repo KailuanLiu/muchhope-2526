@@ -10,7 +10,7 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 2rem 0;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   overflow: hidden;
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   top: 0;
@@ -122,4 +122,15 @@
   transition:
     opacity 0.2s ease 0s,
     left 0s ease 0s;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon {
+  width: 34px;
+  height: 30px;
 }
