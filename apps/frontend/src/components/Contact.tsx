@@ -97,86 +97,127 @@ export default function Contact() {
   //return the contact form
   return (
     <AuthLayout>
-      <div className={styles.content}>
-        <div className={styles.section}>
-          <h1 className={styles.title}>Contact Us</h1>
+      <div className={styles.page}>
+        <div className={styles.hero}>
+          <h1 className={styles.title}>Get in Touch</h1>
           <p className={styles.description}>
             Have a question or want to get in touch? Send us a message and we&apos;ll respond as soon as possible.
           </p>
+        </div>
 
-          <form className={styles.form} onSubmit={handleSubmit}>
-            <div className={styles.formGroup}>
-              <label htmlFor="firstName" className={styles.label}>
-                First & Last Name *
-              </label>
+        <div className={styles.contactCard}>
+          <div className={styles.infoPanel}>
+            <div className={styles.infoContent}>
+              <h2 className={styles.infoTitle}>Contact Information</h2>
+              <p className={styles.infoText}>
+                We&apos;re here to support volunteers, donors, and community partners. Reach out and we&apos;ll be happy
+                to help.
+              </p>
+
+              <div className={styles.infoList}>
+                <div className={styles.infoItem}>
+                  <span className={styles.infoLabel}>Email</span>
+                  <span className={styles.infoValue}>h4imuchhope@gmail.com</span>
+                </div>
+
+                <div className={styles.infoItem}>
+                  <span className={styles.infoLabel}>Phone</span>
+                  <span className={styles.infoValue}>(xxx) xxx-xxx</span>
+                </div>
+
+                <div className={styles.infoItem}>
+                  <span className={styles.infoLabel}>Location</span>
+                  <span className={styles.infoValue}>San Jose, California</span>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.infoAccent}></div>
+          </div>
+
+          <div className={styles.formPanel}>
+            <form className={styles.form} onSubmit={handleSubmit}>
               <div className={styles.nameRow}>
+                <div className={styles.formGroup}>
+                  <label htmlFor="firstName" className={styles.label}>
+                    First Name*
+                  </label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    className={styles.input}
+                    placeholder="First Name"
+                    required
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label htmlFor="lastName" className={styles.label}>
+                    Last Name*
+                  </label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    className={styles.input}
+                    placeholder="Last Name"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className={styles.formGroup}>
+                <label htmlFor="email" className={styles.label}>
+                  Email*
+                </label>
                 <input
-                  type="text"
-                  id="firstName"
-                  name="firstName"
-                  value={formData.firstName}
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
                   onChange={handleChange}
                   className={styles.input}
-                  placeholder="First Name"
-                  required
-                />
-                <input
-                  type="text"
-                  id="lastName"
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  className={styles.input}
-                  placeholder="Last Name"
+                  placeholder="your.email@example.com"
                   required
                 />
               </div>
-            </div>
 
-            <div className={styles.formGroup}>
-              <label htmlFor="email" className={styles.label}>
-                Email *
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className={styles.input}
-                placeholder="your.email@example.com"
-                required
-              />
-            </div>
-
-            <div className={styles.formGroup}>
-              <label htmlFor="message" className={styles.label}>
-                Message *
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                className={styles.textarea}
-                placeholder="Your message..."
-                rows={6}
-                required
-              />
-            </div>
-
-            {submitStatus.type && (
-              <div
-                className={`${styles.statusMessage} ${submitStatus.type === "success" ? styles.success : styles.error}`}
-              >
-                {submitStatus.message}
+              <div className={styles.formGroup}>
+                <label htmlFor="message" className={styles.label}>
+                  Message*
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  className={styles.textarea}
+                  placeholder="Write your message here..."
+                  rows={7}
+                  required
+                />
               </div>
-            )}
 
-            <button type="submit" className={styles.submitButton} disabled={isSubmitting}>
-              {isSubmitting ? "Sending..." : "Send"}
-            </button>
-          </form>
+              {submitStatus.type && (
+                <div
+                  className={`${styles.statusMessage} ${
+                    submitStatus.type === "success" ? styles.success : styles.error
+                  }`}
+                >
+                  {submitStatus.message}
+                </div>
+              )}
+
+              <button type="submit" className={styles.submitButton} disabled={isSubmitting}>
+                {isSubmitting ? "Sending..." : "Send Message"}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </AuthLayout>

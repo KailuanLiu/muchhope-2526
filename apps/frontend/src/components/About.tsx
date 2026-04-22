@@ -13,20 +13,25 @@ export default function About() {
   return (
     <AuthLayout>
       <div className={styles.aboutContainer}>
-        <h1 className={styles.aboutTitle}> About Us</h1>
-        <img src="/placeholder.jpg" alt="placeholder" className={styles.aboutImage} />
+        <h2 className={styles.aboutTitle}> About Us </h2>
+        <img src="/event-photos/about-us-page.JPG" alt="about us" className={styles.aboutImage} />
         <p className={styles.aboutDescription}>
           {" "}
-          The dedicated staff of Much Hope endeavors to provide for the physical needs of the homeless community by
-          purchasing needed materials with self-contributed funds. Emotional and spiritual needs are addressed by
-          conversation and - whenever possible - prayer with each homeless person.
+          Like most metropolitan areas, San Jose California has a large homeless population. This under-served segment
+          of the community has a continuing need for food, clothing, personal hygiene materials, some form of shelter,
+          and Christian love. The dedicated staff of Much Hope endeavors to provide for the physical needs of the
+          homeless community by purchasing needed materials with self-contributed funds. Emotional and spiritual needs
+          are addressed by conversation and – whenever possible - prayer with each homeless person. The needs of the
+          homeless far exceed the financial resources of the Much Hope staff. A contribution will increase the scope and
+          effectiveness of this important ministry.
         </p>
       </div>
       <div className={styles.aboutContactContainer}>
         <img src="/placeholder.jpg" alt="placeholder" className={styles.aboutContactImage} />
 
         <div className={styles.aboutContactInfo}>
-          <h2 className={styles.aboutContactTitle}> Sujana </h2>
+          <h2 className={styles.aboutContactTitle}> Meet Our Organizer </h2>
+          <h2 className={styles.organizerTitle}> Sujanna Panthulu </h2>
           <p className={styles.aboutContactDesc}>
             {" "}
             Information about Sujana. The dedicated staff of Much Hope endeavors to provide for the physical needs of
