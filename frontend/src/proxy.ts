@@ -9,6 +9,7 @@ const isPublicRoute = createRouteMatcher([
   "/About",
   "/ContactUs",
   "/Donate",
+  "/api/contact",
 ]);
 
 const isAuthRoute = createRouteMatcher(["/sign-in(.*)", "/sign-up(.*)", "/Auth/Login(.*)"]);
