@@ -25,17 +25,17 @@ export default function AuthLayout({ children, onCollapse }: AuthLayoutProps) {
 
   return (
     <div className={styles.pageLayout}>
-      {!isLoaded ? (
-        <Navbar />
-      ) : isSignedIn ? (
-        role === "admin" || role === "mainadmin" ? (
-          <AdminNavbar collapsed={collapsed} setCollapsed={handleCollapse} />
+      {isLoaded ? (
+        isSignedIn ? (
+          role === "admin" || role === "mainadmin" ? (
+            <AdminNavbar collapsed={collapsed} setCollapsed={handleCollapse} />
+          ) : (
+            <VolunteerNavbar collapsed={collapsed} setCollapsed={handleCollapse} />
+          )
         ) : (
-          <VolunteerNavbar collapsed={collapsed} setCollapsed={handleCollapse} />
+          <Navbar />
         )
-      ) : (
-        <Navbar />
-      )}
+      ) : null}
 
       <main
         data-collapsed={collapsed}
