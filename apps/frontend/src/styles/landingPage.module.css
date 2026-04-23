@@ -9,13 +9,14 @@ body {
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-height: 100vh;
 }
 
 .heroContainer {
   position: relative;
-  min-height: 100vh;
+  height: 420px;
+  min-height: 420px;
   background-image: url("/event-photos/landing-page-image.jpg");
+  background-color: #d9d9d9;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -129,15 +130,17 @@ body {
   width: 100%;
   box-sizing: border-box;
   display: flex;
+  flex-direction: column;
+  overflow-y: auto;
 }
 
 .mainContent {
   flex: 1;
-  min-height: 100vh;
   min-width: 0;
-  box-sizing: border-box;
-  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow-y: auto;
+  width: 100%;
+  min-height: 100vh;
+  overflow-y: visible;
+  overflow-x: hidden;
 }
 
 .mainContentExpanded {

@@ -1,13 +1,12 @@
-// import Navbar from "../components/Navbar";
+"use client";
+
 import LandingPage from "../components/LandingPage";
+import AuthLayout from "./AuthLayout";
 
 export default function Home() {
   return (
-    <main style={{ display: "flex", minHeight: "100vh" }}>
-      {/* <Navbar /> */}
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <LandingPage />
-      </div>
-    </main>
+    <AuthLayout>
+      <LandingPage />
+    </AuthLayout>
   );
 }

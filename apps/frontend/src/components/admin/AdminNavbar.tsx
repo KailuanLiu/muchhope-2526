@@ -23,9 +23,8 @@ export default function AdminNavbar({
 
   const navItems = [
     { label: "Home", href: "/Admin", icon: "/icons/house-chimney-floor.svg" },
-    { label: "Dashboard", href: "/Admin/Dashboard", icon: "/icons/apps.svg" },
     { label: "My Profile", href: "/Profile", icon: "/icons/user-alt-1.svg" },
-    { label: "Manage Events", href: "/Admin/Events", icon: "/icons/calendar.svg" },
+    { label: "Manage Events", href: "/Admin/Events", icon: "/icons/calendar-lines-pen.svg" },
     { label: "View Volunteers", href: "/Admin/Volunteers", icon: "/icons/users.svg" },
     { label: "About Us", href: "/About", icon: "/icons/circle-information.svg" },
     { label: "Contact Us", href: "/ContactUs", icon: "/icons/send-icon.svg" },
@@ -34,7 +33,7 @@ export default function AdminNavbar({
   return (
     <nav className={`${styles.sidebar} ${collapsed ? styles.collapsed : ""}`}>
       <button className={styles.toggleButton} onClick={() => setCollapsed(!collapsed)}>
-        ☰
+        <img src="icons/menu.svg" alt="menu button" />
       </button>
 
       <ul className={styles.navList}>
