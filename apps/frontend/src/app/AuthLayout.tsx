@@ -18,6 +18,10 @@ export default function AuthLayout({ children, onCollapse }: AuthLayoutProps) {
 
   const role = (sessionClaims?.metadata?.role as string | undefined) ?? "user";
 
+  // temp debug - remove after fixing
+  console.log("AuthLayout sessionClaims:", sessionClaims);
+  console.log("AuthLayout role:", role);
+
   function handleCollapse(value: boolean) {
     setCollapsed(value);
     onCollapse?.(value);
@@ -29,9 +33,9 @@ export default function AuthLayout({ children, onCollapse }: AuthLayoutProps) {
         isSignedIn ? (
           role === "admin" || role === "mainadmin" ? (
             <AdminNavbar collapsed={collapsed} setCollapsed={handleCollapse} />
-          ) : (
+          ) : role === "user" ? (
             <VolunteerNavbar collapsed={collapsed} setCollapsed={handleCollapse} />
-          )
+          ) : null // role is undefined — claims still loading, render nothing
         ) : (
           <Navbar />
         )
