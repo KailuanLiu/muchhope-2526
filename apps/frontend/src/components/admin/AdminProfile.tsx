@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import styles from "../styles/profile.module.css";
+import styles from "../../styles/adminprofile.module.css";
 import { useRouter } from "next/navigation";
 
 interface ProfileFormProps {
@@ -28,7 +28,7 @@ const getPhoneDigits = (value: string): string => {
   return value.replace(/\D/g, "");
 };
 
-export default function ProfileForm({ initialData, onSave }: ProfileFormProps) {
+export default function AdminProfile({ initialData, onSave }: ProfileFormProps) {
   const router = useRouter();
 
   const [formData, setFormData] = useState({

@@ -1,10 +1,9 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import AuthLayout from "../AuthLayout";
-import ProfileForm from "../../components/volunteer/Profile";
-import UpcomingShifts from "../../components/UpcomingShifts";
-import styles from "../../styles/profile.module.css";
+import AuthLayout from "../../AuthLayout";
+import AdminProfile from "../../../components/admin/AdminProfile";
+import styles from "../../../styles/adminprofile.module.css";
 
 export default function ProfilePage() {
   const { user, isLoaded } = useUser();
@@ -31,7 +30,7 @@ export default function ProfilePage() {
   return (
     <AuthLayout>
       <div className={styles.pageContainer}>
-        <h1 className={styles.pageTitle}>Volunteer Dashboard</h1>
+        <h1 className={styles.pageTitle}>Admin Dashboard</h1>
         <div className={styles.profileHeader}>
           <div className={styles.photoContainer}>
             {photoUrl ? (
@@ -58,7 +57,7 @@ export default function ProfilePage() {
 
         <div className={styles.columnsWrapper}>
           <div className={styles.leftColumn}>
-            <ProfileForm
+            <AdminProfile
               initialData={{
                 firstName: firstName,
                 lastName: lastName,
@@ -67,9 +66,6 @@ export default function ProfilePage() {
               }}
               onSave={() => user!.reload()}
             />
-          </div>
-          <div className={styles.rightColumn}>
-            <UpcomingShifts volunteerEmail={email} />
           </div>
         </div>
       </div>

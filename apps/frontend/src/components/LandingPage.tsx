@@ -39,7 +39,7 @@ export default function LandingPage() {
         <div className={styles.overlay}>
           <h1 className={styles.title}>MuchHope</h1>
           <p className={styles.subtitle}>Providing resources and support for the homeless community in San Jose.</p>
-          <Link href="/Auth/Login" className={styles.ctaButton}>
+          <Link href="/Events/Upcoming" className={styles.ctaButton}>
             Volunteer
           </Link>
         </div>

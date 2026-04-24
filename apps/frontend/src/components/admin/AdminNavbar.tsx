@@ -22,8 +22,8 @@ export default function AdminNavbar({
   }
 
   const navItems = [
-    { label: "Home", href: "/Admin", icon: "/icons/house-chimney-floor.svg" },
-    { label: "My Profile", href: "/Profile", icon: "/icons/user-alt-1.svg" },
+    { label: "Home", href: "/admin", icon: "/icons/house-chimney-floor.svg" },
+    { label: "My Profile", href: "/admin/profile", icon: "/icons/user-alt-1.svg" },
     { label: "Manage Events", href: "/Admin/Events", icon: "/icons/calendar-lines-pen.svg" },
     { label: "View Volunteers", href: "/Admin/Volunteers", icon: "/icons/users.svg" },
     { label: "About Us", href: "/About", icon: "/icons/circle-information.svg" },
@@ -32,9 +32,11 @@ export default function AdminNavbar({
 
   return (
     <nav className={`${styles.sidebar} ${collapsed ? styles.collapsed : ""}`}>
-      <button className={styles.toggleButton} onClick={() => setCollapsed(!collapsed)}>
-        <img src="icons/menu.svg" alt="menu button" />
-      </button>
+      <div className={styles.topSection}>
+        <button className={styles.toggleButton} onClick={() => setCollapsed(!collapsed)} aria-label="Toggle sidebar">
+          <img src="/icons/menu.svg" alt="menu button" />
+        </button>
+      </div>
 
       <ul className={styles.navList}>
         {navItems.map((item) => (

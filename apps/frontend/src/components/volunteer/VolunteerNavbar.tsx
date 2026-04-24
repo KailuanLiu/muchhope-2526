@@ -43,7 +43,7 @@ export default function VolunteerNavbar({
     <aside className={`${styles.sidebar} ${collapsed ? styles.collapsed : ""}`}>
       <div className={styles.topSection}>
         <button className={styles.toggleButton} onClick={() => setCollapsed(!collapsed)} aria-label="Toggle sidebar">
-          <img src="icons/menu.svg" alt="menu button" />
+          <img src="/icons/menu.svg" alt="menu button" />
         </button>
 
         {!collapsed && (
