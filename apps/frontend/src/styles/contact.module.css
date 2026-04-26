@@ -232,6 +232,21 @@
   border: 1px solid #f4c7cf;
 }
 
+/* Donation Styles */
+.donationPage {
+  display: flex;
+  flex-direction: row;
+}
+
+.donationHero {
+  background-color: #402479;
+  width: 50%;
+}
+.donationCard {
+  background-color: #d89f4f;
+  width: 50%;
+}
+
 @media (max-width: 900px) {
   .page {
     padding: 28px 16px 40px;

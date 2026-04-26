@@ -8,6 +8,8 @@ const ROUTES = [
   { path: "/Auth/Login", label: "Login" },
   { path: "/About", label: "About" },
   { path: "/Donate", label: "Donate" },
+  // Route for Contact Us Page?
+  { path: "/Contact", label: "Contact" },
 ];
 
 export default function Page() {
