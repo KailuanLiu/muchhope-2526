@@ -2,8 +2,8 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import AuthLayout from "../app/AuthLayout";
-import styles from "../styles/donation.module.css";
+import AuthLayout from "@/app/AuthLayout";
+import styles from "@/styles/donation.module.css";
 
 const presetAmounts = ["25", "50", "75", "100"];
 const impactCards = [

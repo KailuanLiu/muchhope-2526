@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import styles from "../styles/login.module.css";
-import AuthLayout from "../app/AuthLayout";
+import styles from "@/styles/login.module.css";
+import AuthLayout from "@/app/AuthLayout";
 
 interface LoginProps {
   signIn: any;

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import styles from "../styles/contact.module.css";
-import AuthLayout from "../app/AuthLayout";
+import AuthLayout from "@/app/AuthLayout";
 
 export default function Contact() {
   //variable to store form data inputted by the user

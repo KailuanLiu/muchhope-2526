@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "../styles/about.module.css";
-import AuthLayout from "../app/AuthLayout";
+import AuthLayout from "@/app/AuthLayout";
 import { useRouter } from "next/navigation";
 
 export default function About() {

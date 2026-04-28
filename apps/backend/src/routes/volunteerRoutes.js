@@ -29,7 +29,9 @@ router.post("/login", async (req, res) => {
 router.get("/:id/events", async (req, res) => {
   try {
     const { id } = req.params;
-    const volunteer = await Volunteer.findOne({ id });
+    const { Volunteer } = getModels();
+
+    const volunteer = await Volunteer.findById(id);
     if (!volunteer) {
       return res.status(404).json({ message: "Volunteer not found" });
     }
@@ -37,6 +39,7 @@ router.get("/:id/events", async (req, res) => {
     const events = await Event.find({
       "volunteers.email": volunteer.email,
     });
+
     res.status(200).json(events);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -45,11 +48,15 @@ router.get("/:id/events", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   try {
+    const { Volunteer } = getModels();
     const { id } = req.params;
-    const volunteer = await Volunteer.findOneAndDelete({ id });
+
+    const volunteer = await Volunteer.findByIdAndDelete(id);
+
     if (!volunteer) {
       return res.status(404).json({ message: "Volunteer not found" });
     }
+
     res.status(200).json({ message: "Volunteer deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -58,11 +65,12 @@ router.delete("/:id", async (req, res) => {
 
 router.put("/:id/make-event-admin", async (req, res) => {
   try {
+    const { Volunteer } = getModels();
     const { id } = req.params;
     const { eventId } = req.body;
 
     // first check if the volunteer exists and error if they don't
-    const volunteer = await Volunteer.findOne({ id });
+    const volunteer = await Volunteer.findById(id);
     if (!volunteer) {
       return res.status(404).json({ message: "Volunteer not found" });
     }
@@ -77,7 +85,7 @@ router.put("/:id/make-event-admin", async (req, res) => {
     await volunteer.save();
 
     // if they aren't already an admin, then change their status to being an admin
-    const alreadyAdmin = event.admins.some((a) => a.id === id);
+    const alreadyAdmin = event.admins.some((a) => String(a.id) === String(id));
     if (!alreadyAdmin) {
       event.admins.push({
         id: volunteer.id,
@@ -98,13 +106,16 @@ router.put("/:id", async (req, res) => {
     const { Volunteer } = getModels();
     const { id } = req.params;
     const updates = req.body;
-    const volunteer = await Volunteer.findOneAndUpdate({ id }, updates, {
+
+    const volunteer = await Volunteer.findByIdAndUpdate(id, updates, {
       new: true,
       runValidators: true,
     });
+
     if (!volunteer) {
       return res.status(404).json({ message: "Volunteer not found" });
     }
+
     res.status(200).json(volunteer);
   } catch (error) {
     res.status(500).json({ message: error.message });

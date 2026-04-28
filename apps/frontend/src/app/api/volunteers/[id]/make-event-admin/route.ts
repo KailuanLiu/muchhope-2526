@@ -6,19 +6,12 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
   const { id } = await params;
   const body = await req.json();
 
-  const res = await fetch(`${API_BASE}/volunteers/${id}`, {
+  const res = await fetch(`${API_BASE}/volunteers/${id}/make-event-admin`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
 
-  let data = null;
-  try {
-    data = await res.json();
-  } catch (err) {
-    console.error("Error parsing JSON response:", err);
-    data = { message: "No JSON returned from backend" };
-  }
-
+  const data = await res.json();
   return NextResponse.json(data, { status: res.status });
 }

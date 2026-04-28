@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import styles from "../styles/signup.module.css";
-import AuthLayout from "../app/AuthLayout";
+import styles from "@/styles/signup.module.css";
+import AuthLayout from "@/app/AuthLayout";
 
 type ClerkError = {
   code?: string;
