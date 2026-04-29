@@ -1,7 +1,7 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.22);
+  background: rgba(0, 0, 0, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -10,9 +10,10 @@
 
 .panel {
   width: 540px;
-  background: #efefef;
-  border: 1px solid #222;
-  padding: 22px 24px 18px;
+  background: #f8f6f7;
+  border-radius: 12px;
+  border: 0.5px solid #d4cfd0;
+  padding: 24px 26px 20px;
   box-sizing: border-box;
   position: relative;
 }
@@ -21,7 +22,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 }
 
 .topLeft {
@@ -34,14 +35,13 @@
   width: 62px;
   height: 62px;
   border-radius: 9999px;
-  border: 1.5px solid #111;
-  background: #f8f8f8;
+  background: #402479;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 21px;
-  font-weight: 700;
-  color: #111;
+  font-size: 20px;
+  font-weight: 500;
+  color: #ffe9ac;
   flex-shrink: 0;
 }
 
@@ -53,9 +53,9 @@
 
 .name {
   margin: 0;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 500;
-  color: #111;
+  color: var(--color-text-primary, #1a1a1a);
 }
 
 .nameInputs {
@@ -65,57 +65,85 @@
 
 .nameInput {
   height: 34px;
-  width: 100px;
-  border: 1px solid #555;
+  width: 110px;
+  border: 0.5px solid #d4cfd0;
+  border-radius: 8px;
   background: #fff;
   padding: 0 10px;
   font-size: 14px;
-  box-sizing: border-box; /* ← ensures padding doesn't increase width */
+  box-sizing: border-box;
 }
 
 .badges {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   align-items: center;
+}
+
+.badgeMainAdmin {
+  background: #e3af64;
+  color: #412402;
+}
+
+.badgeAdmin {
+  background: #e3af64;
+  color: #390000;
+  opacity: 0.75;
+}
+
+.badgeVolunteer {
+  background: #cecbf6;
+  color: #26215c;
+}
+
+.badgeAdult {
+  background: #aea8f5;
+  color: #3c3a52;
+  border: 0.5px solid #170f8d;
+}
+
+.badgeMinor {
+  background: hsl(67, 54%, 78%);
+  color: #3f5421;
+  border: 0.5px solid #a2cd07;
 }
 
 .badge {
-  min-width: 86px;
-  height: 18px;
-  padding: 0 10px;
-  border: 1px solid #5c8e22;
-  background: #b9ef67;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  padding: 3px 12px;
+  border-radius: 999px;
   font-size: 12px;
-  color: #1f1f1f;
+  font-weight: 500;
 }
 
-.badgeInput,
 .badgeSelect {
   height: 28px;
-  border: 1px solid #555;
+  border: 0.5px solid #d4cfd0;
+  border-radius: 8px;
   background: #fff;
   padding: 0 8px;
   font-size: 13px;
+  color: #1a1a1a;
+}
+
+.divider {
+  height: 0.5px;
+  background: #d4cfd0;
+  margin: 0 0 16px;
 }
 
 .topActions {
   display: flex;
   align-items: flex-start;
-  position: absolute;
-  top: 22px;
-  right: 24px;
 }
 
 .editLink {
-  border: none;
+  border: 0.5px solid #d4cfd0;
+  border-radius: 8px;
   background: transparent;
-  color: #222;
-  font-size: 15px;
+  color: #5a5a5a;
+  font-size: 13px;
   cursor: pointer;
-  padding: 4px 0;
+  padding: 5px 12px;
 }
 
 .editingActions {
@@ -123,24 +151,34 @@
   gap: 8px;
 }
 
-.saveBtn,
-.cancelBtn,
-.deleteBtn,
-.closeBtnBottom,
-.confirmYes,
-.confirmNo {
-  height: 34px;
-  border: 1px solid #444;
-  background: #fff;
+.saveBtn {
+  height: 32px;
+  background: #402479;
+  color: #ffe9ac;
+  border: none;
+  border-radius: 8px;
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.cancelBtn {
+  height: 32px;
+  background: transparent;
+  color: #5a5a5a;
+  border: 0.5px solid #d4cfd0;
+  border-radius: 8px;
   padding: 0 12px;
+  font-size: 13px;
   cursor: pointer;
 }
 
 .formGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  margin-top: 8px;
+  gap: 16px;
+  margin-bottom: 16px;
 }
 
 .fieldGroup,
@@ -151,39 +189,61 @@
 }
 
 .fullWidthField {
-  margin-top: 20px;
+  margin-bottom: 16px;
 }
 
 .label {
-  font-size: 14px;
-  color: #222;
+  font-size: 12px;
+  color: #5a5a5a;
 }
 
-.input,
+.input {
+  height: 40px;
+  border: 0.5px solid #d4cfd0;
+  border-radius: 8px;
+  background: #fff;
+  padding: 0 12px;
+  box-sizing: border-box;
+  font-size: 14px;
+  color: #1a1a1a;
+}
+
 .valueBox {
-  height: 42px;
-  border: 1px solid #555;
-  background: #d9d9d9;
-  padding: 10px 12px;
+  height: 40px;
+  border-radius: 8px;
+  background: #eeedfe;
+  padding: 0 12px;
   box-sizing: border-box;
   font-size: 14px;
-  color: #111;
+  color: #3c3489;
+  display: flex;
+  align-items: center;
 }
 
-.textarea,
-.textareaBox {
-  min-height: 74px;
-  border: 1px solid #555;
-  background: #d9d9d9;
+.textarea {
+  border: 0.5px solid #d4cfd0;
+  border-radius: 8px;
+  background: #fff;
   padding: 10px 12px;
   box-sizing: border-box;
   font-size: 14px;
-  color: #111;
+  color: #1a1a1a;
   resize: vertical;
+  min-height: 70px;
+}
+
+.textareaBox {
+  border-radius: 8px;
+  background: #eeedfe;
+  padding: 10px 12px;
+  box-sizing: border-box;
+  font-size: 14px;
+  color: #3c3489;
+  min-height: 70px;
 }
 
 .bottomRow {
-  margin-top: 20px;
+  margin-top: 4px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -196,6 +256,51 @@
 }
 
 .confirmText {
-  font-size: 14px;
-  color: #222;
+  font-size: 13px;
+  color: #5a5a5a;
+}
+
+.confirmYes {
+  height: 32px;
+  background: #791f1f;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0 12px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.confirmNo {
+  height: 32px;
+  background: transparent;
+  border: 0.5px solid #d4cfd0;
+  border-radius: 8px;
+  padding: 0 12px;
+  font-size: 13px;
+  cursor: pointer;
+  color: #5a5a5a;
+}
+
+.deleteBtn {
+  height: 32px;
+  background: transparent;
+  border: 0.5px solid #c9a0a0;
+  border-radius: 8px;
+  padding: 0 14px;
+  font-size: 13px;
+  color: #791f1f;
+  cursor: pointer;
+}
+
+.closeBtnBottom {
+  height: 32px;
+  background: #402479;
+  color: #ffe9ac;
+  border: none;
+  border-radius: 8px;
+  padding: 0 18px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
 }

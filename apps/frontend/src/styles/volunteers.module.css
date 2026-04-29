@@ -238,6 +238,20 @@
   color: #7f7f7f;
 }
 
+.filters {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.filterSelect {
+  padding: 0.4rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
 @media (max-width: 820px) {
   .form {
     grid-template-columns: 1fr;

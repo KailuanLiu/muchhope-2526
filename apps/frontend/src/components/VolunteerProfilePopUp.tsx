@@ -20,7 +20,7 @@ const emptyVolunteer: Volunteer = {
   id: "",
   firstName: "",
   lastName: "",
-  role: "Volunteer",
+  role: "",
   email: "",
   phoneNumber: "",
   isAdult: undefined,
@@ -73,6 +73,15 @@ export default function VolunteerProfilePopUp({ volunteer, mode = "edit", onClos
 
   function handleSave() {
     if (!form) return;
+
+    if (!form.role) {
+      alert("Please select a role.");
+      return;
+    }
+    if (form.isAdult === undefined) {
+      alert("Please select an age group.");
+      return;
+    }
 
     console.log("Popup saving form:", form);
 
@@ -134,16 +143,18 @@ export default function VolunteerProfilePopUp({ volunteer, mode = "edit", onClos
                       onChange={(e) => handleChange("role", e.target.value)}
                     >
                       <option value="">Select role</option>
-                      <option value="Admin">Admin</option>
+                      <option value="Main Admin">Main Admin</option>
+                      {form.isAdult !== false && <option value="Admin">Admin</option>}
                       <option value="Volunteer">Volunteer</option>
                     </select>
 
                     <select
                       className={styles.badgeSelect}
                       value={form.isAdult === undefined ? "" : form.isAdult ? "true" : "false"}
-                      onChange={(e) =>
-                        handleChange("isAdult", e.target.value === "" ? undefined : e.target.value === "true")
-                      }
+                      onChange={(e) => {
+                        const val = e.target.value === "" ? undefined : e.target.value === "true";
+                        handleChange("isAdult", val);
+                      }}
                     >
                       <option value="">Select age group</option>
                       <option value="true">Adult</option>
@@ -152,8 +163,19 @@ export default function VolunteerProfilePopUp({ volunteer, mode = "edit", onClos
                   </>
                 ) : (
                   <>
-                    <span className={styles.badge}>{form.role || "Unknown"}</span>
-                    <span className={styles.badge}>
+                    <span
+                      className={`${styles.badge} ${
+                        form.role === "Main Admin"
+                          ? styles.badgeMainAdmin
+                          : form.role === "Admin"
+                            ? styles.badgeAdmin
+                            : styles.badgeVolunteer
+                      }`}
+                    >
+                      {form.role || "Unknown"}
+                    </span>
+
+                    <span className={`${styles.badge} ${form.isAdult ? styles.badgeAdult : styles.badgeMinor}`}>
                       {form.isAdult === undefined ? "Unknown" : form.isAdult ? "Adult" : "Minor"}
                     </span>
                   </>
