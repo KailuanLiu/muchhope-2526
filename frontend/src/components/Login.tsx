@@ -97,7 +97,7 @@ export default function Login({ signIn, setActive, isLoaded }: LoginProps) {
               Forgot password?
             </Link>
 
-            <Link href="/Auth/SignUp" className={styles.textLink}>
+            <Link href="/auth/signup" className={styles.textLink}>
               Create Account
             </Link>
           </form>
