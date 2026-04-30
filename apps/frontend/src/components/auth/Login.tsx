@@ -1,25 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useClerk, useAuth } from "@clerk/nextjs";
+import { useSignIn } from "@clerk/nextjs/legacy";
 import styles from "@/styles/login.module.css";
 import AuthLayout from "@/app/AuthLayout";
 
-interface LoginProps {
-  signIn: any;
-  setActive: any;
-  isLoaded: boolean;
-}
-
-export default function Login({ signIn, setActive, isLoaded }: LoginProps) {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-
+export default function Login() {
+  const { isSignedIn, isLoaded: authLoaded } = useAuth();
+  const { signIn } = useSignIn() as any;
+  const { setActive } = useClerk();
+  const isLoaded = !!signIn;
   const router = useRouter();
+
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (authLoaded && isSignedIn) {
+      router.push("/");
+    }
+  }, [authLoaded, isSignedIn]);
+
+  if (!authLoaded || isSignedIn) return null;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -28,9 +33,11 @@ export default function Login({ signIn, setActive, isLoaded }: LoginProps) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError("");
 
-    if (!isLoaded) return;
+    if (!isLoaded || !signIn || !setActive) {
+      setError("Authentication is still loading. Please try again.");
+      return;
+    }
 
     try {
       const signInAttempt = await signIn.create({
@@ -38,24 +45,28 @@ export default function Login({ signIn, setActive, isLoaded }: LoginProps) {
         password: formData.password,
       });
 
-      if (signInAttempt.status === "complete") {
-        await setActive({
-          session: signInAttempt.createdSessionId,
-        });
+      console.log("signIn after create:", {
+        status: signInAttempt.status,
+        createdSessionId: signInAttempt.createdSessionId,
+      });
 
-        router.push("/");
+      console.log("full keys:", Object.keys(signInAttempt || {}));
+      console.log("raw:", signInAttempt);
+      console.log("signInAttempt:", JSON.stringify(signInAttempt, null, 2));
+
+      if (signInAttempt.status === "complete") {
+        await setActive({ session: signInAttempt.createdSessionId });
+        window.location.href = "/";
       } else {
-        console.error("Sign-in attempt not complete:", signInAttempt.status);
         setError("Sign-in could not be completed. Please try again.");
       }
     } catch (err: any) {
-      console.error("Error during sign in:", JSON.stringify(err, null, 2));
-
-      if (err.errors && err.errors[0]) {
-        setError(err.errors[0].message);
-      } else {
-        setError("An error occurred during sign in. Please try again.");
+      const message = err?.errors?.[0]?.message || "";
+      if (message.toLowerCase().includes("already signed in")) {
+        router.push("/");
+        return;
       }
+      setError(message || "An error occurred during sign in. Please try again.");
     }
   };
 
@@ -63,7 +74,6 @@ export default function Login({ signIn, setActive, isLoaded }: LoginProps) {
     <AuthLayout>
       <div className={styles.page}>
         <div className={styles.card}>
-          {/* IMAGE PANEL FIRST (LEFT SIDE) */}
           <div className={styles.imagePanel}>
             <div className={styles.imageOverlay}>
               <h2 className={styles.brandTitle}>Much Hope</h2>
@@ -71,7 +81,6 @@ export default function Login({ signIn, setActive, isLoaded }: LoginProps) {
             </div>
           </div>
 
-          {/* FORM PANEL SECOND (RIGHT SIDE) */}
           <div className={styles.formPanel}>
             <div className={styles.formHeader}>
               <h1 className={styles.title}>Login</h1>
@@ -120,10 +129,9 @@ export default function Login({ signIn, setActive, isLoaded }: LoginProps) {
               <Link href="/forgot-password" className={styles.textLink}>
                 Forgot password?
               </Link>
-
               <p className={styles.signupText}>
                 Don&apos;t have an account?{" "}
-                <Link href="/Auth/SignUp" className={styles.textLink}>
+                <Link href="/auth/signup" className={styles.textLink}>
                   Create Account
                 </Link>
               </p>

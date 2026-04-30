@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useClerk } from "@clerk/nextjs";
 import { useState } from "react";
 import styles from "../../styles/volunteernavbar.module.css";
@@ -14,15 +14,14 @@ export default function VolunteerNavbar({
   setCollapsed: (value: boolean) => void;
 }) {
   const pathname = usePathname();
-  const router = useRouter();
   const { signOut } = useClerk();
   const [eventsOpen, setEventsOpen] = useState(false);
   const isMyEventsActive =
     pathname === "/Events/Upcoming" || pathname === "/Events/PastEvents" || pathname === "/Volunteer";
 
   async function handleSignOut() {
-    await signOut();
-    router.push("/");
+    console.log("signed out");
+    await signOut({ redirectUrl: "/auth/login" });
   }
 
   const navItems = [

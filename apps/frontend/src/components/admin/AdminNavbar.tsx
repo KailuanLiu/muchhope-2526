@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useClerk } from "@clerk/nextjs";
 import styles from "@/styles/adminnavbar.module.css";
 
@@ -13,12 +13,11 @@ export default function AdminNavbar({
   setCollapsed: (value: boolean) => void;
 }) {
   const pathname = usePathname();
-  const router = useRouter();
   const { signOut } = useClerk();
 
   async function handleSignOut() {
-    await signOut();
-    router.push("/");
+    console.log("signing out...");
+    await signOut({ redirectUrl: "/auth/login" });
   }
 
   const navItems = [

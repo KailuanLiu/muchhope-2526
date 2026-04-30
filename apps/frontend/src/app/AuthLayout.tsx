@@ -1,14 +1,14 @@
 "use client";
 
 import { useAuth } from "@clerk/nextjs";
-import { useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import VolunteerNavbar from "../components/volunteer/VolunteerNavbar";
 import AdminNavbar from "../components/admin/AdminNavbar";
 import Navbar from "../components/Navbar";
 import styles from "../styles/landingPage.module.css";
 
 interface AuthLayoutProps {
-  children: React.ReactNode;
+  children: ReactNode;
   onCollapse?: (collapsed: boolean) => void;
 }
 
@@ -16,30 +16,31 @@ export default function AuthLayout({ children, onCollapse }: AuthLayoutProps) {
   const { isSignedIn, isLoaded, sessionClaims } = useAuth();
   const [collapsed, setCollapsed] = useState(false);
 
-  const role = (sessionClaims?.metadata?.role as string | undefined) ?? "user";
-
-  // temp debug - remove after fixing
-  console.log("AuthLayout sessionClaims:", sessionClaims);
-  console.log("AuthLayout role:", role);
+  const role = sessionClaims?.metadata?.role as string | undefined;
 
   function handleCollapse(value: boolean) {
     setCollapsed(value);
     onCollapse?.(value);
   }
 
+  useEffect(() => {
+    console.log("Auth state changed:", {
+      isLoaded,
+      isSignedIn,
+      sessionClaims,
+      role,
+    });
+  }, [isLoaded, isSignedIn, sessionClaims, role]);
+
   return (
     <div className={styles.pageLayout}>
-      {isLoaded ? (
-        isSignedIn ? (
-          role === "admin" || role === "mainadmin" ? (
-            <AdminNavbar collapsed={collapsed} setCollapsed={handleCollapse} />
-          ) : role === "user" ? (
-            <VolunteerNavbar collapsed={collapsed} setCollapsed={handleCollapse} />
-          ) : null // role is undefined — claims still loading, render nothing
-        ) : (
-          <Navbar />
-        )
-      ) : null}
+      {!isLoaded ? null : !isSignedIn ? (
+        <Navbar />
+      ) : role === "admin" || role === "mainadmin" ? (
+        <AdminNavbar collapsed={collapsed} setCollapsed={handleCollapse} />
+      ) : (
+        <VolunteerNavbar collapsed={collapsed} setCollapsed={handleCollapse} />
+      )}
 
       <main
         data-collapsed={collapsed}

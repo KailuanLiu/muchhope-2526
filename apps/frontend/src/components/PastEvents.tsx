@@ -1,5 +1,6 @@
 "use client";
 
+//src/components/pastevents.tsx
 import styles from "../styles/pastEvents.module.css";
 
 type Event = {

@@ -4,8 +4,8 @@ import type { UserRole } from "./lib/roles.types";
 
 const isPublicRoute = createRouteMatcher([
   "/",
-  "/Auth/Login(.*)",
-  "/Auth/SignUp(.*)",
+  "/auth/login(.*)",
+  "/auth/signup(.*)",
   "/forgot-password(.*)",
   "/reset-password(.*)",
   "/About",
@@ -13,7 +13,7 @@ const isPublicRoute = createRouteMatcher([
   "/Donate",
 ]);
 
-const isAuthRoute = createRouteMatcher(["/sign-in(.*)", "/sign-up(.*)", "/Auth/Login(.*)", "/Auth/SignUp(.*)"]);
+const isAuthRoute = createRouteMatcher(["/sign-in(.*)", "/sign-up(.*)", "/auth/login(.*)", "/auth/signup(.*)"]);
 
 const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
 const isProtectedApiRoute = createRouteMatcher(["/api/admin/promote(.*)", "/api/admin/demote(.*)"]);
@@ -25,7 +25,7 @@ export default clerkMiddleware(async (auth, req) => {
   // Not signed in
   if (!userId) {
     if (isPublicRoute(req) || isAuthRoute(req)) return NextResponse.next();
-    const signInUrl = new URL("/Auth/Login", req.url);
+    const signInUrl = new URL("/auth/login", req.url);
     signInUrl.searchParams.set("redirect_url", req.url);
     return NextResponse.redirect(signInUrl);
   }

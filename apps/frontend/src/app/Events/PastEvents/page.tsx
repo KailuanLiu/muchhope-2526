@@ -1,5 +1,6 @@
 "use client";
 
+// src/app/events/pastevents
 import { useState } from "react";
 import AuthLayout from "../../AuthLayout";
 import styles from "../../../styles/pastEvents.module.css";

@@ -20,6 +20,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@clerk/clerk-react": "^5.61.3",
     "@clerk/nextjs": "^6.39.0",
     "dotenv": "^17.4.2",
     "jest": "^30.3.0",

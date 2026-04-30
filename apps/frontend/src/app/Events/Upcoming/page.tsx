@@ -1,5 +1,6 @@
 "use client";
 
+//src/app/events/upcoming
 import { useEffect, useState } from "react";
 import styles from "../../../styles/upcomingEvents.module.css";
 import EventCard from "../../../components/EventCard";
