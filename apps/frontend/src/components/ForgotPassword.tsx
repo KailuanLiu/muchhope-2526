@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useSignIn } from "@clerk/nextjs/legacy";
+import { useSignIn } from "@clerk/nextjs";
 import AuthLayout from "../app/AuthLayout";
 import styles from "../styles/forgotPassword.module.css";
 
@@ -21,7 +21,7 @@ interface ForgotPasswordProps {
 }
 
 export default function ForgotPassword({ initialStage = "request" }: ForgotPasswordProps) {
-  const { isLoaded, signIn, setActive } = useSignIn();
+  const { isLoaded, signIn, setActive } = useSignIn() as any;
   const router = useRouter();
   const [stage, setStage] = useState<Stage>(initialStage);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -62,7 +62,7 @@ export default function ForgotPassword({ initialStage = "request" }: ForgotPassw
       });
 
       const resetPasswordFactor = signInAttempt.supportedFirstFactors?.find(
-        (factor) => factor.strategy === "reset_password_email_code",
+        (factor: any) => factor.strategy === "reset_password_email_code",
       );
 
       if (!resetPasswordFactor || !("emailAddressId" in resetPasswordFactor)) {
