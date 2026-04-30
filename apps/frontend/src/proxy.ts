@@ -4,8 +4,8 @@ import type { UserRole } from "./lib/roles.types";
 
 const isPublicRoute = createRouteMatcher([
   "/",
-  "/auth/login(.*)",
-  "/auth/signup(.*)",
+  "/Auth/Login(.*)",
+  "/Auth/SignUp(.*)",
   "/forgot-password(.*)",
   "/reset-password(.*)",
   "/About",
@@ -13,7 +13,7 @@ const isPublicRoute = createRouteMatcher([
   "/Donate",
 ]);
 
-const isAuthRoute = createRouteMatcher(["/sign-in(.*)", "/sign-up(.*)", "/auth/login(.*)"]);
+const isAuthRoute = createRouteMatcher(["/sign-in(.*)", "/sign-up(.*)", "/Auth/Login(.*)", "/Auth/SignUp(.*)"]);
 
 const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
 const isProtectedApiRoute = createRouteMatcher(["/api/admin/promote(.*)", "/api/admin/demote(.*)"]);
@@ -22,18 +22,10 @@ export default clerkMiddleware(async (auth, req) => {
   const { userId, sessionClaims } = await auth();
   const role = (sessionClaims?.metadata?.role as UserRole | undefined) ?? "user";
 
-  // TEMP DEBUG — remove after fixing
-  console.log("=== CLERK DEBUG ===");
-  console.log("userId:", userId);
-  console.log("sessionClaims:", JSON.stringify(sessionClaims, null, 2));
-  console.log("role from claims:", sessionClaims?.metadata?.role);
-  console.log("role resolved:", role);
-  console.log("==================");
-
   // Not signed in
   if (!userId) {
     if (isPublicRoute(req) || isAuthRoute(req)) return NextResponse.next();
-    const signInUrl = new URL("/auth/login", req.url);
+    const signInUrl = new URL("/Auth/Login", req.url);
     signInUrl.searchParams.set("redirect_url", req.url);
     return NextResponse.redirect(signInUrl);
   }

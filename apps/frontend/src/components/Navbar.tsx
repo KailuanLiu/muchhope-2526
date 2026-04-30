@@ -31,7 +31,7 @@ export default function Navbar() {
         </button>
 
         <div className={`${styles.dropdown} ${open ? styles.show : ""}`}>
-          <Link href="/auth/login" className={styles.dropdownItem}>
+          <Link href="/Auth/Login" className={styles.dropdownItem}>
             Sign Up / Login
           </Link>
           <Link href="/Events/Upcoming" className={styles.dropdownItem}>

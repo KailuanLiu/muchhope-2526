@@ -120,7 +120,7 @@ export default function ForgotPassword({ initialStage = "request" }: ForgotPassw
       if (attempt.status === "complete") {
         await setActive({ session: attempt.createdSessionId });
         setSuccessMessage("Password reset successful. Redirecting to login...");
-        setTimeout(() => router.push("/auth/login"), 1200);
+        setTimeout(() => router.push("/Auth/Login"), 1200);
       } else {
         setErrorMessage("Reset could not be completed. Please try again.");
       }
@@ -162,7 +162,7 @@ export default function ForgotPassword({ initialStage = "request" }: ForgotPassw
                 {isSubmitting ? "Sending..." : "Send reset code"}
               </button>
 
-              <Link href="/auth/login" className={styles.textLink}>
+              <Link href="/Auth/Login" className={styles.textLink}>
                 Back to login
               </Link>
             </form>
