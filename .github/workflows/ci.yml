@@ -37,7 +37,11 @@ jobs:
         run: npm install
       
       - name: Install frontend dependencies
-        working-directory: frontend
+        working-directory: apps/frontend
+        run: npm install
+
+      - name: Install backend dependencies
+        working-directory: apps/backend
         run: npm install
 
       - name: Dry-run build

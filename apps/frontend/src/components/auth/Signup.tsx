@@ -147,6 +147,7 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [verificationCodeError, setVerificationCodeError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   //Saved variables to store input data
   const [formData, setFormData] = useState({
@@ -172,13 +173,18 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
     setEmailError("");
     setPasswordError("");
 
-    if (!isLoaded) return;
+    if (!isLoaded) {
+      setFormError("Auth is still loading. Please try again in a moment.");
+      return;
+    }
 
     const phoneDigits = formData.number.replace(/\D/g, "");
     if (phoneDigits.length !== 10) {
       setFormError("Please enter a valid 10-digit phone number.");
       return;
     }
+
+    setIsSubmitting(true);
 
     try {
       // Create user with clerk
@@ -210,6 +216,8 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
       setEmailError(nextEmailErrors.join(" "));
       setPasswordError(nextPasswordErrors.join(" "));
       setFormError(nextFormErrors.join(" "));
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -219,7 +227,11 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
 
     setVerificationCodeError("");
 
-    if (!isLoaded) return;
+    if (!isLoaded) {
+      setVerificationCodeError("Auth is still loading. Please try again in a moment.");
+      return;
+    }
+    setIsSubmitting(true);
     try {
       // Verify email w code
       const signUpAttempt = await signUp.attemptEmailAddressVerification({
@@ -258,6 +270,8 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
         .map(({ message }) => message);
 
       setVerificationCodeError(nextVerificationErrors.join(" "));
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -281,8 +295,8 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
               inputMode="numeric"
             />
             {verificationCodeError && <p className={styles.error}>{verificationCodeError}</p>}
-            <button className={styles.button} type="submit">
-              Verify Email
+            <button className={styles.button} type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Verifying..." : "Verify Email"}
             </button>
           </form>
         </div>
@@ -358,8 +372,8 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
                 </label>
               </div>
             </div>
-            <button className={styles.button} type="submit">
-              Submit
+            <button className={styles.button} type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Submitting..." : "Submit"}
             </button>
             {formError && <p className={styles.error}>{formError}</p>}
             {/* Clerk captcha */}
