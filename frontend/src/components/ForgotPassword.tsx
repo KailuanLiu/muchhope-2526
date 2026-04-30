@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useSignIn } from "@clerk/nextjs";
+import { useSignIn } from "@clerk/nextjs/legacy";
 import AuthLayout from "../app/AuthLayout";
 import styles from "../styles/forgotPassword.module.css";
 
@@ -21,7 +21,7 @@ interface ForgotPasswordProps {
 }
 
 export default function ForgotPassword({ initialStage = "request" }: ForgotPasswordProps) {
-  const { isLoaded, signIn, setActive } = useSignIn() as any;
+  const { isLoaded, signIn, setActive } = useSignIn();
   const router = useRouter();
   const [stage, setStage] = useState<Stage>(initialStage);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -57,12 +57,22 @@ export default function ForgotPassword({ initialStage = "request" }: ForgotPassw
     setIsSubmitting(true);
 
     try {
-      await signIn.create({
+      const signInAttempt = await signIn.create({
         identifier: formState.email,
       });
 
+      const resetPasswordFactor = signInAttempt.supportedFirstFactors?.find(
+        (factor) => factor.strategy === "reset_password_email_code",
+      );
+
+      if (!resetPasswordFactor || !("emailAddressId" in resetPasswordFactor)) {
+        setErrorMessage("Password reset by email is not available for this account.");
+        return;
+      }
+
       await signIn.prepareFirstFactor({
         strategy: "reset_password_email_code",
+        emailAddressId: resetPasswordFactor.emailAddressId,
       });
 
       setStage("verify");

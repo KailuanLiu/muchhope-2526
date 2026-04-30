@@ -5,7 +5,12 @@ import { usePathname, useRouter } from "next/navigation";
 import { useClerk } from "@clerk/nextjs";
 import styles from "../styles/volunteernavbar.module.css";
 
-export default function AppNavbar({ collapsed, setCollapsed }) {
+interface AppNavbarProps {
+  collapsed: boolean;
+  setCollapsed: (value: boolean) => void;
+}
+
+export default function AppNavbar({ collapsed, setCollapsed }: AppNavbarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const { signOut } = useClerk();

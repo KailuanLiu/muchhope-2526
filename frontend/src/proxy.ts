@@ -20,7 +20,7 @@ const isProtectedApiRoute = createRouteMatcher(["/api/admin/promote(.*)", "/api/
 
 export default clerkMiddleware(async (auth, req) => {
   const { userId, sessionClaims } = await auth();
-  const role = (sessionClaims?.metadata.role as UserRole | undefined) ?? "user";
+  const role = (sessionClaims?.metadata?.role as UserRole | undefined) ?? "user";
 
   // TEMP DEBUG — remove after fixing
   console.log("=== CLERK DEBUG ===");

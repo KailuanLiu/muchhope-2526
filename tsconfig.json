@@ -21,20 +21,17 @@
     "baseUrl": "frontend/src",
     "paths": {
       "@/*": ["*"]
-    },
-    "env": {
-      "browser": true,
-      "node": true
     }
   },
   "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
+    "frontend/next-env.d.ts",
+    "frontend/**/*.ts",
+    "frontend/**/*.tsx",
+    "frontend/.next/types/**/*.ts",
+    "frontend/.next/dev/types/**/*.ts",
     "backend/database/db.js",
     "backend/database/eventSchema.js",
     "backend/database/volunteerSchema.js"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "frontend/node_modules"]
 }
