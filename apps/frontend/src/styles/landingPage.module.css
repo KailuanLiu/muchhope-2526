@@ -125,6 +125,7 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+/* ── Page shell ───────────────────────────────────────────────────────── */
 .pageLayout {
   min-height: 100vh;
   width: 100%;
@@ -134,13 +135,17 @@ body {
   overflow-y: auto;
 }
 
+/* ── Content area + footer shift together via a wrapper ───────────────── */
 .mainContent {
   flex: 1;
   min-width: 0;
   width: 100%;
-  min-height: 100vh;
+  /* removed min-height: 100vh — this was pushing the footer off screen */
   overflow-y: visible;
   overflow-x: hidden;
+  transition:
+    margin-left 0.2s ease,
+    width 0.2s ease;
 }
 
 .mainContentExpanded {
@@ -153,4 +158,23 @@ body {
   margin-left: 60px;
   width: calc(100% - 60px);
   box-sizing: border-box;
+}
+
+/* ── Footer shifts with the sidebar too ───────────────────────────────── */
+.footerExpanded {
+  margin-left: 200px;
+  width: calc(100% - 200px);
+  box-sizing: border-box;
+  transition:
+    margin-left 0.2s ease,
+    width 0.2s ease;
+}
+
+.footerCollapsed {
+  margin-left: 60px;
+  width: calc(100% - 60px);
+  box-sizing: border-box;
+  transition:
+    margin-left 0.2s ease,
+    width 0.2s ease;
 }

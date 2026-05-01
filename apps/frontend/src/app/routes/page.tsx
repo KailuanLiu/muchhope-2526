@@ -6,7 +6,7 @@ const ROUTES = [
   { path: "/", label: "Home" },
   { path: "/auth/signup", label: "Signup" },
   { path: "/auth/login", label: "Login" },
-  { path: "/About", label: "About" },
+  { path: "/about-us", label: "About" },
   { path: "/Donate", label: "Donate" },
   // Route for Contact Us Page?
   { path: "/Contact", label: "Contact" },

@@ -1,6 +1,6 @@
 "use client";
 
-import EventsPage from "@/app/Events/page";
+import EventsPage from "@/components/admin/ManageEvents";
 
 export default function ManageEventsPage() {
   return <EventsPage />;

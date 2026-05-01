@@ -8,7 +8,7 @@ const isPublicRoute = createRouteMatcher([
   "/auth/signup(.*)",
   "/forgot-password(.*)",
   "/reset-password(.*)",
-  "/About",
+  "/about-us",
   "/ContactUs",
   "/Donate",
 ]);

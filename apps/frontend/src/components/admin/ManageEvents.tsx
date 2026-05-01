@@ -6,17 +6,17 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import AuthLayout from "../AuthLayout";
-import EventCard from "../../components/EventCard";
-import EventInfoPopUp from "../../components/EventInfoPopUp";
-import ShiftSelectionPopUp from "../../components/ShiftSelectionPopUp";
+import AuthLayout from "@/app/AuthLayout";
+import EventCard from "../EventCard";
+import EventInfoPopUp from "../EventInfoPopUp";
+import ShiftSelectionPopUp from "../ShiftSelectionPopUp";
 import AdminEventForm from "@/components/admin/AdminEventForm";
 import AdminVolunteerPanel from "@/components/admin/AdminVolunteerPanel";
 import AdminShiftPanel from "@/components/admin/AdminShiftPanel";
-import ConfirmDeleteModal from "../../components/ConfirmDeleteModal";
-import { useIsSuperAdmin } from "../../lib/roles";
-import type { EventData } from "../../components/EventCard";
-import styles from "../../styles/events.module.css";
+import ConfirmDeleteModal from "../ConfirmDeleteModal";
+import { useIsSuperAdmin } from "@/lib/roles";
+import type { EventData } from "../EventCard";
+import styles from "@/styles/events.module.css";
 
 type ModalState = "none" | "moreInfo" | "shiftSelect" | "adminVolunteers" | "adminShifts";
 
@@ -69,12 +69,10 @@ export default function EventsPage() {
     loadEvents();
   }, [loadEvents]);
 
-  // ── view toggle ──────────────────────────────────────────────────────────────
   const setView = (v: "upcoming" | "past") => {
     router.push(`/events?view=${v}`);
   };
 
-  // ── user flows ───────────────────────────────────────────────────────────────
   const openMoreInfo = (event: EventData) => {
     setSelectedEvent(event);
     setModalState("moreInfo");
@@ -87,13 +85,26 @@ export default function EventsPage() {
 
   const handleRegister = () => setModalState("shiftSelect");
 
-  const handleShiftSave = (shiftId: string) => {
-    // TODO: wire to API once endpoint is ready
-    console.log("Saved shift:", shiftId, "for event:", selectedEvent?.id);
-    closeModal();
+  const handleShiftSave = async (shiftId: string) => {
+    if (!selectedEvent) return;
+    try {
+      const res = await fetch(`/api/events/${selectedEvent.id}/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ shiftId }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to register for shift.");
+      }
+      showToast("You're registered!");
+      closeModal();
+      await loadEvents();
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : "Registration failed.", "error");
+    }
   };
 
-  // ── admin: create / edit ─────────────────────────────────────────────────────
   const openCreateForm = () => {
     setEditingEvent(null);
     setIsFormOpen(true);
@@ -111,7 +122,6 @@ export default function EventsPage() {
     await loadEvents();
   };
 
-  // ── admin: delete ────────────────────────────────────────────────────────────
   const openDeleteConfirm = (event: EventData) => setDeletingEvent(event);
 
   const handleDeleteConfirm = async () => {
@@ -133,19 +143,16 @@ export default function EventsPage() {
     }
   };
 
-  // ── admin: volunteers panel ───────────────────────────────────────────────────
   const openVolunteers = (event: EventData) => {
     setSelectedEvent(event);
     setModalState("adminVolunteers");
   };
 
-  // ── admin: shifts panel ───────────────────────────────────────────────────────
   const openShifts = (event: EventData) => {
     setSelectedEvent(event);
     setModalState("adminShifts");
   };
 
-  // ── render ───────────────────────────────────────────────────────────────────
   const heroTitle = view === "upcoming" ? "Explore Our Upcoming Events!" : "View Our Past Events!";
 
   return (

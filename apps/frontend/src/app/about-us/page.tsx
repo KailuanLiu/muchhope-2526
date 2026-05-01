@@ -1,15 +1,13 @@
-import Navbar from "../../components/Navbar";
+// src/app/about-us/page.tsx
+import AuthLayout from "../AuthLayout";
 import About from "../../components/About";
-import Contact from "../../components/Contact";
 import styles from "../../styles/about.module.css";
 
 export default function AboutUs() {
   return (
-    <main>
-      <Navbar />
+    <AuthLayout>
       <About />
       <div className={styles.aboutBanner}></div>
-      <Contact />
-    </main>
+    </AuthLayout>
   );
 }

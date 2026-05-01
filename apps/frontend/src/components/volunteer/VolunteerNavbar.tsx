@@ -26,7 +26,7 @@ export default function VolunteerNavbar({
   const navItems = [
     { label: "Home", href: "/", icon: "/icons/house-chimney-floor.svg" },
     { label: "My Profile", href: "/Profile", icon: "/icons/user-alt-1.svg" },
-    { label: "About Us", href: "/About", icon: "/icons/circle-information.svg" },
+    { label: "About Us", href: "/about-us", icon: "/icons/circle-information.svg" },
     { label: "Contact Us", href: "/ContactUs", icon: "/icons/send-icon.svg" },
     { label: "Donate", href: "/Donate", icon: "/icons/heart-alt.svg" },
   ];

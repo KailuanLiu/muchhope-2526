@@ -1,6 +1,5 @@
-// src/app/admin/manage-events/page.tsx
-import EventsPage from "@/app/Events/page";
+import ManageUsers from "@/components/admin/ManageUsers";
 
-export default function ManageEventsPage() {
-  return <EventsPage />;
+export default function ManageUsersPage() {
+  return <ManageUsers />;
 }

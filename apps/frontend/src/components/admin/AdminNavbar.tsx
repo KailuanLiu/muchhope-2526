@@ -27,7 +27,7 @@ export default function AdminNavbar({
     { label: "Manage Users", href: "/admin/manage-users", icon: "/icons/users.svg" },
 
     // TODO: make about us and contact us editable and make sure its connected to the backend
-    { label: "About Us", href: "/About", icon: "/icons/circle-information.svg" },
+    { label: "About Us", href: "/about-us", icon: "/icons/circle-information.svg" },
     { label: "Contact Us", href: "/ContactUs", icon: "/icons/send-icon.svg" },
   ];
 
