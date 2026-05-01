@@ -16,7 +16,11 @@ const isPublicRoute = createRouteMatcher([
 const isAuthRoute = createRouteMatcher(["/sign-in(.*)", "/sign-up(.*)", "/auth/login(.*)", "/auth/signup(.*)"]);
 
 const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
-const isProtectedApiRoute = createRouteMatcher(["/api/admin/promote(.*)", "/api/admin/demote(.*)"]);
+const isProtectedApiRoute = createRouteMatcher([
+  "/api/admin/promote(.*)",
+  "/api/admin/demote(.*)",
+  "/api/admin/events(.*)", // add this
+]);
 
 export default clerkMiddleware(async (auth, req) => {
   const { userId, sessionClaims } = await auth();

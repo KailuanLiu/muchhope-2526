@@ -16,8 +16,7 @@ export default function VolunteerNavbar({
   const pathname = usePathname();
   const { signOut } = useClerk();
   const [eventsOpen, setEventsOpen] = useState(false);
-  const isMyEventsActive =
-    pathname === "/Events/Upcoming" || pathname === "/Events/PastEvents" || pathname === "/Volunteer";
+  const isMyEventsActive = pathname === "/events" || pathname.startsWith("/events?");
 
   async function handleSignOut() {
     console.log("signed out");
@@ -33,9 +32,8 @@ export default function VolunteerNavbar({
   ];
 
   const eventItems = [
-    { label: "Upcoming", href: "/Events/Upcoming" },
-    { label: "Past", href: "/Events/PastEvents" },
-    { label: "Volunteer", href: "/Volunteer" },
+    { label: "Upcoming", href: "/events?view=upcoming" },
+    { label: "Past", href: "/events?view=past" },
   ];
 
   return (

@@ -1,4 +1,5 @@
-// src/app/admin/manage-events/page.tsx
+"use client";
+
 import EventsPage from "@/app/Events/page";
 
 export default function ManageEventsPage() {

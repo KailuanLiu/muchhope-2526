@@ -23,7 +23,7 @@ export default function AdminNavbar({
   const navItems = [
     { label: "Home", href: "/admin", icon: "/icons/house-chimney-floor.svg" },
     { label: "My Profile", href: "/admin/profile", icon: "/icons/user-alt-1.svg" },
-    { label: "Manage Events", href: "/Admin/Events", icon: "/icons/calendar-lines-pen.svg" },
+    { label: "Manage Events", href: "/admin/manage-events", icon: "/icons/calendar-lines-pen.svg" },
     { label: "Manage Users", href: "/admin/manage-users", icon: "/icons/users.svg" },
 
     // TODO: make about us and contact us editable and make sure its connected to the backend

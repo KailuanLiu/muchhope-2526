@@ -1,88 +1,194 @@
+/* src/styles/eventCard.module.css */
+
 .card {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: var(--color-background-primary);
+  border: 1px solid var(--color-border-tertiary);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
 }
 
+.card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+/* past events are slightly muted */
+.cardPast {
+  opacity: 0.8;
+}
+
+/* ── image area ───────────────────────────────────────────────────────── */
 .imageWrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 3 / 2;
-  border-radius: 12px;
-  overflow: hidden;
-  background-color: #e0e0e0;
+  aspect-ratio: 16 / 9;
+  background: var(--color-background-secondary);
 }
 
 .image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 .imagePlaceholder {
   width: 100%;
   height: 100%;
-  background-color: #d9d9d9;
+  background: var(--color-background-secondary);
 }
 
 .externalIcon {
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
-  width: 2rem;
-  height: 2rem;
-  background-color: rgba(255, 255, 255, 0.85);
-  border-radius: 6px;
+  width: 1.75rem;
+  height: 1.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
-  color: #111;
+  background: var(--color-background-primary);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: 50%;
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
   text-decoration: none;
-  line-height: 1;
+  transition:
+    background 0.15s,
+    color 0.15s;
 }
 
 .externalIcon:hover {
-  background-color: #fff;
+  background: var(--color-text-primary);
+  color: var(--color-background-primary);
+  border-color: var(--color-text-primary);
 }
 
+.pastBadge {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  background: var(--color-background-secondary);
+  color: var(--color-text-secondary);
+  font-size: 0.7rem;
+  font-weight: 500;
+  border: 1px solid var(--color-border-secondary);
+}
+
+/* ── card body ────────────────────────────────────────────────────────── */
 .cardBody {
-  padding: 0.6rem 0 0 0;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
 }
 
 .title {
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 600;
-  color: #111;
-  margin: 0 0 0.25rem 0;
+  color: var(--color-text-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.meta {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.location {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  margin: 0 0 0.5rem;
+}
+
+/* ── actions ──────────────────────────────────────────────────────────── */
+.cardActions {
+  margin-top: auto;
+  padding-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .moreInfoButton {
+  align-self: flex-start;
+  padding: 0.4rem 0;
   background: none;
   border: none;
-  padding: 0;
+  color: var(--color-text-primary);
   font-size: 0.875rem;
-  color: #555;
+  font-weight: 500;
   cursor: pointer;
-  font-family: inherit;
   text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 0.15s;
 }
 
 .moreInfoButton:hover {
-  color: #111;
+  opacity: 0.7;
+}
+
+/* admin row of action buttons */
+.adminActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding-top: 0.25rem;
+  border-top: 1px solid var(--color-border-tertiary);
 }
 
 .editButton {
-  display: block;
-  margin-top: 0.5rem;
-  background: none;
-  border: none;
-  padding: 0;
-  font-size: 0.875rem;
-  color: #555;
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--color-border-secondary);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--color-text-primary);
+  font-size: 0.775rem;
   cursor: pointer;
-  font-family: inherit;
-  text-decoration: underline;
+  transition: background 0.15s;
 }
 
 .editButton:hover {
-  color: #111;
+  background: var(--color-background-secondary);
+}
+
+.manageButton {
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--color-border-secondary);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 0.775rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.manageButton:hover {
+  background: var(--color-background-secondary);
+  color: var(--color-text-primary);
+}
+
+.deleteButton {
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--color-border-danger, #f09595);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--color-text-danger);
+  font-size: 0.775rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.deleteButton:hover {
+  background: var(--color-background-danger);
 }

@@ -1,0 +1,193 @@
+/* src/styles/events.module.css */
+/* Unified styles for the events page, toggle, admin toolbar, and event form. */
+
+/* ── hero ─────────────────────────────────────────────────────────────── */
+.hero {
+  width: 100%;
+  padding: 3rem 2rem 2rem;
+  background-color: var(--color-background-secondary);
+  text-align: center;
+}
+
+.heroTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+/* ── main layout ──────────────────────────────────────────────────────── */
+.mainContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* ── view toggle ──────────────────────────────────────────────────────── */
+.toggleRow {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.toggleButton {
+  padding: 0.5rem 1.25rem;
+  border: 1.5px solid var(--color-border-secondary);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
+}
+
+.toggleButton:hover {
+  background: var(--color-background-secondary);
+  color: var(--color-text-primary);
+}
+
+.toggleActive {
+  background: var(--color-text-primary);
+  color: var(--color-background-primary);
+  border-color: var(--color-text-primary);
+}
+
+.toggleActive:hover {
+  background: var(--color-text-primary);
+  color: var(--color-background-primary);
+}
+
+/* ── admin toolbar ────────────────────────────────────────────────────── */
+.adminActions {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.adminButton {
+  padding: 0.55rem 1.25rem;
+  background: var(--color-text-primary);
+  color: var(--color-background-primary);
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.adminButton:hover {
+  opacity: 0.85;
+}
+
+.adminButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── event grid ───────────────────────────────────────────────────────── */
+.eventGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+/* ── create / edit form ───────────────────────────────────────────────── */
+.formSection {
+  background: var(--color-background-secondary);
+  border: 1px solid var(--color-border-tertiary);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.formHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.formTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.eventForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.formInput {
+  width: 100%;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid var(--color-border-secondary);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  background: var(--color-background-primary);
+  color: var(--color-text-primary);
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: var(--color-border-primary);
+}
+
+.formTextarea {
+  composes: formInput;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.cancelButton {
+  padding: 0.45rem 1rem;
+  border: 1px solid var(--color-border-secondary);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.cancelButton:hover {
+  background: var(--color-background-secondary);
+}
+
+/* ── feedback messages ────────────────────────────────────────────────── */
+.successMessage {
+  padding: 0.65rem 1rem;
+  background: var(--color-background-success);
+  color: var(--color-text-success);
+  border-radius: 6px;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.errorMessage {
+  padding: 0.65rem 1rem;
+  background: var(--color-background-danger);
+  color: var(--color-text-danger);
+  border-radius: 6px;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.stateMessage {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  padding: 1rem 0;
+}
