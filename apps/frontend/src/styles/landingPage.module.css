@@ -132,7 +132,6 @@ body {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
 }
 
 /* ── Content area + footer shift together via a wrapper ───────────────── */
