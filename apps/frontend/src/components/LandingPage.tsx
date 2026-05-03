@@ -13,7 +13,23 @@ type Event = {
 };
 
 async function getEvents(): Promise<Event[]> {
-  return [];
+  try {
+    const res = await fetch("http://localhost:3000/api/events", {
+      cache: "no-store",
+    });
+
+    const data = await res.json();
+
+    return data.map((event: any) => ({
+      id: event._id,
+      title: event.event_name,
+      description: event.description,
+      location: event.location,
+      date: event.date,
+    }));
+  } catch {
+    return [];
+  }
 }
 
 export default function LandingPage() {
@@ -37,6 +53,8 @@ export default function LandingPage() {
     <div className={styles.pageWrapper}>
       <section className={styles.heroContainer}>
         <div className={styles.overlay}>
+          <h1 className={styles.title}>Join us in serving local communities in need!</h1>
+          <Link href="/Auth/Login" className={styles.ctaButton}>
           <h1 className={styles.title}>MuchHope</h1>
           <p className={styles.subtitle}>Providing resources and support for the homeless community in San Jose.</p>
           <Link href="/Events/Upcoming" className={styles.ctaButton}>
@@ -45,41 +63,33 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Upcoming Events</h2>
-        <div className={styles.cardGrid}>
-          {upcomingEvents.length ? (
-            upcomingEvents.map((event) => (
-              <div key={event.id} className={styles.card}>
-                <h3>{event.title}</h3>
-                <p>{event.description}</p>
-                <p>{event.location}</p>
-                <p>{new Date(event.date).toLocaleDateString()}</p>
+      <div className={styles.eventsRow}>
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>Upcoming Events</h2>
+          <div className={styles.cardGrid}>
+            {upcomingEvents.length ? (
+              <div key={upcomingEvents[0].id} className={styles.card}>
+                <img src="/image2.jpg" alt="event" className={styles.cardImage} />
               </div>
-            ))
-          ) : (
-            <p className={styles.emptyMessage}>No upcoming events yet.</p>
-          )}
-        </div>
-      </section>
+            ) : (
+              <p className={styles.emptyMessage}>No upcoming events yet.</p>
+            )}
+          </div>
+        </section>
 
-      <section className={styles.sectionAlt}>
-        <h2 className={styles.sectionTitle}>Past Events</h2>
-        <div className={styles.cardGrid}>
-          {pastEvents.length ? (
-            pastEvents.map((event) => (
-              <div key={event.id} className={styles.card}>
-                <h3>{event.title}</h3>
-                <p>{event.description}</p>
-                <p>{event.location}</p>
-                <p>{new Date(event.date).toLocaleDateString()}</p>
+        <section className={styles.sectionAlt}>
+          <h2 className={styles.sectionTitle}>Past Events</h2>
+          <div className={styles.cardGrid}>
+            {pastEvents.length ? (
+              <div key={pastEvents[0].id} className={styles.card}>
+                <img src="/image3.jpg" alt="event" className={styles.cardImage} />
               </div>
-            ))
-          ) : (
-            <p className={styles.emptyMessage}>No past events yet.</p>
-          )}
-        </div>
-      </section>
+            ) : (
+              <p className={styles.emptyMessage}>No past events yet.</p>
+            )}
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
