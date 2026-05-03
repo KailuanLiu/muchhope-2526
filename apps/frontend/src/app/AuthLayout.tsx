@@ -6,6 +6,7 @@ import VolunteerNavbar from "../components/volunteer/VolunteerNavbar";
 import AdminNavbar from "../components/admin/AdminNavbar";
 import Navbar from "../components/Navbar";
 import styles from "../styles/landingPage.module.css";
+import Footer from "../components/Footer";
 
 interface AuthLayoutProps {
   children: ReactNode;
@@ -49,6 +50,7 @@ export default function AuthLayout({ children, onCollapse }: AuthLayoutProps) {
         }`}
       >
         {children}
+        <Footer />
       </main>
     </div>
   );
