@@ -1,11 +1,11 @@
-const path = require("path");
-require("dotenv").config({ path: path.resolve(__dirname, "../../.env") });
+require("dotenv").config();
 
+const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const session = require("express-session");
 
-const connectDB = require("../frontend/src/lib/db.js");
+const connectDB = require("./lib/db.js");
 const volunteersRoutes = require("./src/routes/volunteerRoutes.js");
 const eventRoutes = require("./src/routes/eventRoutes.js");
 // uncomment below when implemented

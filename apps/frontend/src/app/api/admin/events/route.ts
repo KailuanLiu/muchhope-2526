@@ -1,8 +1,8 @@
 //api/admin/events/route.ts
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
-import type { UserRole } from "../../../../lib/roles.types";
-import { isSuperAdmin } from "../../../../lib/roles";
+import type { UserRole } from "../../../../../../backend/lib/roles.types";
+import { isSuperAdmin } from "../../../../../../backend/lib/roles";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 

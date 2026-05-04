@@ -114,7 +114,6 @@ export default function Footer() {
                 aria-label="Much Hope on Facebook"
               >
                 <FacebookIcon />
-                <span>Much Hope on Facebook</span>
               </a>
 
               <a
@@ -155,7 +154,7 @@ export default function Footer() {
             <div className={styles.contactList}>
               <div className={styles.contactRow}>
                 <EmailIcon />
-                <span>hello@muchhope.org</span>
+                <span>sujanapanthulu@gmail.com</span>
               </div>
               <div className={styles.contactRow}>
                 <PhoneIcon />
@@ -163,7 +162,7 @@ export default function Footer() {
               </div>
               <div className={styles.contactRow}>
                 <LocationIcon />
-                <span>San Luis Obispo, CA</span>
+                <span>Palo Alto, CA</span>
               </div>
             </div>
           </div>
@@ -171,15 +170,6 @@ export default function Footer() {
 
         <div className={styles.bottom}>
           <p className={styles.copyright}>Copyright ©2018 Altos Christian Foundation. All Rights Reserved.</p>
-
-          <div className={styles.bottomLinks}>
-            <Link href="/privacy" className={styles.bottomLink}>
-              Privacy Policy
-            </Link>
-            <Link href="/terms" className={styles.bottomLink}>
-              Terms of Use
-            </Link>
-          </div>
         </div>
       </div>
     </footer>

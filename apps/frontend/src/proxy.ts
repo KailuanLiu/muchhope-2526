@@ -1,6 +1,6 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
-import type { UserRole } from "./lib/roles.types";
+import type { UserRole } from "../../backend/lib/roles.types";
 
 const isPublicRoute = createRouteMatcher([
   "/",

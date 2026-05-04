@@ -7,7 +7,7 @@ import EventCard from "../../../components/EventCard";
 import EventInfoPopUp from "../../../components/EventInfoPopUp";
 import ShiftSelectionPopUp from "../../../components/ShiftSelectionPopUp";
 import AuthLayout from "../../AuthLayout";
-import { useIsSuperAdmin } from "../../../lib/roles";
+import { useIsSuperAdmin } from "../../../../../backend/lib/roles";
 
 interface EventData {
   id: string;

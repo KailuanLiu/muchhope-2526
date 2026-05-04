@@ -3,7 +3,7 @@ export {};
 declare global {
   interface CustomJwtSessionClaims {
     metadata?: {
-      role?: import("../lib/roles.types").UserRole;
+      role?: import("../../../backend/lib/roles.types").UserRole;
     };
   }
 }
