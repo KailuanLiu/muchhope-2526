@@ -11,6 +11,23 @@
 
 .copyright {
   margin: 0;
+  .socialLink {
+    min-height: 36px;
+    padding: 0 12px;
+    border-radius: 999px;
+    background: rgba(64, 36, 121, 0.12);
+    border: 1px solid rgba(64, 36, 121, 0.25);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #402479;
+    font-size: 13px;
+    transition:
+      background 0.15s,
+      border-color 0.15s;
+  }
 }
 
 .socialLinks {
@@ -20,10 +37,21 @@
 }
 
 .socialLink {
-  color: white;
-  display: flex;
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(64, 36, 121, 0.12);
+  border: 1px solid rgba(64, 36, 121, 0.25);
+  display: inline-flex;
   align-items: center;
-  transition: opacity 0.2s;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #402479;
+  font-size: 13px;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
 }
 
 .socialLink:hover {
