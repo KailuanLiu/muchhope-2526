@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { getModels, Event } = require("../../database/initModels");
+const { getModels } = require("../../database/initModels");
 
 router.get("/", async (req, res) => {
   try {
@@ -29,7 +29,7 @@ router.post("/login", async (req, res) => {
 router.get("/:id/events", async (req, res) => {
   try {
     const { id } = req.params;
-    const { Volunteer } = getModels();
+    const { Volunteer, Event } = getModels();
 
     const volunteer = await Volunteer.findById(id);
     if (!volunteer) {
@@ -65,7 +65,7 @@ router.delete("/:id", async (req, res) => {
 
 router.put("/:id/make-event-admin", async (req, res) => {
   try {
-    const { Volunteer } = getModels();
+    const { Volunteer, Event } = getModels();
     const { id } = req.params;
     const { eventId } = req.body;
 
