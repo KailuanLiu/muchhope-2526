@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useClerk } from "@clerk/nextjs";
@@ -38,6 +39,12 @@ export default function AdminNavbar({
           <img src="/icons/menu.svg" alt="menu button" />
         </button>
       </div>
+
+      {!collapsed && (
+        <div className={styles.logoBox}>
+          <Image src="/much-hope-logo.png" alt="Much Hope" width={285} height={230} className={styles.logo} />
+        </div>
+      )}
 
       <ul className={styles.navList}>
         {navItems.map((item) => (

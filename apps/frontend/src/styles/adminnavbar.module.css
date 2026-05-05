@@ -120,3 +120,28 @@
   height: 28px;
   object-fit: contain;
 }
+
+.topSection {
+  display: flex;
+  align-items: center;
+  padding: 0 0.5rem 0.5rem;
+}
+
+.logoBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.5rem 0.25rem;
+}
+
+.logoText {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #402479;
+  white-space: nowrap;
+}
+
+.logo {
+  border-radius: 4px;
+  object-fit: contain;
+}

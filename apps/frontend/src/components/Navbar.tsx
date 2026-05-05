@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -7,9 +8,8 @@ import styles from "../styles/navbar.module.css";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/About", label: "About Us" },
   { href: "/Events/Upcoming", label: "Events" },
-  { href: "/Donate", label: "Donate" },
+  { href: "/About", label: "About Us" },
   { href: "/ContactUs", label: "Contact Us" },
 ];
 
@@ -21,7 +21,7 @@ export default function Navbar() {
     <nav className={styles.navbar}>
       <div className={styles.inner}>
         <Link href="/" className={styles.brand} onClick={() => setOpen(false)}>
-          Much Hope
+          <Image src="/much-hope-logo.png" alt="Much Hope" width={210} height={200} className={styles.logo} />
         </Link>
 
         <ul className={`${styles.links} ${open ? styles.linksOpen : ""}`}>

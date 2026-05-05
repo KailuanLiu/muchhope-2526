@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useClerk } from "@clerk/nextjs";
@@ -44,13 +45,13 @@ export default function VolunteerNavbar({
         <button className={styles.toggleButton} onClick={() => setCollapsed(!collapsed)} aria-label="Toggle sidebar">
           <img src="/icons/menu.svg" alt="menu button" />
         </button>
-
-        {!collapsed && (
-          <div className={styles.logoBox}>
-            <span className={styles.logoText}>Much Hope</span>
-          </div>
-        )}
       </div>
+
+      {!collapsed && (
+        <div className={styles.logoBox}>
+          <Image src="/much-hope-logo.png" alt="Much Hope" width={285} height={230} className={styles.logo} />
+        </div>
+      )}
 
       <nav className={styles.navArea}>
         <ul className={styles.navList}>
