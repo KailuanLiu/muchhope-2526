@@ -14,7 +14,7 @@ export default function ProfilePage() {
 
   if (!isLoaded) {
     return (
-      <AuthLayout>
+      <AuthLayout hideFooter>
         <div className={styles.pageContainer}>
           <p>Loading...</p>
         </div>
@@ -28,7 +28,7 @@ export default function ProfilePage() {
   const photoUrl = user?.imageUrl ?? "";
 
   return (
-    <AuthLayout>
+    <AuthLayout hideFooter>
       <div className={styles.pageContainer}>
         <h1 className={styles.pageTitle}>Admin Dashboard</h1>
         <div className={styles.profileHeader}>
