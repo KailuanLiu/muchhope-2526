@@ -1,7 +1,7 @@
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
-import type { UserRole } from "../../../../../../backend/lib/roles.types";
-import { isSuperAdmin } from "../../../../../../backend/lib/roles";
+import type { UserRole } from "lib/roles.types";
+import { isSuperAdmin } from "lib/roles";
 
 export async function POST(req: NextRequest) {
   // 1. Verify caller is mainadmin
