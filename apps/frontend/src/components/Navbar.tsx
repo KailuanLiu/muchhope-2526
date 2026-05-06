@@ -21,7 +21,7 @@ export default function Navbar() {
     <nav className={styles.navbar}>
       <div className={styles.inner}>
         <Link href="/" className={styles.brand} onClick={() => setOpen(false)}>
-          <Image src="/much-hope-logo.png" alt="Much Hope" width={210} height={200} className={styles.logo} />
+          <Image src="/white-logo.png" alt="Much Hope" width={110} height={100} className={styles.logo} />
         </Link>
 
         <ul className={`${styles.links} ${open ? styles.linksOpen : ""}`}>

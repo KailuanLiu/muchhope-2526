@@ -42,7 +42,7 @@ export default function AdminNavbar({
 
       {!collapsed && (
         <div className={styles.logoBox}>
-          <Image src="/much-hope-logo.png" alt="Much Hope" width={285} height={230} className={styles.logo} />
+          <Image src="/white-logo.png" alt="Much Hope" width={200} height={170} className={styles.logo} />
         </div>
       )}
 

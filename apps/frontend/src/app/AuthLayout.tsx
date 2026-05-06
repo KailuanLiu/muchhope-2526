@@ -11,9 +11,10 @@ import Footer from "../components/Footer";
 interface AuthLayoutProps {
   children: ReactNode;
   onCollapse?: (collapsed: boolean) => void;
+  hideFooter?: boolean;
 }
 
-export default function AuthLayout({ children, onCollapse }: AuthLayoutProps) {
+export default function AuthLayout({ children, onCollapse, hideFooter }: AuthLayoutProps) {
   const { isSignedIn, isLoaded, sessionClaims } = useAuth();
   const [collapsed, setCollapsed] = useState(false);
 
@@ -50,7 +51,7 @@ export default function AuthLayout({ children, onCollapse }: AuthLayoutProps) {
         }`}
       >
         {children}
-        <Footer />
+        {!hideFooter && <Footer />}
       </main>
     </div>
   );
