@@ -162,7 +162,7 @@ export default function Footer() {
               </div>
               <div className={styles.contactRow}>
                 <LocationIcon />
-                <span>Palo Alto, CA</span>
+                <span>Los Altos, CA</span>
               </div>
             </div>
           </div>

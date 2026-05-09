@@ -8,8 +8,8 @@ interface ProfileFormProps {
   initialData: {
     firstName: string;
     lastName: string;
+    email: string;
     phoneNumber: string;
-    isAdult: boolean;
   };
   onSave?: () => Promise<any>;
 }
@@ -34,8 +34,8 @@ export default function AdminProfile({ initialData, onSave }: ProfileFormProps) 
   const [formData, setFormData] = useState({
     firstName: initialData.firstName,
     lastName: initialData.lastName,
+    email: initialData.email,
     phoneNumber: formatPhoneNumber(initialData.phoneNumber),
-    isAdult: initialData.isAdult,
   });
 
   const [originalData, setOriginalData] = useState(formData);
@@ -61,13 +61,6 @@ export default function AdminProfile({ initialData, onSave }: ProfileFormProps) 
     }
   };
 
-  const handleRadioChange = (e: React.ChangeEvent<any>) => {
-    setFormData({ ...formData, isAdult: e.target.value === "adult" });
-    if (submitStatus.type) {
-      setSubmitStatus({ type: null, message: "" });
-    }
-  };
-
   const handleCancel = () => {
     setFormData(originalData);
     setSubmitStatus({ type: null, message: "" });
@@ -76,7 +69,12 @@ export default function AdminProfile({ initialData, onSave }: ProfileFormProps) 
   const handleSubmit = async (e: React.FormEvent<any>) => {
     e.preventDefault();
 
-    if (!formData.firstName.trim() || !formData.lastName.trim() || !formData.phoneNumber.trim()) {
+    if (
+      !formData.firstName.trim() ||
+      !formData.lastName.trim() ||
+      !formData.email.trim() ||
+      !formData.phoneNumber.trim()
+    ) {
       setSubmitStatus({
         type: "error",
         message: "Please fill in all fields.",
@@ -115,7 +113,7 @@ export default function AdminProfile({ initialData, onSave }: ProfileFormProps) 
       } else {
         setSubmitStatus({
           type: "error",
-          message: data.message || "Something went wrong. Please try again.",
+          message: data.error || data.message || "Something went wrong. Please try again.",
         });
       }
     } catch {
@@ -164,29 +162,20 @@ export default function AdminProfile({ initialData, onSave }: ProfileFormProps) 
         </div>
 
         <div className={styles.formGroup}>
-          <span className={styles.label}>Age Status</span>
-          <div className={styles.radioGroup}>
-            <label className={styles.radioLabel}>
-              <input
-                type="radio"
-                name="ageStatus"
-                value="adult"
-                checked={formData.isAdult === true}
-                onChange={handleRadioChange}
-              />
-              18 and up
-            </label>
-            <label className={styles.radioLabel}>
-              <input
-                type="radio"
-                name="ageStatus"
-                value="minor"
-                checked={formData.isAdult === false}
-                onChange={handleRadioChange}
-              />
-              Under 18
-            </label>
-          </div>
+          <label htmlFor="email" className={styles.label}>
+            Email
+          </label>
+
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            className={styles.input}
+            placeholder="Email"
+            required
+          />
         </div>
 
         <div className={styles.formGroup}>
@@ -206,12 +195,6 @@ export default function AdminProfile({ initialData, onSave }: ProfileFormProps) 
           />
         </div>
 
-        {submitStatus.type && (
-          <div className={`${styles.statusMessage} ${submitStatus.type === "success" ? styles.success : styles.error}`}>
-            {submitStatus.message}
-          </div>
-        )}
-
         <div className={styles.buttonGroup}>
           <button type="submit" className={styles.button} disabled={isSubmitting}>
             {isSubmitting ? "Saving..." : "Save"}
@@ -220,6 +203,12 @@ export default function AdminProfile({ initialData, onSave }: ProfileFormProps) 
             Cancel
           </button>
         </div>
+
+        {submitStatus.type && (
+          <div className={`${styles.statusMessage} ${submitStatus.type === "success" ? styles.success : styles.error}`}>
+            {submitStatus.message}
+          </div>
+        )}
       </form>
     </div>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../../styles/profile.module.css";
 import { useRouter } from "next/navigation";
 
@@ -8,6 +8,7 @@ interface ProfileFormProps {
   initialData: {
     firstName: string;
     lastName: string;
+    email: string;
     phoneNumber: string;
     isAdult: boolean;
   };
@@ -34,9 +35,28 @@ export default function ProfileForm({ initialData, onSave }: ProfileFormProps) {
   const [formData, setFormData] = useState({
     firstName: initialData.firstName,
     lastName: initialData.lastName,
+    email: initialData.email,
     phoneNumber: formatPhoneNumber(initialData.phoneNumber),
     isAdult: initialData.isAdult,
   });
+
+  // Sync when Clerk finishes loading
+  useEffect(() => {
+    setFormData({
+      firstName: initialData.firstName,
+      lastName: initialData.lastName,
+      email: initialData.email,
+      phoneNumber: formatPhoneNumber(initialData.phoneNumber),
+      isAdult: initialData.isAdult,
+    });
+    setOriginalData({
+      firstName: initialData.firstName,
+      lastName: initialData.lastName,
+      email: initialData.email,
+      phoneNumber: formatPhoneNumber(initialData.phoneNumber),
+      isAdult: initialData.isAdult,
+    });
+  }, [initialData.email, initialData.firstName, initialData.lastName, initialData.phoneNumber]);
 
   const [originalData, setOriginalData] = useState(formData);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -115,7 +135,7 @@ export default function ProfileForm({ initialData, onSave }: ProfileFormProps) {
       } else {
         setSubmitStatus({
           type: "error",
-          message: data.message || "Something went wrong. Please try again.",
+          message: data.error || data.message || "Something went wrong. Please try again.",
         });
       }
     } catch {
@@ -159,6 +179,23 @@ export default function ProfileForm({ initialData, onSave }: ProfileFormProps) {
             onChange={handleChange}
             className={styles.input}
             placeholder="Last Name"
+            required
+          />
+        </div>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="email" className={styles.label}>
+            Email
+          </label>
+
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            className={styles.input}
+            placeholder="Email"
             required
           />
         </div>

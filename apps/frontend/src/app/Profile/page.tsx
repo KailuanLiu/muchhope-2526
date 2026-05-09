@@ -62,6 +62,7 @@ export default function ProfilePage() {
               initialData={{
                 firstName: firstName,
                 lastName: lastName,
+                email: email,
                 phoneNumber: (user?.publicMetadata?.phoneNumber as string) ?? "",
                 isAdult: (user?.publicMetadata?.isAdult as boolean) ?? false,
               }}
