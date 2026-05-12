@@ -151,11 +151,10 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
 
   //Saved variables to store input data
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
     password: "",
+    confirmPassword: "",
     email: "",
-    number: "",
     age: "",
   });
 
@@ -178,9 +177,8 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
       return;
     }
 
-    const phoneDigits = formData.number.replace(/\D/g, "");
-    if (phoneDigits.length !== 10) {
-      setFormError("Please enter a valid 10-digit phone number.");
+    if (formData.password !== formData.confirmPassword) {
+      setPasswordError("Passwords do not match.");
       return;
     }
 
@@ -191,8 +189,7 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
       await signUp.create({
         emailAddress: formData.email,
         password: formData.password,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
+        firstName: formData.name,
       });
 
       // Send verification email
@@ -244,15 +241,6 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
           session: signUpAttempt.createdSessionId,
         });
 
-        await fetch("/api/profile", {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            phoneNumber: formData.number,
-            isAdult: formData.age === "Yes",
-          }),
-        });
-
         // Go back to home page
         router.push("/");
       } else {
@@ -280,26 +268,24 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
     return (
       <div className={styles.pageContainer}>
         <h1 className={styles.pageTitle}>Verify your email</h1>
-        <div className={styles.formBox}>
-          <form onSubmit={handleEmailCode}>
-            <h2 className={styles.formTitle}>Enter verification code</h2>
-            <p>A verification code has been sent to {formData.email}</p>
-            <label className={styles.label}>Verification Code</label>
-            <input
-              className={styles.input}
-              type="text"
-              name="code"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              placeholder="Enter code"
-              inputMode="numeric"
-            />
-            {verificationCodeError && <p className={styles.error}>{verificationCodeError}</p>}
-            <button className={styles.button} type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Verifying..." : "Verify Email"}
-            </button>
-          </form>
-        </div>
+        <form onSubmit={handleEmailCode}>
+          <h2 className={styles.formTitle}>Enter verification code</h2>
+          <p>A verification code has been sent to {formData.email}</p>
+          <label className={styles.label}>Verification Code</label>
+          <input
+            className={styles.input}
+            type="text"
+            name="code"
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            placeholder="Enter code"
+            inputMode="numeric"
+          />
+          {verificationCodeError && <p className={styles.error}>{verificationCodeError}</p>}
+          <button className={styles.button} type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Verifying..." : "Verify Email"}
+          </button>
+        </form>
       </div>
     );
   }
@@ -307,79 +293,87 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
   return (
     <AuthLayout>
       <div className={styles.pageContainer}>
-        <div className={styles.formBox}>
-          <form onSubmit={handleSubmit}>
-            <h2 className={styles.formTitle}>Sign up </h2>
-            <label className={styles.label}>First Name</label>
-            <input
-              className={styles.input}
-              type="text"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              placeholder="First Name"
-            />
-            <label className={styles.label}>Last Name</label>
-            <input
-              className={styles.input}
-              type="text"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              placeholder="Last Name"
-            />
-            <label className={styles.label}>Password</label>
-            <input
-              className={styles.input}
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Password"
-            />
-            {passwordError && <p className={styles.error}>{passwordError}</p>}
-            <label className={styles.label}>Email</label>
-            <input
-              className={styles.input}
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email"
-            />
-            {emailError && <p className={styles.error}>{emailError}</p>}
-            <label className={styles.label}>Phone Number</label>
-            <input
-              className={styles.input}
-              type="tel"
-              name="number"
-              value={formData.number}
-              onChange={handleChange}
-              placeholder="Phone Number"
-            />
-            <div className={styles.radioGroup}>
-              <label className={styles.label}>Are you over 18?</label>
+        <div className={styles.card}>
+          <div className={styles.leftPanel}>
+            <img src="/Signup.jpg" alt="Much Hope" className={styles.image} />
+          </div>
+          <div className={styles.rightPanel}>
+            <form onSubmit={handleSubmit}>
+              <h2 className={styles.formTitle}>Sign up </h2>
+              <label className={styles.label}>Name</label>
+              <input
+                className={styles.input}
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Name"
+              />
 
-              <div className={styles.radioOptions}>
-                <label className={styles.radioLabel}>
-                  <input type="radio" name="age" value="Yes" checked={formData.age === "Yes"} onChange={handleChange} />
-                  Yes
-                </label>
+              <label className={styles.label}>Email</label>
+              <input
+                className={styles.input}
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Email"
+              />
+              {emailError && <p className={styles.error}>{emailError}</p>}
 
-                <label className={styles.radioLabel}>
-                  <input type="radio" name="age" value="No" checked={formData.age === "No"} onChange={handleChange} />
-                  No
-                </label>
+              <label className={styles.label}>Password</label>
+              <input
+                className={styles.input}
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Password"
+              />
+
+              <label className={styles.label}>Confirm Password</label>
+              <input
+                className={styles.input}
+                type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                placeholder="Confirm Password"
+              />
+
+              {passwordError && <p className={styles.error}>{passwordError}</p>}
+              <div className={styles.radioGroup}>
+                <label className={styles.label}>Are you over 18?</label>
+
+                <div className={styles.radioOptions}>
+                  <label className={styles.radioLabel}>
+                    <input
+                      type="radio"
+                      name="age"
+                      value="Yes"
+                      checked={formData.age === "Yes"}
+                      onChange={handleChange}
+                    />
+                    Yes
+                  </label>
+
+                  <label className={styles.radioLabel}>
+                    <input type="radio" name="age" value="No" checked={formData.age === "No"} onChange={handleChange} />
+                    No
+                  </label>
+                </div>
               </div>
-            </div>
-            <button className={styles.button} type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Submitting..." : "Submit"}
-            </button>
-            {formError && <p className={styles.error}>{formError}</p>}
-            {/* Clerk captcha */}
-            <div id="clerk-captcha" />
-          </form>
-        </div>
+              <button className={styles.button} type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Submitting..." : "Sign Up"}
+              </button>
+              {formError && <p className={styles.error}>{formError}</p>}
+              {/* Clerk captcha */}
+              <div id="clerk-captcha" />
+            </form>
+          </div>{" "}
+          {/* rightPanel */}
+        </div>{" "}
+        {/* card */}
       </div>
     </AuthLayout>
   );
