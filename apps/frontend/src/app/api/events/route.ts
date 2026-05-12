@@ -50,11 +50,18 @@ export async function GET(req: NextRequest) {
 
   try {
     const res = await fetch(url.toString(), { cache: "no-store" });
+
+    const contentType = res.headers.get("content-type") || "";
+    if (!contentType.includes("application/json")) {
+      console.error("[api/events] Backend returned non-JSON response:", res.status);
+      return NextResponse.json([], { status: 200 });
+    }
+
     const data = await res.json();
     const normalizedData = Array.isArray(data) ? data.map(normalizeEvent) : data;
     return NextResponse.json(normalizedData, { status: res.status });
   } catch (err) {
-    console.error("[api/event] Failed to fetch from backend:", err);
+    console.error("[api/events] Failed to fetch from backend:", err);
     return NextResponse.json([], { status: 200 });
   }
 }
