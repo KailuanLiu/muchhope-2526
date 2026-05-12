@@ -15,11 +15,16 @@ export async function GET(req: NextRequest) {
 
   try {
     const res = await fetch(url.toString(), { cache: "no-store" });
+    const contentType = res.headers.get("content-type") || "";
+    if (!contentType.includes("application/json")) {
+      console.error("[api/shifts] Backend returned non-JSON response:", res.status);
+      return NextResponse.json([], { status: 200 });
+    }
     const data = await res.json();
     return NextResponse.json(data, { status: res.status });
   } catch (err) {
     console.error("[api/shifts] GET failed:", err);
-    return NextResponse.json({ message: "Failed to fetch shifts" }, { status: 500 });
+    return NextResponse.json([], { status: 200 });
   }
 }
 
@@ -31,6 +36,11 @@ export async function POST(req: NextRequest) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
+    const contentType = res.headers.get("content-type") || "";
+    if (!contentType.includes("application/json")) {
+      console.error("[api/shifts] Backend returned non-JSON response:", res.status);
+      return NextResponse.json({ message: "Failed to save shift" }, { status: 500 });
+    }
     const data = await res.json();
     return NextResponse.json(data, { status: res.status });
   } catch (err) {
