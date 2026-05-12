@@ -23,7 +23,7 @@ app.use(express.json());
 
 app.use(
   session({
-    secret: process.env.TOKEN_SECRET_KEY,
+    secret: process.env.TOKEN_SECRET_KEY || "dev-fallback-secret",
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false },
