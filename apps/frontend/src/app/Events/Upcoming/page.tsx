@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useUser } from "@clerk/nextjs";
 import styles from "../../../styles/upcomingEvents.module.css";
 import EventCard from "../../../components/EventCard";
 import EventInfoPopUp from "../../../components/EventInfoPopUp";
@@ -37,6 +38,9 @@ const EMPTY_FORM: EventFormState = {
 
 export default function UpcomingEventsPage() {
   const isMainAdmin = useIsSuperAdmin();
+  const { user } = useUser();
+  const volunteerId = user?.id ?? "";
+  const volunteerEmail = user?.primaryEmailAddress?.emailAddress ?? "";
 
   const [events, setEvents] = useState<EventData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -93,8 +97,7 @@ export default function UpcomingEventsPage() {
     setModalState("shiftSelect");
   };
 
-  const handleSaveShift = (shiftId: string) => {
-    console.log("Shift saved:", shiftId);
+  const handleSaveShift = () => {
     closeModal();
   };
 
@@ -271,7 +274,13 @@ export default function UpcomingEventsPage() {
       )}
 
       {modalState === "shiftSelect" && selectedEvent && (
-        <ShiftSelectionPopUp event={selectedEvent} onClose={closeModal} onSave={handleSaveShift} />
+        <ShiftSelectionPopUp
+          event={selectedEvent}
+          volunteerId={volunteerId}
+          volunteerEmail={volunteerEmail}
+          onClose={closeModal}
+          onSave={handleSaveShift}
+        />
       )}
     </AuthLayout>
   );
