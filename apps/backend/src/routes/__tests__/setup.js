@@ -142,20 +142,31 @@ const VolunteerSchemaDefinition = {
   isAdult: { type: Boolean, required: true },
 };
 
-let Event, Volunteer;
+const ShiftSchemaDefinition = {
+  eventId: { type: String, required: true },
+  volunteerId: { type: String, required: true },
+  volunteerEmail: { type: String, required: true },
+  shiftType: { type: String, required: true },
+  shiftTime: { type: String, required: true },
+  date: { type: String, required: true },
+};
+
+let Event, Volunteer, Shift;
 
 function setupTestDB() {
   events = [];
   volunteers = [];
+  const shifts = [];
 
   Event = createFakeModel(EventSchemaDefinition, events);
   Volunteer = createFakeModel(VolunteerSchemaDefinition, volunteers);
+  Shift = createFakeModel(ShiftSchemaDefinition, shifts);
 
   // Patch the cached initModels module so getModels() returns our fakes
   const initModels = require("../../../database/initModels");
-  initModels.getModels = () => ({ Event, Volunteer });
+  initModels.getModels = () => ({ Event, Volunteer, Shift });
 
-  return { Event, Volunteer };
+  return { Event, Volunteer, Shift };
 }
 
 function clearTestDB() {
