@@ -49,3 +49,16 @@
   gap: 1.5rem;
   max-width: 900px;
 }
+
+.loadingText,
+.errorText,
+.emptyText {
+  text-align: center;
+  padding: 2rem;
+  color: #333333;
+  font-size: 1rem;
+}
+
+.errorText {
+  color: #721c24;
+}
