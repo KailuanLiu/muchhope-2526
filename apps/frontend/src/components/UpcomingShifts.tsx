@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import styles from "../styles/profile.module.css";
 
 interface Shift {
-  id: string;
+  _id: string;
   date: string;
   shiftType: string;
 }
@@ -21,17 +21,10 @@ export default function UpcomingShifts({ volunteerEmail }: UpcomingShiftsProps) 
   useEffect(() => {
     const fetchShifts = async () => {
       try {
-        // TODO: Replace with actual API call once backend endpoint is ready
-        // const response = await fetch(`/api/shifts?email=${encodeURIComponent(volunteerEmail)}`);
-        // const data = await response.json();
-        // setShifts(data.shifts);
-
-        // Mock data for development
-        setShifts([
-          { id: "1", date: "2026-03-15", shiftType: "Food Shift" },
-          { id: "2", date: "2026-03-22", shiftType: "Cooking Shift" },
-          { id: "3", date: "2026-04-05", shiftType: "Food Shift" },
-        ]);
+        const response = await fetch(`/api/shifts?email=${encodeURIComponent(volunteerEmail)}`);
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || "Failed to load shifts");
+        setShifts(data);
       } catch {
         setError("Failed to load upcoming shifts.");
       } finally {
@@ -64,7 +57,7 @@ export default function UpcomingShifts({ volunteerEmail }: UpcomingShiftsProps) 
       {!isLoading && !error && shifts.length > 0 && (
         <ul className={styles.shiftList}>
           {shifts.map((shift) => (
-            <li key={shift.id} className={styles.shiftItem}>
+            <li key={shift._id} className={styles.shiftItem}>
               <span className={styles.shiftDate}>{formatDate(shift.date)}</span>
               <span className={styles.shiftType}>{shift.shiftType}</span>
             </li>
