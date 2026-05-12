@@ -295,7 +295,7 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
       <div className={styles.pageContainer}>
         <div className={styles.card}>
           <div className={styles.leftPanel}>
-            <img src="/Signup.jpg" alt="Much Hope" className={styles.image} />
+            <img src="/signup-photo.png" alt="Much Hope" className={styles.image} />
           </div>
           <div className={styles.rightPanel}>
             <form onSubmit={handleSubmit}>
@@ -342,26 +342,16 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
               />
 
               {passwordError && <p className={styles.error}>{passwordError}</p>}
-              <div className={styles.radioGroup}>
-                <label className={styles.label}>Are you over 18?</label>
-
-                <div className={styles.radioOptions}>
-                  <label className={styles.radioLabel}>
-                    <input
-                      type="radio"
-                      name="age"
-                      value="Yes"
-                      checked={formData.age === "Yes"}
-                      onChange={handleChange}
-                    />
-                    Yes
-                  </label>
-
-                  <label className={styles.radioLabel}>
-                    <input type="radio" name="age" value="No" checked={formData.age === "No"} onChange={handleChange} />
-                    No
-                  </label>
-                </div>
+              <div className={styles.checkboxGroup}>
+                <label className={styles.checkboxLabel}>
+                  <input
+                    type="checkbox"
+                    name="isAdult"
+                    checked={formData.age === "Yes"}
+                    onChange={(e) => setFormData({ ...formData, age: e.target.checked ? "Yes" : "No" })}
+                  />
+                  I confirm I am 18 years or older
+                </label>
               </div>
               <button className={styles.button} type="submit" disabled={isSubmitting}>
                 {isSubmitting ? "Submitting..." : "Sign Up"}

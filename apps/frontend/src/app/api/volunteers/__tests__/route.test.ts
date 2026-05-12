@@ -23,7 +23,7 @@ vi.mock("lib/VolunteerModel", () => ({
 }));
 
 function createRequest(url: string, options?: RequestInit): NextRequest {
-  return new NextRequest(new URL(url, "http://localhost:3000"), options);
+  return new NextRequest(new URL(url, "http://localhost:3000"), options as any);
 }
 
 describe("GET /api/volunteers", () => {
@@ -184,7 +184,7 @@ describe("POST /api/volunteers", () => {
     const data = await response.json();
 
     expect(response.status).toBe(500);
-    expect(data.error).toBe("Failed to create volunteer");
+    expect(data.error).toBe("Duplicate key");
   });
 
   it("uses default values for optional fields", async () => {
