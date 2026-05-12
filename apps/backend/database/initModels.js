@@ -1,8 +1,9 @@
 const { makeNewConnection } = require("../connection");
 const volunteerSchema = require("./volunteerSchema");
 const eventSchema = require("./eventSchema");
+const shiftSchema = require("./shiftSchema");
 
-let Volunteer, Event;
+let Volunteer, Event, Shift;
 
 function getModels() {
   if (!Volunteer) {
@@ -13,7 +14,11 @@ function getModels() {
     const eventConnection = makeNewConnection(process.env.eventDB);
     Event = eventConnection.model("Event", eventSchema);
   }
-  return { Volunteer, Event };
+  if (!Shift) {
+    const shiftConnection = makeNewConnection(process.env.shiftDB);
+    Shift = shiftConnection.model("Shift", shiftSchema);
+  }
+  return { Volunteer, Event, Shift };
 }
 
 module.exports = { getModels };
