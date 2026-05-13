@@ -32,6 +32,9 @@ vi.mock("@clerk/nextjs", () => ({
 vi.mock("@/styles/adminnavbar.module.css", () => ({
   default: new Proxy({}, { get: (_, prop) => prop as string }),
 }));
+vi.mock("@/styles/sidebar.module.css", () => ({
+  default: new Proxy({}, { get: (_, prop) => prop as string }),
+}));
 
 describe("AdminNavbar", () => {
   const defaultProps = {

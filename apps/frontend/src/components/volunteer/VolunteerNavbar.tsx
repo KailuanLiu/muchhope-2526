@@ -5,7 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useClerk } from "@clerk/nextjs";
 import { useState } from "react";
-import styles from "../../styles/volunteernavbar.module.css";
+import styles from "@/styles/sidebar.module.css";
+import volStyles from "../../styles/volunteernavbar.module.css";
 
 export default function VolunteerNavbar({
   collapsed,
@@ -53,12 +54,12 @@ export default function VolunteerNavbar({
         </div>
       )}
 
-      <nav className={styles.navArea}>
+      <nav className={volStyles.navArea}>
         <ul className={styles.navList}>
           {navItems.slice(0, 2).map((item) => (
             <li key={item.href}>
               <Link href={item.href} className={`${styles.navLink} ${pathname === item.href ? styles.active : ""}`}>
-                <img src={item.icon} alt="" className={styles.icon} />
+                <img src={item.icon} alt="" className={volStyles.icon} />
                 {!collapsed && <span className={styles.linkText}>{item.label}</span>}
               </Link>
             </li>
@@ -67,31 +68,31 @@ export default function VolunteerNavbar({
           <li>
             <button
               type="button"
-              className={`${styles.navLink} ${styles.dropdownToggle} ${isMyEventsActive ? styles.active : ""}`}
+              className={`${styles.navLink} ${volStyles.dropdownToggle} ${isMyEventsActive ? styles.active : ""}`}
               onClick={() => setEventsOpen(!eventsOpen)}
             >
-              <img src="/icons/calendar-check.svg" alt="" className={styles.icon} />
+              <img src="/icons/calendar-check.svg" alt="" className={volStyles.icon} />
               {!collapsed && (
                 <>
                   <span className={styles.linkText}>My Events</span>
                   <img
                     src={eventsOpen ? "/icons/chevron-down.svg" : "/icons/chevron-right.svg"}
                     alt=""
-                    className={styles.chevron}
+                    className={volStyles.chevron}
                   />
                 </>
               )}
             </button>
 
             {!collapsed && eventsOpen && (
-              <ul className={styles.submenu}>
+              <ul className={volStyles.submenu}>
                 {eventItems.map((item) => (
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className={`${styles.submenuLink} ${pathname === item.href ? styles.subActive : ""}`}
+                      className={`${volStyles.submenuLink} ${pathname === item.href ? volStyles.subActive : ""}`}
                     >
-                      <span className={styles.submenuBox}></span>
+                      <span className={volStyles.submenuBox}></span>
                       <span>{item.label}</span>
                     </Link>
                   </li>
@@ -103,7 +104,7 @@ export default function VolunteerNavbar({
           {navItems.slice(2).map((item) => (
             <li key={item.href}>
               <Link href={item.href} className={`${styles.navLink} ${pathname === item.href ? styles.active : ""}`}>
-                <img src={item.icon} alt="" className={styles.icon} />
+                <img src={item.icon} alt="" className={volStyles.icon} />
                 {!collapsed && <span className={styles.linkText}>{item.label}</span>}
               </Link>
             </li>
@@ -111,7 +112,7 @@ export default function VolunteerNavbar({
         </ul>
       </nav>
 
-      <div className={styles.bottomSection}>
+      <div className={volStyles.bottomSection}>
         <button className={styles.signOutButton} onClick={handleSignOut}>
           {!collapsed && <span className={styles.linkText}>Sign Out</span>}
         </button>

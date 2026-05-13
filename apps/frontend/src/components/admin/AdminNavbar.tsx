@@ -4,7 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useClerk } from "@clerk/nextjs";
-import styles from "@/styles/adminnavbar.module.css";
+import styles from "@/styles/sidebar.module.css";
+import adminStyles from "@/styles/adminnavbar.module.css";
 
 export default function AdminNavbar({
   collapsed,
@@ -34,14 +35,14 @@ export default function AdminNavbar({
 
   return (
     <nav className={`${styles.sidebar} ${collapsed ? styles.collapsed : ""}`}>
-      <div className={styles.topSection}>
+      <div className={adminStyles.topSection}>
         <button className={styles.toggleButton} onClick={() => setCollapsed(!collapsed)} aria-label="Toggle sidebar">
           <img src="/icons/menu.svg" alt="menu button" />
         </button>
       </div>
 
       {!collapsed && (
-        <div className={styles.logoBox}>
+        <div className={adminStyles.logoBox}>
           <Image src="/white-logo.png" alt="Much Hope" width={200} height={170} className={styles.logo} />
         </div>
       )}

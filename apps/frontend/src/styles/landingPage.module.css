@@ -13,12 +13,9 @@ body {
 
 .heroContainer {
   position: relative;
-  height: 420px;
-  min-height: 420px;
-  background-image: url("/event-photos/landing-page-image.jpg");
-  background-color: #d9d9d9;
   min-height: 100vh;
-  background-image: url("/image1.jpg");
+  background-color: #d9d9d9;
+  background-image: url("/event-photos/landing-page-image.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -159,6 +156,9 @@ body {
   min-height: 100vh;
   overflow-y: visible;
   overflow-x: hidden;
+  transition:
+    margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .mainContentExpanded {
@@ -171,4 +171,102 @@ body {
   margin-left: 60px;
   width: calc(100% - 60px);
   box-sizing: border-box;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .heroContainer {
+    min-height: 70vh;
+    height: auto;
+  }
+
+  .overlay {
+    padding: 40px 24px;
+    margin: 0 16px;
+  }
+
+  .title {
+    font-size: 32px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+    margin-bottom: 24px;
+  }
+
+  .ctaButton {
+    font-size: 18px;
+    padding: 12px 28px;
+  }
+
+  .eventsRow {
+    flex-direction: column;
+  }
+
+  .section,
+  .sectionAlt {
+    padding: 48px 16px;
+  }
+
+  .sectionTitle {
+    font-size: 24px;
+    margin-bottom: 24px;
+  }
+
+  .cardGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    max-width: 100%;
+    padding: 0 8px;
+  }
+
+  .cardImage {
+    height: 200px;
+  }
+
+  .mainContentExpanded,
+  .mainContentCollapsed {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroContainer {
+    min-height: 60vh;
+  }
+
+  .overlay {
+    padding: 28px 16px;
+    border-radius: 12px;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .ctaButton {
+    font-size: 16px;
+    padding: 10px 24px;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .section,
+  .sectionAlt {
+    padding: 32px 12px;
+  }
+
+  .sectionTitle {
+    font-size: 20px;
+  }
+
+  .cardImage {
+    height: 160px;
+  }
 }

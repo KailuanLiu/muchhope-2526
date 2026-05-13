@@ -42,6 +42,9 @@ vi.mock("@/styles/adminnavbar.module.css", () => ({
 vi.mock("@/styles/volunteernavbar.module.css", () => ({
   default: new Proxy({}, { get: (_, prop) => prop as string }),
 }));
+vi.mock("@/styles/sidebar.module.css", () => ({
+  default: new Proxy({}, { get: (_, prop) => prop as string }),
+}));
 vi.mock("@/styles/landingPage.module.css", () => ({
   default: new Proxy({}, { get: (_, prop) => prop as string }),
 }));
