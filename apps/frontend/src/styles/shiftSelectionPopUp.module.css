@@ -73,6 +73,7 @@
 .primaryButton:disabled {
   background-color: #402479;
   cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .shiftList {
