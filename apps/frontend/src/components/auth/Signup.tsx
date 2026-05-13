@@ -151,7 +151,8 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
 
   //Saved variables to store input data
   const [formData, setFormData] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     password: "",
     confirmPassword: "",
     email: "",
@@ -189,7 +190,8 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
       await signUp.create({
         emailAddress: formData.email,
         password: formData.password,
-        firstName: formData.name,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
       });
 
       // Send verification email
@@ -303,14 +305,24 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
           <div className={styles.rightPanel}>
             <form onSubmit={handleSubmit}>
               <h2 className={styles.formTitle}>Sign up </h2>
-              <label className={styles.label}>Name</label>
+              <label className={styles.label}>First Name</label>
               <input
                 className={styles.input}
                 type="text"
-                name="name"
-                value={formData.name}
+                name="firstName"
+                value={formData.firstName}
                 onChange={handleChange}
-                placeholder="Name"
+                placeholder="First Name"
+              />
+
+              <label className={styles.label}>Last Name</label>
+              <input
+                className={styles.input}
+                type="text"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                placeholder="Last Name"
               />
 
               <label className={styles.label}>Email</label>
