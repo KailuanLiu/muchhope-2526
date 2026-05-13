@@ -169,3 +169,119 @@
     font-size: 2rem;
   }
 }
+
+/* VERIFICATION CARD */
+.verificationCard {
+  width: 100%;
+  max-width: 480px;
+  background: #402479;
+  border-radius: 28px;
+  padding: 56px 48px;
+  box-shadow: 0 10px 40px rgba(64, 36, 121, 0.15);
+  text-align: center;
+}
+
+.verificationTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 12px;
+}
+
+.verificationSubtitle {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0 0 32px;
+  line-height: 1.5;
+}
+
+.verificationSubtitle strong {
+  color: #e3af64;
+}
+
+.verificationLabel {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #e3af64;
+  margin-bottom: 8px;
+  text-align: left;
+}
+
+.verificationInput {
+  width: 100%;
+  height: 52px;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  padding: 0 16px;
+  font-size: 1.25rem;
+  letter-spacing: 4px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  outline: none;
+  box-sizing: border-box;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.verificationInput::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: normal;
+  font-size: 1rem;
+}
+
+.verificationInput:focus {
+  border-color: #e3af64;
+  box-shadow: 0 0 0 4px rgba(227, 175, 100, 0.15);
+}
+
+.verificationError {
+  margin: 12px 0;
+  font-size: 0.95rem;
+  color: #ffb3b3;
+  text-align: left;
+}
+
+.verificationButton {
+  margin-top: 24px;
+  width: 100%;
+  height: 52px;
+  border: none;
+  border-radius: 14px;
+  background: #e3af64;
+  color: #402479;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 22px rgba(227, 175, 100, 0.25);
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+}
+
+.verificationButton:hover {
+  background: #d89f4f;
+  transform: translateY(-1px);
+}
+
+.verificationButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 900px) {
+  .verificationCard {
+    padding: 36px 24px;
+  }
+
+  .verificationTitle {
+    font-size: 1.5rem;
+  }
+}

@@ -241,8 +241,8 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
           session: signUpAttempt.createdSessionId,
         });
 
-        // Go back to home page
-        router.push("/");
+        // Go to login page after successful signup
+        router.push("/auth/login");
       } else {
         setVerificationCodeError("Verification could not be completed. Please try again.");
       }
@@ -267,25 +267,28 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
   if (showEmailCode) {
     return (
       <div className={styles.pageContainer}>
-        <h1 className={styles.pageTitle}>Verify your email</h1>
-        <form onSubmit={handleEmailCode}>
-          <h2 className={styles.formTitle}>Enter verification code</h2>
-          <p>A verification code has been sent to {formData.email}</p>
-          <label className={styles.label}>Verification Code</label>
-          <input
-            className={styles.input}
-            type="text"
-            name="code"
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            placeholder="Enter code"
-            inputMode="numeric"
-          />
-          {verificationCodeError && <p className={styles.error}>{verificationCodeError}</p>}
-          <button className={styles.button} type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Verifying..." : "Verify Email"}
-          </button>
-        </form>
+        <div className={styles.verificationCard}>
+          <h1 className={styles.verificationTitle}>Verify your email</h1>
+          <p className={styles.verificationSubtitle}>
+            A verification code has been sent to <strong>{formData.email}</strong>
+          </p>
+          <form onSubmit={handleEmailCode}>
+            <label className={styles.verificationLabel}>Verification Code</label>
+            <input
+              className={styles.verificationInput}
+              type="text"
+              name="code"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              placeholder="Enter 6-digit code"
+              inputMode="numeric"
+            />
+            {verificationCodeError && <p className={styles.verificationError}>{verificationCodeError}</p>}
+            <button className={styles.verificationButton} type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Verifying..." : "Verify Email"}
+            </button>
+          </form>
+        </div>
       </div>
     );
   }
