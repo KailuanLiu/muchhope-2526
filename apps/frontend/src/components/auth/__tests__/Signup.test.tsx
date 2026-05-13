@@ -29,7 +29,8 @@ describe("Signup", () => {
     render(<Signup signUp={mockSignUp} setActive={mockSetActive} isLoaded={true} />);
 
     expect(screen.getByText("Sign up")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Name")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("First Name")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Last Name")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Email")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Password")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Confirm Password")).toBeInTheDocument();
@@ -80,7 +81,8 @@ describe("Signup", () => {
 
     render(<Signup signUp={mockSignUp} setActive={mockSetActive} isLoaded={true} />);
 
-    fireEvent.change(screen.getByPlaceholderText("Name"), { target: { value: "John" } });
+    fireEvent.change(screen.getByPlaceholderText("First Name"), { target: { value: "John" } });
+    fireEvent.change(screen.getByPlaceholderText("Last Name"), { target: { value: "Smith" } });
     fireEvent.change(screen.getByPlaceholderText("Email"), { target: { value: "john@example.com" } });
     fireEvent.change(screen.getByPlaceholderText("Password"), { target: { value: "Password123!" } });
     fireEvent.change(screen.getByPlaceholderText("Confirm Password"), { target: { value: "Password123!" } });
@@ -92,6 +94,7 @@ describe("Signup", () => {
         emailAddress: "john@example.com",
         password: "Password123!",
         firstName: "John",
+        lastName: "Smith",
       });
     });
 
@@ -106,7 +109,7 @@ describe("Signup", () => {
 
     render(<Signup signUp={mockSignUp} setActive={mockSetActive} isLoaded={true} />);
 
-    fireEvent.change(screen.getByPlaceholderText("Name"), { target: { value: "John" } });
+    fireEvent.change(screen.getByPlaceholderText("First Name"), { target: { value: "John" } });
     fireEvent.change(screen.getByPlaceholderText("Email"), { target: { value: "john@example.com" } });
     fireEvent.change(screen.getByPlaceholderText("Password"), { target: { value: "Password123!" } });
     fireEvent.change(screen.getByPlaceholderText("Confirm Password"), { target: { value: "Password123!" } });
@@ -133,7 +136,7 @@ describe("Signup", () => {
     render(<Signup signUp={mockSignUp} setActive={mockSetActive} isLoaded={true} />);
 
     // Fill and submit signup form
-    fireEvent.change(screen.getByPlaceholderText("Name"), { target: { value: "John" } });
+    fireEvent.change(screen.getByPlaceholderText("First Name"), { target: { value: "John" } });
     fireEvent.change(screen.getByPlaceholderText("Email"), { target: { value: "john@example.com" } });
     fireEvent.change(screen.getByPlaceholderText("Password"), { target: { value: "Password123!" } });
     fireEvent.change(screen.getByPlaceholderText("Confirm Password"), { target: { value: "Password123!" } });
@@ -186,7 +189,7 @@ describe("Signup", () => {
     render(<Signup signUp={mockSignUp} setActive={mockSetActive} isLoaded={true} />);
 
     // Submit signup
-    fireEvent.change(screen.getByPlaceholderText("Name"), { target: { value: "John" } });
+    fireEvent.change(screen.getByPlaceholderText("First Name"), { target: { value: "John" } });
     fireEvent.change(screen.getByPlaceholderText("Email"), { target: { value: "john@example.com" } });
     fireEvent.change(screen.getByPlaceholderText("Password"), { target: { value: "Password123!" } });
     fireEvent.change(screen.getByPlaceholderText("Confirm Password"), { target: { value: "Password123!" } });
@@ -220,6 +223,228 @@ describe("Signup", () => {
 
     await waitFor(() => {
       expect(screen.getByRole("button", { name: "Submitting..." })).toBeDisabled();
+    });
+  });
+
+  describe("full account creation and verification flow", () => {
+    const userData = {
+      firstName: "Jane",
+      lastName: "Doe",
+      email: "jane.doe@example.com",
+      password: "SecurePass123!",
+    };
+
+    beforeEach(() => {
+      mockSignUp.create.mockResolvedValue({});
+      mockSignUp.prepareEmailAddressVerification.mockResolvedValue({});
+    });
+
+    it("creates account with correct user data and sends verification email", async () => {
+      render(<Signup signUp={mockSignUp} setActive={mockSetActive} isLoaded={true} />);
+
+      fireEvent.change(screen.getByPlaceholderText("First Name"), { target: { value: userData.firstName } });
+      fireEvent.change(screen.getByPlaceholderText("Last Name"), { target: { value: userData.lastName } });
+      fireEvent.change(screen.getByPlaceholderText("Email"), { target: { value: userData.email } });
+      fireEvent.change(screen.getByPlaceholderText("Password"), { target: { value: userData.password } });
+      fireEvent.change(screen.getByPlaceholderText("Confirm Password"), { target: { value: userData.password } });
+
+      fireEvent.click(screen.getByRole("button", { name: "Sign Up" }));
+
+      await waitFor(() => {
+        expect(mockSignUp.create).toHaveBeenCalledTimes(1);
+        expect(mockSignUp.create).toHaveBeenCalledWith({
+          emailAddress: userData.email,
+          password: userData.password,
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+        });
+      });
+
+      expect(mockSignUp.prepareEmailAddressVerification).toHaveBeenCalledTimes(1);
+      expect(mockSignUp.prepareEmailAddressVerification).toHaveBeenCalledWith({
+        strategy: "email_code",
+      });
+    });
+
+    it("completes full flow: create account → verify email → activate session → redirect to login", async () => {
+      const createdSessionId = "sess_new_user_abc123";
+      mockSignUp.attemptEmailAddressVerification.mockResolvedValue({
+        status: "complete",
+        createdSessionId,
+      });
+      mockSetActive.mockResolvedValue({});
+
+      render(<Signup signUp={mockSignUp} setActive={mockSetActive} isLoaded={true} />);
+
+      // Step 1: Fill out signup form
+      fireEvent.change(screen.getByPlaceholderText("First Name"), { target: { value: userData.firstName } });
+      fireEvent.change(screen.getByPlaceholderText("Last Name"), { target: { value: userData.lastName } });
+      fireEvent.change(screen.getByPlaceholderText("Email"), { target: { value: userData.email } });
+      fireEvent.change(screen.getByPlaceholderText("Password"), { target: { value: userData.password } });
+      fireEvent.change(screen.getByPlaceholderText("Confirm Password"), { target: { value: userData.password } });
+      fireEvent.click(screen.getByRole("button", { name: "Sign Up" }));
+
+      // Step 2: Verify account was created
+      await waitFor(() => {
+        expect(mockSignUp.create).toHaveBeenCalledWith({
+          emailAddress: userData.email,
+          password: userData.password,
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+        });
+      });
+
+      // Step 3: Verify email verification was initiated
+      expect(mockSignUp.prepareEmailAddressVerification).toHaveBeenCalledWith({
+        strategy: "email_code",
+      });
+
+      // Step 4: Verification form appears
+      await waitFor(() => {
+        expect(screen.getByText("Verify your email")).toBeInTheDocument();
+      });
+
+      // Step 5: Submit verification code
+      fireEvent.change(screen.getByPlaceholderText("Enter 6-digit code"), { target: { value: "789012" } });
+      fireEvent.click(screen.getByRole("button", { name: "Verify Email" }));
+
+      // Step 6: Verify the code was submitted
+      await waitFor(() => {
+        expect(mockSignUp.attemptEmailAddressVerification).toHaveBeenCalledTimes(1);
+        expect(mockSignUp.attemptEmailAddressVerification).toHaveBeenCalledWith({ code: "789012" });
+      });
+
+      // Step 7: Session is activated with the new account's session
+      expect(mockSetActive).toHaveBeenCalledTimes(1);
+      expect(mockSetActive).toHaveBeenCalledWith({ session: createdSessionId });
+
+      // Step 8: User is redirected to login page
+      expect(mockPush).toHaveBeenCalledTimes(1);
+      expect(mockPush).toHaveBeenCalledWith("/auth/login");
+    });
+
+    it("account creation is called before verification — correct order of operations", async () => {
+      const callOrder: string[] = [];
+      mockSignUp.create.mockImplementation(() => {
+        callOrder.push("create");
+        return Promise.resolve({});
+      });
+      mockSignUp.prepareEmailAddressVerification.mockImplementation(() => {
+        callOrder.push("prepareVerification");
+        return Promise.resolve({});
+      });
+      mockSignUp.attemptEmailAddressVerification.mockImplementation(() => {
+        callOrder.push("attemptVerification");
+        return Promise.resolve({ status: "complete", createdSessionId: "sess_123" });
+      });
+      mockSetActive.mockImplementation(() => {
+        callOrder.push("setActive");
+        return Promise.resolve({});
+      });
+
+      render(<Signup signUp={mockSignUp} setActive={mockSetActive} isLoaded={true} />);
+
+      fireEvent.change(screen.getByPlaceholderText("First Name"), { target: { value: userData.firstName } });
+      fireEvent.change(screen.getByPlaceholderText("Last Name"), { target: { value: userData.lastName } });
+      fireEvent.change(screen.getByPlaceholderText("Email"), { target: { value: userData.email } });
+      fireEvent.change(screen.getByPlaceholderText("Password"), { target: { value: userData.password } });
+      fireEvent.change(screen.getByPlaceholderText("Confirm Password"), { target: { value: userData.password } });
+      fireEvent.click(screen.getByRole("button", { name: "Sign Up" }));
+
+      await waitFor(() => {
+        expect(screen.getByPlaceholderText("Enter 6-digit code")).toBeInTheDocument();
+      });
+
+      // Verify create happened before verification
+      expect(callOrder).toEqual(["create", "prepareVerification"]);
+
+      // Now verify
+      fireEvent.change(screen.getByPlaceholderText("Enter 6-digit code"), { target: { value: "111111" } });
+      fireEvent.click(screen.getByRole("button", { name: "Verify Email" }));
+
+      await waitFor(() => {
+        expect(callOrder).toEqual(["create", "prepareVerification", "attemptVerification", "setActive"]);
+      });
+    });
+
+    it("verification fails but account was still created", async () => {
+      mockSignUp.attemptEmailAddressVerification.mockRejectedValue({
+        errors: [{ code: "form_code_incorrect", longMessage: "", message: "" }],
+      });
+
+      render(<Signup signUp={mockSignUp} setActive={mockSetActive} isLoaded={true} />);
+
+      fireEvent.change(screen.getByPlaceholderText("First Name"), { target: { value: userData.firstName } });
+      fireEvent.change(screen.getByPlaceholderText("Last Name"), { target: { value: userData.lastName } });
+      fireEvent.change(screen.getByPlaceholderText("Email"), { target: { value: userData.email } });
+      fireEvent.change(screen.getByPlaceholderText("Password"), { target: { value: userData.password } });
+      fireEvent.change(screen.getByPlaceholderText("Confirm Password"), { target: { value: userData.password } });
+      fireEvent.click(screen.getByRole("button", { name: "Sign Up" }));
+
+      // Account was created successfully
+      await waitFor(() => {
+        expect(mockSignUp.create).toHaveBeenCalledWith({
+          emailAddress: userData.email,
+          password: userData.password,
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+        });
+      });
+
+      // Verification email was sent
+      expect(mockSignUp.prepareEmailAddressVerification).toHaveBeenCalled();
+
+      // Enter wrong code
+      await waitFor(() => {
+        expect(screen.getByPlaceholderText("Enter 6-digit code")).toBeInTheDocument();
+      });
+      fireEvent.change(screen.getByPlaceholderText("Enter 6-digit code"), { target: { value: "000000" } });
+      fireEvent.click(screen.getByRole("button", { name: "Verify Email" }));
+
+      // Verification failed but account creation was still called
+      await waitFor(() => {
+        expect(screen.getByText("The verification code is incorrect. Try again.")).toBeInTheDocument();
+      });
+
+      // Account was created (create was called) even though verification failed
+      expect(mockSignUp.create).toHaveBeenCalledTimes(1);
+      // Session was NOT activated since verification failed
+      expect(mockSetActive).not.toHaveBeenCalled();
+      // User was NOT redirected
+      expect(mockPush).not.toHaveBeenCalled();
+    });
+
+    it("verification status is not complete — session is not activated", async () => {
+      mockSignUp.attemptEmailAddressVerification.mockResolvedValue({
+        status: "missing_requirements",
+        createdSessionId: null,
+      });
+
+      render(<Signup signUp={mockSignUp} setActive={mockSetActive} isLoaded={true} />);
+
+      fireEvent.change(screen.getByPlaceholderText("First Name"), { target: { value: userData.firstName } });
+      fireEvent.change(screen.getByPlaceholderText("Last Name"), { target: { value: userData.lastName } });
+      fireEvent.change(screen.getByPlaceholderText("Email"), { target: { value: userData.email } });
+      fireEvent.change(screen.getByPlaceholderText("Password"), { target: { value: userData.password } });
+      fireEvent.change(screen.getByPlaceholderText("Confirm Password"), { target: { value: userData.password } });
+      fireEvent.click(screen.getByRole("button", { name: "Sign Up" }));
+
+      await waitFor(() => {
+        expect(screen.getByPlaceholderText("Enter 6-digit code")).toBeInTheDocument();
+      });
+
+      fireEvent.change(screen.getByPlaceholderText("Enter 6-digit code"), { target: { value: "123456" } });
+      fireEvent.click(screen.getByRole("button", { name: "Verify Email" }));
+
+      await waitFor(() => {
+        expect(screen.getByText("Verification could not be completed. Please try again.")).toBeInTheDocument();
+      });
+
+      // Account was created
+      expect(mockSignUp.create).toHaveBeenCalledTimes(1);
+      // But session was not activated
+      expect(mockSetActive).not.toHaveBeenCalled();
+      expect(mockPush).not.toHaveBeenCalled();
     });
   });
 });
