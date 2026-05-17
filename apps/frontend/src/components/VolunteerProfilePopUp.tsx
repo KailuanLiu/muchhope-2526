@@ -83,8 +83,6 @@ export default function VolunteerProfilePopUp({ volunteer, mode = "edit", onClos
       return;
     }
 
-    console.log("Popup saving form:", form);
-
     onSave(form);
 
     if (mode !== "create") {

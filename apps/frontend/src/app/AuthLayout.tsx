@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth } from "@clerk/nextjs";
-import { useEffect, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import VolunteerNavbar from "../components/volunteer/VolunteerNavbar";
 import AdminNavbar from "../components/admin/AdminNavbar";
 import Navbar from "../components/Navbar";
@@ -24,15 +24,6 @@ export default function AuthLayout({ children, onCollapse, hideFooter }: AuthLay
     setCollapsed(value);
     onCollapse?.(value);
   }
-
-  useEffect(() => {
-    console.log("Auth state changed:", {
-      isLoaded,
-      isSignedIn,
-      sessionClaims,
-      role,
-    });
-  }, [isLoaded, isSignedIn, sessionClaims, role]);
 
   return (
     <div className={styles.pageLayout}>
