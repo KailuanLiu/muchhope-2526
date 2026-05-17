@@ -96,9 +96,6 @@ export default function AdminVolunteersPage() {
 
   async function handleSaveVolunteer(updatedVolunteer: Volunteer) {
     try {
-      console.log("Saving volunteer with id:", updatedVolunteer.id);
-      console.log("Payload:", updatedVolunteer);
-
       if (!updatedVolunteer.id?.trim()) {
         throw new Error("Missing volunteer id in edit save");
       }
