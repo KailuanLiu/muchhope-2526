@@ -38,19 +38,6 @@ export default function LandingPage() {
   const upcomingEvents = events.filter((event) => new Date(event.date) >= now);
   const pastEvents = events.filter((event) => new Date(event.date) < now);
 
-  const skeletonCards = (
-    <>
-      {Array.from({ length: 3 }).map((_, i) => (
-        <div key={i} className={`${styles.card} ${styles.skeletonCard}`} aria-hidden="true">
-          <div className={`${styles.skeletonLine} ${styles.skeletonTitle}`} />
-          <div className={styles.skeletonLine} />
-          <div className={styles.skeletonLine} />
-          <div className={`${styles.skeletonLine} ${styles.skeletonShort}`} />
-        </div>
-      ))}
-    </>
-  );
-
   return (
     <div className={styles.pageWrapper}>
       <section className={styles.heroContainer}>
@@ -66,40 +53,38 @@ export default function LandingPage() {
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Upcoming Events</h2>
         <div className={styles.cardGrid} aria-busy={isLoading}>
-          {isLoading ? (
-            skeletonCards
-          ) : upcomingEvents.length ? (
-            upcomingEvents.map((event) => (
-              <div key={event.id} className={styles.card}>
-                <h3>{event.title}</h3>
-                <p>{event.description}</p>
-                <p>{event.location}</p>
-                <p>{new Date(event.date).toLocaleDateString()}</p>
-              </div>
-            ))
-          ) : (
-            <p className={styles.emptyMessage}>No upcoming events yet.</p>
-          )}
+          {!isLoading &&
+            (upcomingEvents.length ? (
+              upcomingEvents.map((event) => (
+                <div key={event.id} className={styles.card}>
+                  <h3>{event.title}</h3>
+                  <p>{event.description}</p>
+                  <p>{event.location}</p>
+                  <p>{new Date(event.date).toLocaleDateString()}</p>
+                </div>
+              ))
+            ) : (
+              <p className={styles.emptyMessage}>No upcoming events yet.</p>
+            ))}
         </div>
       </section>
 
       <section className={styles.sectionAlt}>
         <h2 className={styles.sectionTitle}>Past Events</h2>
         <div className={styles.cardGrid} aria-busy={isLoading}>
-          {isLoading ? (
-            skeletonCards
-          ) : pastEvents.length ? (
-            pastEvents.map((event) => (
-              <div key={event.id} className={styles.card}>
-                <h3>{event.title}</h3>
-                <p>{event.description}</p>
-                <p>{event.location}</p>
-                <p>{new Date(event.date).toLocaleDateString()}</p>
-              </div>
-            ))
-          ) : (
-            <p className={styles.emptyMessage}>No past events yet.</p>
-          )}
+          {!isLoading &&
+            (pastEvents.length ? (
+              pastEvents.map((event) => (
+                <div key={event.id} className={styles.card}>
+                  <h3>{event.title}</h3>
+                  <p>{event.description}</p>
+                  <p>{event.location}</p>
+                  <p>{new Date(event.date).toLocaleDateString()}</p>
+                </div>
+              ))
+            ) : (
+              <p className={styles.emptyMessage}>No past events yet.</p>
+            ))}
         </div>
       </section>
     </div>
