@@ -18,11 +18,16 @@ async function getEvents(): Promise<Event[]> {
 
 export default function LandingPage() {
   const [events, setEvents] = useState<Event[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadEvents() {
-      const data = await getEvents();
-      setEvents(data);
+      try {
+        const data = await getEvents();
+        setEvents(data);
+      } finally {
+        setIsLoading(false);
+      }
     }
 
     loadEvents();
@@ -32,6 +37,19 @@ export default function LandingPage() {
 
   const upcomingEvents = events.filter((event) => new Date(event.date) >= now);
   const pastEvents = events.filter((event) => new Date(event.date) < now);
+
+  const skeletonCards = (
+    <>
+      {Array.from({ length: 3 }).map((_, i) => (
+        <div key={i} className={`${styles.card} ${styles.skeletonCard}`} aria-hidden="true">
+          <div className={`${styles.skeletonLine} ${styles.skeletonTitle}`} />
+          <div className={styles.skeletonLine} />
+          <div className={styles.skeletonLine} />
+          <div className={`${styles.skeletonLine} ${styles.skeletonShort}`} />
+        </div>
+      ))}
+    </>
+  );
 
   return (
     <div className={styles.pageWrapper}>
@@ -47,8 +65,10 @@ export default function LandingPage() {
 
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Upcoming Events</h2>
-        <div className={styles.cardGrid}>
-          {upcomingEvents.length ? (
+        <div className={styles.cardGrid} aria-busy={isLoading}>
+          {isLoading ? (
+            skeletonCards
+          ) : upcomingEvents.length ? (
             upcomingEvents.map((event) => (
               <div key={event.id} className={styles.card}>
                 <h3>{event.title}</h3>
@@ -65,8 +85,10 @@ export default function LandingPage() {
 
       <section className={styles.sectionAlt}>
         <h2 className={styles.sectionTitle}>Past Events</h2>
-        <div className={styles.cardGrid}>
-          {pastEvents.length ? (
+        <div className={styles.cardGrid} aria-busy={isLoading}>
+          {isLoading ? (
+            skeletonCards
+          ) : pastEvents.length ? (
             pastEvents.map((event) => (
               <div key={event.id} className={styles.card}>
                 <h3>{event.title}</h3>
