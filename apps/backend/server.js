@@ -9,6 +9,7 @@ const connectDB = require("./lib/db.js");
 const volunteersRoutes = require("./src/routes/volunteerRoutes.js");
 const eventRoutes = require("./src/routes/eventRoutes.js");
 const shiftRoutes = require("./src/routes/shiftRoutes.js");
+const { clerkMiddleware } = require("@clerk/nextjs/server");
 // uncomment below when implemented
 // const authRoutes = require("./routes/authRoutes.js");
 // const adminRoutes = require("./routes/adminRoutes.js");
@@ -20,6 +21,7 @@ const PORT = process.env.PORT || 8000;
 // Middleware
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(express.json());
+app.use(clerkMiddleware());
 
 app.use(
   session({
