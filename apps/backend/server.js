@@ -8,6 +8,7 @@ const session = require("express-session");
 const connectDB = require("./lib/db.js");
 const volunteersRoutes = require("./src/routes/volunteerRoutes.js");
 const eventRoutes = require("./src/routes/eventRoutes.js");
+const shiftRoutes = require("./src/routes/shiftRoutes.js");
 // uncomment below when implemented
 // const authRoutes = require("./routes/authRoutes.js");
 // const adminRoutes = require("./routes/adminRoutes.js");
@@ -22,7 +23,7 @@ app.use(express.json());
 
 app.use(
   session({
-    secret: process.env.TOKEN_SECRET_KEY,
+    secret: process.env.TOKEN_SECRET_KEY || "dev-fallback-secret",
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false },
@@ -44,6 +45,7 @@ app.use((req, res, next) => {
 
 app.use("/volunteers", volunteersRoutes);
 app.use("/events", eventRoutes);
+app.use("/shifts", shiftRoutes);
 
 // Static files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
