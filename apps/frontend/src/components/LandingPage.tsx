@@ -57,6 +57,12 @@ export default function LandingPage() {
           <Link href="/auth/login" className={styles.logoLink}>
             <img src="/color-logo.png" alt="MuchHope" className={styles.logoImage} />
           </Link>
+          {/*
+          <Link href="/Auth/Login" className={styles.ctaButton}> 
+          </Link>
+          */}
+          <h1 className={styles.title}>MuchHope</h1>
+          <p className={styles.subtitle}>Providing resources and support for the homeless community in San Jose.</p>
           <Link href="/Events/Upcoming" className={styles.ctaButton}>
             Volunteer
           </Link>

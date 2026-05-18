@@ -18,7 +18,6 @@ export default function AdminNavbar({
   const { signOut } = useClerk();
 
   async function handleSignOut() {
-    console.log("signing out...");
     await signOut({ redirectUrl: "/auth/login" });
   }
 
