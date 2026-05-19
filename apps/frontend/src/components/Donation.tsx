@@ -161,17 +161,10 @@ export default function Donation() {
   };
 
   const submitDonation = () => {
-    const donationData = {
-      amount: numericAmount,
-      totalAmount: Number(totalAmount.toFixed(2)),
-      frequency,
-      coverTransactionExpenses: coverExpenses,
-      personalMessage: addMessage ? personalMessage.trim() : "",
-      paymentType,
-      paymentDetails,
-    };
-
-    console.log("Donation data:", donationData);
+    // TODO: integrate with payment API using these values
+    // amount: numericAmount
+    // totalAmount: Number(totalAmount.toFixed(2))
+    // frequency, coverExpenses, personalMessage, paymentType, paymentDetails
     setStep(4);
   };
 

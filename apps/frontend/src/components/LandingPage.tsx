@@ -14,7 +14,7 @@ type Event = {
 
 async function getEvents(): Promise<Event[]> {
   try {
-    const res = await fetch("http://localhost:3000/api/events", {
+    const res = await fetch("/api/events", {
       cache: "no-store",
     });
 

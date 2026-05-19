@@ -33,10 +33,6 @@ export default function ForgotPassword({ initialStage = "request" }: ForgotPassw
     password: "",
     confirmPassword: "",
   });
-  const result = useSignIn() as any;
-  console.log("full result keys:", Object.keys(result));
-  console.log("full result:", JSON.stringify(result, null, 2));
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormState((prev) => ({ ...prev, [name]: value }));

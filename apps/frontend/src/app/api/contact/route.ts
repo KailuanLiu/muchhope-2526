@@ -1,9 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
-export async function POST(request: NextRequest) {
+// in-memory rate limiter: 5 requests per 15 minutes per IP
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT_MAX = 5;
+const RATE_LIMIT_WINDOW = 15 * 60 * 1000; // 15 minutes
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+
+  if (!entry || now > entry.resetTime) {
+    rateLimitMap.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
+    return false;
+  }
+
+  entry.count++;
+  return entry.count > RATE_LIMIT_MAX;
+}
+
+export async function POST(req: NextRequest) {
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+
+  if (isRateLimited(ip)) {
+    return NextResponse.json({ message: "Too many requests. Please try again later." }, { status: 429 });
+  }
+
   try {
-    const { firstName, lastName, email, message } = await request.json();
+    const { firstName, lastName, email, message } = await req.json();
 
     // Basic validation
     if (!firstName || !lastName || !email || !message) {
@@ -41,15 +65,6 @@ export async function POST(request: NextRequest) {
         // You might want to handle this differently in production
       }
     }
-
-    // Log the contact form submission
-    console.log("Contact form submission:", {
-      firstName,
-      lastName,
-      email,
-      message,
-      timestamp: new Date().toISOString(),
-    });
 
     return NextResponse.json({ message: "Message sent successfully" }, { status: 200 });
   } catch (error) {

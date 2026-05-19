@@ -19,7 +19,8 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 // Middleware
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+const CORS_ORIGIN = process.env.CORS_ORIGIN || "http://localhost:3000";
+app.use(cors({ origin: CORS_ORIGIN, credentials: true }));
 app.use(express.json());
 app.use(clerkMiddleware());
 
@@ -28,22 +29,24 @@ app.use(
     secret: process.env.TOKEN_SECRET_KEY || "dev-fallback-secret",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false },
+    cookie: { secure: process.env.NODE_ENV === "production" },
   }),
 );
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Origin", CORS_ORIGIN);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE, PUT");
   next();
 });
 
-// Logger middleware
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.path}`);
-  next();
-});
+// Logger middleware (only in development)
+if (process.env.NODE_ENV !== "production") {
+  app.use((req, res, next) => {
+    console.log(`${req.method} ${req.path}`);
+    next();
+  });
+}
 
 app.use("/volunteers", volunteersRoutes);
 app.use("/events", eventRoutes);
@@ -62,7 +65,6 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // app.use("/api/Events", eventRoutes);
 
 app.get("/", (req, res) => {
-  console.log("Hello World, I am here");
   res.status(200).send("Much Hope Root");
 });
 

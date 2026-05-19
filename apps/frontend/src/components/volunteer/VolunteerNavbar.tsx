@@ -21,7 +21,6 @@ export default function VolunteerNavbar({
   const isMyEventsActive = pathname === "/Events/Upcoming" || pathname === "/Events/PastEvents";
 
   async function handleSignOut() {
-    console.log("signed out");
     await signOut({ redirectUrl: "/auth/login" });
   }
 

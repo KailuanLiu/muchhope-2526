@@ -17,6 +17,7 @@ export default function Login() {
 
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (authLoaded && isSignedIn) {
@@ -33,9 +34,13 @@ export default function Login() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    setError("");
 
     if (!isLoaded || !signIn || !setActive) {
       setError("Authentication is still loading. Please try again.");
+      setIsSubmitting(false);
       return;
     }
 
@@ -44,15 +49,6 @@ export default function Login() {
         identifier: formData.email,
         password: formData.password,
       });
-
-      console.log("signIn after create:", {
-        status: signInAttempt.status,
-        createdSessionId: signInAttempt.createdSessionId,
-      });
-
-      console.log("full keys:", Object.keys(signInAttempt || {}));
-      console.log("raw:", signInAttempt);
-      console.log("signInAttempt:", JSON.stringify(signInAttempt, null, 2));
 
       if (signInAttempt.status === "complete") {
         await setActive({ session: signInAttempt.createdSessionId });
@@ -67,6 +63,8 @@ export default function Login() {
         return;
       }
       setError(message || "An error occurred during sign in. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -120,8 +118,8 @@ export default function Login() {
 
               {error && <p className={styles.error}>{error}</p>}
 
-              <button className={styles.button} type="submit">
-                Login
+              <button className={styles.button} type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Signing in..." : "Login"}
               </button>
             </form>
 
