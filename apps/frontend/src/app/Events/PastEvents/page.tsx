@@ -2,6 +2,7 @@
 
 // src/app/events/pastevents
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import AuthLayout from "../../AuthLayout";
 import styles from "../../../styles/pastEvents.module.css";
 import EventCard from "../../../components/EventCard";
@@ -47,8 +48,15 @@ export default function PastEventsPage() {
 
   return (
     <AuthLayout>
-      <div className={styles.hero}>
-        <h1 className={styles.heroTitle}>View Our Past Events!</h1>
+      <div className={styles.pageHeader}>
+        <div className={styles.breadcrumb}>
+          <Link href="/Events/Upcoming" className={styles.breadcrumbLink}>
+            My Events
+          </Link>
+          <span className={styles.breadcrumbSeparator}>&gt;</span>
+          <span className={styles.activeBreadcrumb}>Past Events</span>
+        </div>
+        <h1 className={styles.pageTitle}>Past Events</h1>
       </div>
       <main className={styles.mainContent}>
         {isLoading && <p className={styles.loadingText}>Loading past events...</p>}
