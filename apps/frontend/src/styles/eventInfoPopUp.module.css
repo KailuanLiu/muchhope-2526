@@ -104,8 +104,8 @@
 .registerButton {
   width: 100%;
   padding: 0.8rem;
-  background-color: #8aacb8;
-  color: #fff;
+  background-color: #402479;
+  color: rgba(227, 175, 99);
   border: none;
   border-radius: 8px;
   font-size: 1rem;
@@ -115,7 +115,7 @@
 }
 
 .registerButton:hover {
-  background-color: #7a9daa;
+  background-color: #533492;
 }
 
 /* Photo gallery */

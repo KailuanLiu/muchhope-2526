@@ -86,3 +86,51 @@
 .editButton:hover {
   color: #111;
 }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .imageWrapper {
+    border-radius: 10px;
+  }
+
+  .cardBody {
+    padding: 0.5rem 0 0 0;
+  }
+
+  .title {
+    font-size: 0.95rem;
+  }
+
+  .moreInfoButton,
+  .editButton {
+    font-size: 0.82rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .imageWrapper {
+    border-radius: 8px;
+    aspect-ratio: 16 / 10;
+  }
+
+  .externalIcon {
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: 0.85rem;
+    top: 0.4rem;
+    right: 0.4rem;
+  }
+
+  .cardBody {
+    padding: 0.4rem 0 0 0;
+  }
+
+  .title {
+    font-size: 0.9rem;
+  }
+
+  .moreInfoButton,
+  .editButton {
+    font-size: 0.8rem;
+  }
+}
