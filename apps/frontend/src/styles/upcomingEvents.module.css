@@ -33,6 +33,44 @@
   font-size: clamp(1rem, 2vw, 1.2rem);
 }
 
+.pageHeader {
+  padding: 2rem 2rem 0;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  font-size: 13px;
+  color: #8c8c8c;
+}
+
+.breadcrumbLink {
+  color: #8c8c8c;
+  text-decoration: none;
+}
+
+.breadcrumbLink:hover {
+  text-decoration: underline;
+}
+
+.breadcrumbSeparator {
+  color: #b0b0b0;
+}
+
+.activeBreadcrumb {
+  color: #5c4b8a;
+  font-weight: 500;
+}
+
+.pageTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #181818;
+  margin: 0 0 1.5rem;
+}
+
 .adminActions {
   max-width: 1120px;
   margin: 0 auto 20px;

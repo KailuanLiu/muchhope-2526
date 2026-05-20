@@ -19,22 +19,42 @@
   margin-left: 60px;
 }
 
-.hero {
-  width: 100%;
-  padding: 3rem 2rem;
-  background-color: #d9d9d9;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  margin: 0;
+.pageHeader {
+  padding: 2rem 2rem 0;
 }
 
-.heroTitle {
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  font-size: 13px;
+  color: #8c8c8c;
+}
+
+.breadcrumbLink {
+  color: #8c8c8c;
+  text-decoration: none;
+}
+
+.breadcrumbLink:hover {
+  text-decoration: underline;
+}
+
+.breadcrumbSeparator {
+  color: #b0b0b0;
+}
+
+.activeBreadcrumb {
+  color: #5c4b8a;
+  font-weight: 500;
+}
+
+.pageTitle {
   font-size: 2rem;
   font-weight: 700;
-  color: #555;
-  margin: 0;
+  color: #181818;
+  margin: 0 0 1.5rem;
 }
 
 .pastEventsList {

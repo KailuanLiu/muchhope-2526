@@ -1,6 +1,7 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
+import Link from "next/link";
 import AuthLayout from "../AuthLayout";
 import ProfileForm from "../../components/volunteer/Profile";
 import UpcomingShifts from "../../components/UpcomingShifts";
@@ -31,7 +32,14 @@ export default function ProfilePage() {
   return (
     <AuthLayout hideFooter>
       <div className={styles.pageContainer}>
-        <h1 className={styles.pageTitle}>Volunteer Dashboard</h1>
+        <div className={styles.breadcrumb}>
+          <Link href="/" className={styles.breadcrumbLink}>
+            Home
+          </Link>
+          <span className={styles.breadcrumbSeparator}>&gt;</span>
+          <span className={styles.activeBreadcrumb}>My Profile</span>
+        </div>
+        <h1 className={styles.pageTitle}>My Profile</h1>
         <div className={styles.profileHeader}>
           <div className={styles.photoContainer}>
             {photoUrl ? (
