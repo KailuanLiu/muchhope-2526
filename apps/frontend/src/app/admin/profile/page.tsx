@@ -1,6 +1,7 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
+import Link from "next/link";
 import AuthLayout from "../../AuthLayout";
 import AdminProfile from "../../../components/admin/AdminProfile";
 import styles from "../../../styles/adminprofile.module.css";
@@ -30,7 +31,14 @@ export default function ProfilePage() {
   return (
     <AuthLayout hideFooter>
       <div className={styles.pageContainer}>
-        <h1 className={styles.pageTitle}>Admin Dashboard</h1>
+        <div className={styles.breadcrumb}>
+          <Link href="/admin" className={styles.breadcrumbLink}>
+            Admin
+          </Link>
+          <span className={styles.breadcrumbSeparator}>&gt;</span>
+          <span className={styles.activeBreadcrumb}>My Profile</span>
+        </div>
+        <h1 className={styles.pageTitle}>My Profile</h1>
         <div className={styles.profileHeader}>
           <div className={styles.photoContainer}>
             {photoUrl ? (
