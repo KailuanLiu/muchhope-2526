@@ -20,12 +20,22 @@ interface EventCardProps {
 export default function EventCard({
   id,
   title,
+  date,
+  time,
+  location,
+  description,
   imageUrl,
   onMoreInfo,
   hideMoreInfo,
   showEditButton,
   onEdit,
 }: EventCardProps) {
+  const formattedDate = new Date(date).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
+  const eventMeta = `${formattedDate} · ${time} · ${location}`;
+
   return (
     <div className={styles.card}>
       <div className={styles.imageWrapper}>
@@ -46,18 +56,23 @@ export default function EventCard({
       </div>
 
       <div className={styles.cardBody}>
-        <p className={styles.title}>{title}</p>
-        {!hideMoreInfo && (
-          <div className={styles.cardActions}>
-            <button className={styles.moreInfoButton} onClick={onMoreInfo}>
-              More Info &rsaquo;
-            </button>
-            {showEditButton && (
-              <button className={styles.editButton} onClick={onEdit} type="button">
-                Edit Event
-              </button>
-            )}
+        <p className={styles.meta}>{eventMeta}</p>
+        <div className={styles.bottomRow}>
+          <div className={styles.copy}>
+            <h3 className={styles.title}>{title}</h3>
+            <p className={styles.description}>{description}</p>
           </div>
+          {!hideMoreInfo && (
+            <button className={styles.registerButton} onClick={onMoreInfo} type="button">
+              Register
+            </button>
+          )}
+        </div>
+
+        {showEditButton && (
+          <button className={styles.editButton} onClick={onEdit} type="button">
+            Edit Event
+          </button>
         )}
       </div>
     </div>

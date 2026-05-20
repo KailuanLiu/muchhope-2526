@@ -49,16 +49,16 @@ describe("EventCard", () => {
     expect(link).toHaveAttribute("href", "/Events/123");
   });
 
-  it("calls onMoreInfo when More Info button is clicked", () => {
+  it("calls onMoreInfo when Register button is clicked", () => {
     const onMoreInfo = vi.fn();
     render(<EventCard {...baseProps} onMoreInfo={onMoreInfo} />);
-    fireEvent.click(screen.getByText(/More Info/));
+    fireEvent.click(screen.getByText("Register"));
     expect(onMoreInfo).toHaveBeenCalledOnce();
   });
 
-  it("hides More Info button when hideMoreInfo is true", () => {
+  it("hides Register button when hideMoreInfo is true", () => {
     render(<EventCard {...baseProps} hideMoreInfo />);
-    expect(screen.queryByText(/More Info/)).not.toBeInTheDocument();
+    expect(screen.queryByText("Register")).not.toBeInTheDocument();
   });
 
   it("shows Edit Event button when showEditButton is true", () => {
