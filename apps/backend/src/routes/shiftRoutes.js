@@ -30,4 +30,21 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.delete("/:id", async (req, res) => {
+  try {
+    const { Shift } = getModels();
+    const { id } = req.params;
+
+    const deletedShift = await Shift.findByIdAndDelete(id);
+
+    if (!deletedShift) {
+      return res.status(404).json({ message: "Shift not found" });
+    }
+
+    res.status(200).json({ message: "Shift deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;
