@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { useUser } from "@clerk/nextjs";
+import { useUser, useAuth } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import styles from "../../../styles/upcomingEvents.module.css";
 import EventCard from "../../../components/EventCard";
@@ -60,6 +61,8 @@ export default function UpcomingEventsPage() {
   const isMainAdmin = useIsSuperAdmin();
   const isAdminUser = useIsAdmin();
   const { user } = useUser();
+  const { isSignedIn } = useAuth();
+  const router = useRouter();
   const volunteerId = user?.id ?? "";
   const volunteerEmail = user?.primaryEmailAddress?.emailAddress ?? "";
 
@@ -106,6 +109,10 @@ export default function UpcomingEventsPage() {
   }, []);
 
   const openMoreInfo = (event: EventData) => {
+    if (!isSignedIn) {
+      router.push("/auth/login");
+      return;
+    }
     setSelectedEvent(event);
     setModalState("moreInfo");
   };
