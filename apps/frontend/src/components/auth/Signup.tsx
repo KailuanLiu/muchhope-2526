@@ -243,8 +243,8 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
           session: signUpAttempt.createdSessionId,
         });
 
-        // Go to login page after successful signup
-        router.push("/auth/login");
+        // Go to home after successful signup
+        router.push("/");
       } else {
         setVerificationCodeError("Verification could not be completed. Please try again.");
       }
