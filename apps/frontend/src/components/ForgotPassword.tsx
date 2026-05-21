@@ -118,8 +118,8 @@ export default function ForgotPassword({ initialStage = "request" }: ForgotPassw
 
       if (attempt.status === "complete") {
         await setActive({ session: attempt.createdSessionId });
-        setSuccessMessage("Password reset successful. Redirecting to login...");
-        setTimeout(() => router.push("/auth/login"), 1200);
+        setSuccessMessage("Password reset successful. Redirecting...");
+        setTimeout(() => router.push("/"), 1200);
       } else {
         setErrorMessage("Reset could not be completed. Please try again.");
       }
