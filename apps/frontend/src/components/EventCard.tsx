@@ -12,6 +12,7 @@ interface EventCardProps {
   description: string;
   imageUrl?: string;
   onMoreInfo?: () => void;
+  moreInfoLabel?: string;
   showEditButton?: boolean;
   onEdit?: () => void;
   hideMoreInfo?: boolean;
@@ -26,6 +27,7 @@ export default function EventCard({
   description,
   imageUrl,
   onMoreInfo,
+  moreInfoLabel,
   hideMoreInfo,
   showEditButton,
   onEdit,
@@ -64,7 +66,7 @@ export default function EventCard({
           </div>
           {!hideMoreInfo && (
             <button className={styles.registerButton} onClick={onMoreInfo} type="button">
-              Register
+              {moreInfoLabel || "Register"}
             </button>
           )}
         </div>

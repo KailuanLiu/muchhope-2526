@@ -6,6 +6,7 @@ import Link from "next/link";
 import AuthLayout from "../../AuthLayout";
 import styles from "../../../styles/pastEvents.module.css";
 import EventCard from "../../../components/EventCard";
+import EventInfoPopUp from "../../../components/EventInfoPopUp";
 
 interface EventData {
   id: string;
@@ -20,6 +21,7 @@ export default function PastEventsPage() {
   const [events, setEvents] = useState<EventData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selectedEvent, setSelectedEvent] = useState<EventData | null>(null);
 
   async function loadEvents() {
     try {
@@ -46,28 +48,40 @@ export default function PastEventsPage() {
     loadEvents();
   }, []);
 
+  const openDetails = (event: EventData) => {
+    setSelectedEvent(event);
+  };
+
+  const closeDetails = () => {
+    setSelectedEvent(null);
+  };
+
   return (
     <AuthLayout>
-      <div className={styles.pageHeader}>
-        <div className={styles.breadcrumb}>
-          <Link href="/Events/Upcoming" className={styles.breadcrumbLink}>
-            My Events
-          </Link>
-          <span className={styles.breadcrumbSeparator}>&gt;</span>
-          <span className={styles.activeBreadcrumb}>Past Events</span>
-        </div>
-        <h1 className={styles.pageTitle}>Past Events</h1>
-      </div>
       <main className={styles.mainContent}>
+        <section className={styles.hero}>
+          <div className={styles.breadcrumb}>
+            <Link href="/Events/Upcoming" className={styles.breadcrumbLink}>
+              My Events
+            </Link>
+            <span className={styles.breadcrumbSeparator}>&gt;</span>
+            <span className={styles.activeBreadcrumb}>Past Events</span>
+          </div>
+          <h1 className={styles.heroTitle}>Past Events</h1>
+          <p className={styles.heroSubtitle}>Browse events that have already taken place</p>
+        </section>
+
         {isLoading && <p className={styles.loadingText}>Loading past events...</p>}
         {error && <p className={styles.errorText}>{error}</p>}
         {!isLoading && !error && events.length === 0 && <p className={styles.emptyText}>No past events found.</p>}
         <div className={styles.eventGrid}>
           {events.map((event) => (
-            <EventCard key={event.id} {...event} hideMoreInfo />
+            <EventCard key={event.id} {...event} onMoreInfo={() => openDetails(event)} moreInfoLabel="View Details" />
           ))}
         </div>
       </main>
+
+      {selectedEvent && <EventInfoPopUp event={selectedEvent} onClose={closeDetails} onRegister={closeDetails} />}
     </AuthLayout>
   );
 }

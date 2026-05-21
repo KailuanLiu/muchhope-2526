@@ -372,14 +372,27 @@
   border-bottom: none;
 }
 
-.shiftDate {
+.shiftDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.shiftEventName {
   font-size: 0.95rem;
+  font-weight: 600;
+  color: #2d1a4e;
+}
+
+.shiftDate {
+  font-size: 0.85rem;
   font-weight: 500;
+  color: #555;
 }
 
 .shiftType {
-  font-size: 0.95rem;
-  color: #333333;
+  font-size: 0.85rem;
+  color: #666;
 }
 
 .loadingText,

@@ -3,24 +3,16 @@
 }
 
 .mainContent {
-  height: 100vh;
-  overflow-y: auto;
-  overflow-x: hidden;
+  min-height: 100vh;
+  padding: 54px 42px 64px;
   box-sizing: border-box;
-  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #f8f6f7;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.mainContentExpanded {
-  margin-left: 200px;
-}
-
-.mainContentCollapsed {
-  margin-left: 60px;
-}
-
-.pageHeader {
-  padding: 2rem 2rem 0;
+.hero {
+  max-width: 1120px;
+  margin: 0 auto 38px;
 }
 
 .breadcrumb {
@@ -50,11 +42,18 @@
   font-weight: 500;
 }
 
-.pageTitle {
-  font-size: 2rem;
+.heroTitle {
+  margin: 0;
+  color: #402479;
+  font-size: clamp(2rem, 4vw, 3.1rem);
   font-weight: 700;
-  color: #181818;
-  margin: 0 0 1.5rem;
+  line-height: 1.1;
+}
+
+.heroSubtitle {
+  margin: 12px 0 0;
+  color: #373737;
+  font-size: clamp(1rem, 2vw, 1.2rem);
 }
 
 .pastEventsList {
@@ -63,11 +62,11 @@
 }
 
 .eventGrid {
-  padding: 2rem;
+  max-width: 1120px;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-  max-width: 900px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 38px 34px;
 }
 
 .loadingText,

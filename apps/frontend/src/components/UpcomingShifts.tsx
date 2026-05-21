@@ -5,8 +5,16 @@ import styles from "../styles/profile.module.css";
 
 interface Shift {
   _id: string;
+  eventId: string;
   date: string;
   shiftType: string;
+  shiftTime: string;
+  eventName?: string;
+}
+
+interface EventData {
+  id: string;
+  title: string;
 }
 
 interface UpcomingShiftsProps {
@@ -21,10 +29,31 @@ export default function UpcomingShifts({ volunteerEmail }: UpcomingShiftsProps) 
   useEffect(() => {
     const fetchShifts = async () => {
       try {
-        const response = await fetch(`/api/shifts?email=${encodeURIComponent(volunteerEmail)}`);
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.message || "Failed to load shifts");
-        setShifts(data);
+        // Fetch shifts and events in parallel
+        const [shiftsRes, eventsRes] = await Promise.all([
+          fetch(`/api/shifts?email=${encodeURIComponent(volunteerEmail)}`),
+          fetch("/api/events"),
+        ]);
+
+        const shiftsData = await shiftsRes.json();
+        const eventsData = await eventsRes.json();
+
+        if (!shiftsRes.ok) throw new Error(shiftsData.message || "Failed to load shifts");
+
+        // Map event names to shifts
+        const eventsMap = new Map<string, string>();
+        if (Array.isArray(eventsData)) {
+          eventsData.forEach((event: EventData) => {
+            eventsMap.set(event.id, event.title);
+          });
+        }
+
+        const enrichedShifts = (Array.isArray(shiftsData) ? shiftsData : []).map((shift: Shift) => ({
+          ...shift,
+          eventName: eventsMap.get(shift.eventId) || "Unknown Event",
+        }));
+
+        setShifts(enrichedShifts);
       } catch {
         setError("Failed to load upcoming shifts.");
       } finally {
@@ -32,12 +61,16 @@ export default function UpcomingShifts({ volunteerEmail }: UpcomingShiftsProps) 
       }
     };
 
-    fetchShifts();
+    if (volunteerEmail) {
+      fetchShifts();
+    }
   }, [volunteerEmail]);
 
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
+    if (isNaN(date.getTime())) return dateString;
     return date.toLocaleDateString("en-US", {
+      weekday: "short",
       day: "numeric",
       month: "short",
       year: "numeric",
@@ -76,14 +109,16 @@ export default function UpcomingShifts({ volunteerEmail }: UpcomingShiftsProps) 
         <ul className={styles.shiftList}>
           {shifts.map((shift) => (
             <li key={shift._id} className={styles.shiftItem}>
-              <div>
+              <div className={styles.shiftDetails}>
+                <span className={styles.shiftEventName}>{shift.eventName}</span>
                 <span className={styles.shiftDate}>{formatDate(shift.date)}</span>
-
-                <span className={styles.shiftType}>{shift.shiftType}</span>
+                <span className={styles.shiftType}>
+                  {shift.shiftType} · {shift.shiftTime}
+                </span>
               </div>
 
               <button className={styles.deleteButton} onClick={() => handleDelete(shift._id)}>
-                Delete
+                Cancel
               </button>
             </li>
           ))}

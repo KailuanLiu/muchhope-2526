@@ -9,7 +9,7 @@ const connectDB = require("./lib/db.js");
 const volunteersRoutes = require("./src/routes/volunteerRoutes.js");
 const eventRoutes = require("./src/routes/eventRoutes.js");
 const shiftRoutes = require("./src/routes/shiftRoutes.js");
-const { clerkMiddleware } = require("@clerk/nextjs/server");
+const { clerkMiddleware } = require("@clerk/express");
 // uncomment below when implemented
 // const authRoutes = require("./routes/authRoutes.js");
 // const adminRoutes = require("./routes/adminRoutes.js");
