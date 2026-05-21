@@ -471,6 +471,20 @@
   background-color: #d9d9d9;
 }
 
+.deleteButton {
+  background-color: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.deleteButton:hover {
+  background-color: #b91c1c;
+}
+
 /* Responsive */
 @media (max-width: 900px) {
   .columnsWrapper {

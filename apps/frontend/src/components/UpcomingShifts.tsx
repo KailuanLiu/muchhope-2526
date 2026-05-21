@@ -44,6 +44,24 @@ export default function UpcomingShifts({ volunteerEmail }: UpcomingShiftsProps) 
     });
   };
 
+  const handleDelete = async (shiftId: string) => {
+    try {
+      const response = await fetch(`/api/shifts?id=${shiftId}`, {
+        method: "DELETE",
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to delete shift");
+      }
+
+      setShifts((prevShifts) => prevShifts.filter((shift) => shift._id !== shiftId));
+    } catch {
+      setError("Failed to delete shift.");
+    }
+  };
+
   return (
     <div className={styles.shiftsCard}>
       <h2 className={styles.sectionTitle}>Upcoming Shifts</h2>
@@ -58,8 +76,15 @@ export default function UpcomingShifts({ volunteerEmail }: UpcomingShiftsProps) 
         <ul className={styles.shiftList}>
           {shifts.map((shift) => (
             <li key={shift._id} className={styles.shiftItem}>
-              <span className={styles.shiftDate}>{formatDate(shift.date)}</span>
-              <span className={styles.shiftType}>{shift.shiftType}</span>
+              <div>
+                <span className={styles.shiftDate}>{formatDate(shift.date)}</span>
+
+                <span className={styles.shiftType}>{shift.shiftType}</span>
+              </div>
+
+              <button className={styles.deleteButton} onClick={() => handleDelete(shift._id)}>
+                Delete
+              </button>
             </li>
           ))}
         </ul>

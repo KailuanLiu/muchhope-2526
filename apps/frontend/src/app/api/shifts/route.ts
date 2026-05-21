@@ -48,3 +48,34 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ message: "Failed to save shift" }, { status: 500 });
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json({ message: "Shift id is required" }, { status: 400 });
+    }
+
+    const res = await fetch(`${API_BASE}/shifts/${id}`, {
+      method: "DELETE",
+    });
+
+    const contentType = res.headers.get("content-type") || "";
+
+    if (!contentType.includes("application/json")) {
+      console.error("[api/shifts] Backend returned non-JSON response:", res.status);
+
+      return NextResponse.json({ message: "Failed to delete shift" }, { status: 500 });
+    }
+
+    const data = await res.json();
+
+    return NextResponse.json(data, { status: res.status });
+  } catch (err) {
+    console.error("[api/shifts] DELETE failed:", err);
+
+    return NextResponse.json({ message: "Failed to delete shift" }, { status: 500 });
+  }
+}
