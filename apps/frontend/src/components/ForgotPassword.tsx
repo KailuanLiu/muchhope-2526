@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useSignIn } from "@clerk/nextjs";
+import { useSignIn } from "@clerk/nextjs/legacy";
+import { useClerk } from "@clerk/nextjs";
 import AuthLayout from "../app/AuthLayout";
 import styles from "../styles/forgotPassword.module.css";
 
@@ -21,7 +22,9 @@ interface ForgotPasswordProps {
 }
 
 export default function ForgotPassword({ initialStage = "request" }: ForgotPasswordProps) {
-  const { isLoaded, signIn, setActive } = useSignIn() as any;
+  const { signIn } = useSignIn() as any;
+  const { setActive } = useClerk();
+  const isLoaded = !!signIn;
   const router = useRouter();
   const [stage, setStage] = useState<Stage>(initialStage);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,8 +46,8 @@ export default function ForgotPassword({ initialStage = "request" }: ForgotPassw
     setErrorMessage("");
     setSuccessMessage("");
 
-    if (!isLoaded) {
-      setErrorMessage("Auth is still loading. Please try again in a moment.");
+    if (!signIn) {
+      setErrorMessage("Auth is still loading. Please wait a moment and try again.");
       return;
     }
 
@@ -92,8 +95,8 @@ export default function ForgotPassword({ initialStage = "request" }: ForgotPassw
     setErrorMessage("");
     setSuccessMessage("");
 
-    if (!isLoaded) {
-      setErrorMessage("Auth is still loading. Please try again in a moment.");
+    if (!signIn || !setActive) {
+      setErrorMessage("Auth is still loading. Please wait a moment and try again.");
       return;
     }
 
@@ -157,8 +160,8 @@ export default function ForgotPassword({ initialStage = "request" }: ForgotPassw
               {errorMessage && <p className={styles.error}>{errorMessage}</p>}
               {successMessage && <p className={styles.success}>{successMessage}</p>}
 
-              <button className={styles.button} type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Sending..." : "Send reset code"}
+              <button className={styles.button} type="submit" disabled={isSubmitting || !isLoaded}>
+                {!isLoaded ? "Loading..." : isSubmitting ? "Sending..." : "Send reset code"}
               </button>
 
               <Link href="/auth/login" className={styles.textLink}>
@@ -206,8 +209,8 @@ export default function ForgotPassword({ initialStage = "request" }: ForgotPassw
               {errorMessage && <p className={styles.error}>{errorMessage}</p>}
               {successMessage && <p className={styles.success}>{successMessage}</p>}
 
-              <button className={styles.button} type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Updating..." : "Reset password"}
+              <button className={styles.button} type="submit" disabled={isSubmitting || !isLoaded}>
+                {!isLoaded ? "Loading..." : isSubmitting ? "Updating..." : "Reset password"}
               </button>
 
               <button
