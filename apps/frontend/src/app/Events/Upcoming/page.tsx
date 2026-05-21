@@ -175,15 +175,12 @@ export default function UpcomingEventsPage() {
 
   return (
     <AuthLayout>
-      <div className={styles.pageHeader}>
-        <div className={styles.breadcrumb}>
-          <span className={styles.breadcrumbLink}>My Events</span>
-          <span className={styles.breadcrumbSeparator}>&gt;</span>
-          <span className={styles.activeBreadcrumb}>Upcoming Events</span>
-        </div>
-        <h1 className={styles.pageTitle}>Upcoming Events</h1>
-      </div>
       <main className={styles.mainContent}>
+        <section className={styles.hero}>
+          <h1 className={styles.heroTitle}>Upcoming Events</h1>
+          <p className={styles.heroSubtitle}>Select an event and time to register</p>
+        </section>
+
         {isMainAdmin && (
           <div className={styles.adminActions}>
             <button className={styles.adminButton} onClick={openCreateForm}>
@@ -195,8 +192,8 @@ export default function UpcomingEventsPage() {
         {saveSuccess && <p className={styles.successMessage}>{saveSuccess}</p>}
 
         <div className={styles.eventGrid}>
-          {isLoading && <p>Loading events...</p>}
-          {error && <p>{error}</p>}
+          {isLoading && <p className={styles.statusText}>Loading events...</p>}
+          {error && <p className={styles.statusText}>{error}</p>}
 
           {!isLoading &&
             !error &&
