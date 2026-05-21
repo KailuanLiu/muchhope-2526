@@ -41,11 +41,7 @@ export default function EventCard({
   return (
     <div className={styles.card}>
       <div className={styles.imageWrapper}>
-        {imageUrl ? (
-          <img src={imageUrl} alt={title} className={styles.image} />
-        ) : (
-          <div className={styles.imagePlaceholder} />
-        )}
+        <img src={imageUrl || "/events-page.jpeg"} alt={title} className={styles.image} />
         <Link
           href={`/Events/${id}`}
           className={styles.externalIcon}

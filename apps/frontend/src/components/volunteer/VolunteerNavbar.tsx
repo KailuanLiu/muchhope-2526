@@ -43,13 +43,8 @@ export default function VolunteerNavbar({
         <button className={styles.toggleButton} onClick={() => setCollapsed(!collapsed)} aria-label="Toggle sidebar">
           <img src="/icons/menu.svg" alt="menu button" />
         </button>
+        {!collapsed && <Image src="/white-logo.png" alt="Much Hope" width={80} height={68} className={styles.logo} />}
       </div>
-
-      {!collapsed && (
-        <div className={styles.logoBox}>
-          <Image src="/white-logo.png" alt="Much Hope" width={200} height={170} className={styles.logo} />
-        </div>
-      )}
 
       <nav className={volStyles.navArea}>
         <ul className={styles.navList}>
