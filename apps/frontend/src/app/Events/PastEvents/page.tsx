@@ -68,7 +68,7 @@ export default function PastEventsPage() {
             <span className={styles.activeBreadcrumb}>Past Events</span>
           </div>
           <h1 className={styles.heroTitle}>Past Events</h1>
-          <p className={styles.heroSubtitle}>Browse events that have already taken place</p>
+          <p className={styles.heroSubtitle}>Look at past events you have volunteered for</p>
         </section>
 
         {isLoading && <p className={styles.loadingText}>Loading past events...</p>}
