@@ -1,4 +1,3 @@
-// have not installed zod yet
 const { ZodError } = require("zod");
 
 function validate(schema) {
