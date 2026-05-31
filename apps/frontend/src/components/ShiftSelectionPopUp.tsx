@@ -2,6 +2,7 @@
 
 import styles from "../styles/shiftSelectionPopUp.module.css";
 import { useState } from "react";
+import { useUser } from "@clerk/nextjs";
 
 interface Shift {
   id: string;
@@ -29,15 +30,23 @@ const DUMMY_SHIFTS: Shift[] = [
 ];
 
 export default function ShiftSelectionPopUp({ event, onClose, onSave }: ShiftSelectionPopUpProps) {
+  const { user } = useUser();
   const [selected, setSelected] = useState<string | null>(null);
 
   const handleSave = async () => {
     if (!selected) return;
-    // TODO: POST to /api/shifts once backend endpoint is ready
-    // await fetch("/api/shifts", {
-    //   method: "POST",
-    //   body: JSON.stringify({ eventId: event.id, shiftId: selected }),
-    // });
+
+    await fetch("/api/shifts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        eventId: event.id,
+        shiftId: selected,
+        volunteerId: user?.id,
+        volunteerEmail: user?.primaryEmailAddress?.emailAddress,
+      }),
+    });
+
     onSave(selected);
   };
 
