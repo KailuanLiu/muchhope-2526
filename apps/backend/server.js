@@ -1,6 +1,8 @@
-require("dotenv").config();
-
 const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, "../../.env") });
+require("dotenv").config({ path: path.resolve(__dirname, ".env"), override: true });
+process.env.CLERK_PUBLISHABLE_KEY ||= process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
 const express = require("express");
 const cors = require("cors");
 const session = require("express-session");
