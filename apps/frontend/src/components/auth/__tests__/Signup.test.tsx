@@ -8,6 +8,12 @@ vi.mock("next/navigation", () => ({
   useRouter: () => ({ push: mockPush }),
 }));
 
+// Mock fetch for the POST /api/volunteers call after signup
+global.fetch = vi.fn().mockResolvedValue({
+  ok: true,
+  json: async () => ({}),
+}) as any;
+
 // Mock AuthLayout to just render children
 vi.mock("@/app/AuthLayout", () => ({
   default: ({ children }: { children: React.ReactNode }) => <div data-testid="auth-layout">{children}</div>,
@@ -156,7 +162,7 @@ describe("Signup", () => {
     });
 
     expect(mockSetActive).toHaveBeenCalledWith({ session: "session_123" });
-    expect(mockPush).toHaveBeenCalledWith("/auth/login");
+    expect(mockPush).toHaveBeenCalledWith("/");
   });
 
   it("shows error when signUp.create fails with known error code", async () => {
@@ -266,7 +272,7 @@ describe("Signup", () => {
       });
     });
 
-    it("completes full flow: create account → verify email → activate session → redirect to login", async () => {
+    it("completes full flow: create account → verify email → activate session → redirect to home", async () => {
       const createdSessionId = "sess_new_user_abc123";
       mockSignUp.attemptEmailAddressVerification.mockResolvedValue({
         status: "complete",
@@ -320,7 +326,7 @@ describe("Signup", () => {
 
       // Step 8: User is redirected to login page
       expect(mockPush).toHaveBeenCalledTimes(1);
-      expect(mockPush).toHaveBeenCalledWith("/auth/login");
+      expect(mockPush).toHaveBeenCalledWith("/");
     });
 
     it("account creation is called before verification — correct order of operations", async () => {
