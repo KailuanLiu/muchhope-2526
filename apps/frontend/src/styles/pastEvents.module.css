@@ -1,12 +1,16 @@
-.pageLayout {
-  min-height: 100vh;
+:root {
+  --mh-bg: #f8f6f7;
+  --mh-purple: #402479;
+  --mh-gold: #e3af64;
+  --mh-cream: #ffe9ac;
+  --mh-ink: #212121;
 }
 
 .mainContent {
   min-height: 100vh;
   padding: 54px 42px 64px;
   box-sizing: border-box;
-  background: #f8f6f7;
+  background: var(--mh-bg);
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
@@ -44,7 +48,7 @@
 
 .heroTitle {
   margin: 0;
-  color: #402479;
+  color: var(--mh-purple);
   font-size: clamp(2rem, 4vw, 3.1rem);
   font-weight: 700;
   line-height: 1.1;
@@ -54,11 +58,6 @@
   margin: 12px 0 0;
   color: #373737;
   font-size: clamp(1rem, 2vw, 1.2rem);
-}
-
-.pastEventsList {
-  padding: 2rem;
-  max-width: 900px;
 }
 
 .eventGrid {
@@ -72,12 +71,32 @@
 .loadingText,
 .errorText,
 .emptyText {
-  text-align: center;
-  padding: 2rem;
-  color: #333333;
+  margin: 0;
+  color: #444;
   font-size: 1rem;
 }
 
 .errorText {
-  color: #721c24;
+  padding: 0.9rem 1rem;
+  border-radius: 10px;
+  background: #fdeaea;
+  color: #a12626;
+  border: 1px solid #f2bcbc;
+}
+
+@media (max-width: 1100px) {
+  .eventGrid {
+    gap: 26px;
+  }
+}
+
+@media (max-width: 900px) {
+  .mainContent {
+    padding: 30px 18px 42px;
+  }
+
+  .eventGrid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
 }

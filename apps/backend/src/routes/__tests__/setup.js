@@ -153,7 +153,33 @@ const ShiftSchemaDefinition = {
 
 let Event, Volunteer, Shift;
 
+function setupClerkMock() {
+  if (typeof jest === "undefined") return;
+
+  jest.doMock("@clerk/express", () => {
+    const buildAuth = (req) => ({
+      isAuthenticated: req.headers["x-test-authenticated"] !== "false",
+      userId: req.headers["x-test-user-id"] || "test_user",
+      sessionClaims: {
+        metadata: {
+          role: req.headers["x-user-role"] || "mainadmin",
+        },
+      },
+    });
+
+    return {
+      clerkMiddleware: () => (req, res, next) => {
+        req.auth = () => buildAuth(req);
+        next();
+      },
+      getAuth: (req) => (req.auth ? req.auth() : buildAuth(req)),
+    };
+  });
+}
+
 function setupTestDB() {
+  setupClerkMock();
+
   events = [];
   volunteers = [];
   const shifts = [];
