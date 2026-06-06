@@ -5,13 +5,19 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const email = searchParams.get("email");
+  const eventId = searchParams.get("eventId");
 
-  if (!email) {
-    return NextResponse.json({ message: "email query param is required" }, { status: 400 });
+  if (!email && !eventId) {
+    return NextResponse.json({ message: "email or eventId query param is required" }, { status: 400 });
   }
 
   const url = new URL(`${API_BASE}/shifts`);
-  url.searchParams.set("email", email);
+  // eventId is not restricted at the API level, but only AdminShiftViewPopUp calls this path
+  if (eventId) {
+    url.searchParams.set("eventId", eventId);
+  } else {
+    url.searchParams.set("email", email!);
+  }
 
   try {
     const res = await fetch(url.toString(), { cache: "no-store" });
