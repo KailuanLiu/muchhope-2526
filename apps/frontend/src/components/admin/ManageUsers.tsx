@@ -7,6 +7,25 @@ import styles from "@/styles/volunteers.module.css";
 import type { Volunteer } from "@/types/volunteer";
 import VolunteerProfilePopUp from "@/components/VolunteerProfilePopUp";
 
+type RoleFilter = "All" | "Main Admin" | "Admin" | "Volunteer";
+type AgeFilter = "All" | "Adult" | "Minor";
+
+function normalizeRole(role?: string, userType?: string): Exclude<RoleFilter, "All"> {
+  const rawRole = (role || userType || "Volunteer").trim().toLowerCase();
+
+  if (rawRole.includes("main") && rawRole.includes("admin")) return "Main Admin";
+  if (rawRole.includes("admin")) return "Admin";
+
+  return "Volunteer";
+}
+
+function getIsAdult(volunteer: Volunteer) {
+  if (typeof volunteer.isAdult === "boolean") return volunteer.isAdult;
+  if (typeof volunteer.age === "number") return volunteer.age >= 18;
+
+  return true;
+}
+
 export default function AdminVolunteersPage() {
   const [volunteers, setVolunteers] = useState<Volunteer[]>([]);
   const [loading, setLoading] = useState(true);
@@ -15,8 +34,8 @@ export default function AdminVolunteersPage() {
   const [isAddPopupOpen, setIsAddPopupOpen] = useState(false);
 
   // filtering
-  const [roleFilter, setRoleFilter] = useState<"All" | "Main Admin" | "Admin" | "Volunteer">("All");
-  const [ageFilter, setAgeFilter] = useState<"All" | "Adult" | "Minor">("All");
+  const [roleFilter, setRoleFilter] = useState<RoleFilter>("All");
+  const [ageFilter, setAgeFilter] = useState<AgeFilter>("All");
 
   async function loadVolunteers() {
     try {
@@ -38,7 +57,7 @@ export default function AdminVolunteersPage() {
     loadVolunteers();
   }, []);
 
-  async function handleAddVolunteer(data: { firstName: string; lastName: string; role: string; isAdult?: boolean }) {
+  async function handleAddVolunteer(data: Volunteer) {
     if (!data.firstName.trim() || !data.lastName.trim()) return;
 
     try {
@@ -52,8 +71,16 @@ export default function AdminVolunteersPage() {
         body: JSON.stringify({
           firstName: data.firstName.trim(),
           lastName: data.lastName.trim(),
+          email: data.email?.trim() ?? "",
+          phoneNumber: data.phoneNumber?.trim() ?? "",
           role: data.role.trim() || "Volunteer",
           isAdult: data.isAdult,
+          notes: data.notes?.trim() ?? "",
+          shiftDetails: {
+            eventName: data.shiftDetails?.eventName?.trim() ?? "",
+            shiftType: data.shiftDetails?.shiftType?.trim() ?? "",
+            shiftTime: data.shiftDetails?.shiftTime?.trim() ?? "",
+          },
         }),
       });
 
@@ -135,13 +162,18 @@ export default function AdminVolunteersPage() {
   }
 
   const { mainadmins, admins, regularVolunteers } = useMemo(() => {
-    const sorted = [...volunteers]
+    const sorted = volunteers
+      .map((volunteer) => ({
+        ...volunteer,
+        role: normalizeRole(volunteer.role, volunteer.userType),
+        isAdult: getIsAdult(volunteer),
+      }))
       .sort((a, b) => `${a.firstName} ${a.lastName}`.localeCompare(`${b.firstName} ${b.lastName}`))
       .filter((v) => roleFilter === "All" || v.role === roleFilter)
       .filter((v) => {
         if (ageFilter === "All") return true;
-        if (ageFilter === "Adult") return !v.isAdult === true || (v.age !== undefined && v.age >= 18);
-        if (ageFilter === "Minor") return v.isAdult === false || (v.age !== undefined && v.age < 18);
+        if (ageFilter === "Adult") return v.isAdult;
+        if (ageFilter === "Minor") return !v.isAdult;
         return true;
       });
 
@@ -151,6 +183,8 @@ export default function AdminVolunteersPage() {
       regularVolunteers: sorted.filter((v) => v.role !== "Admin" && v.role !== "Main Admin"),
     };
   }, [volunteers, roleFilter, ageFilter]);
+
+  const filteredMemberCount = mainadmins.length + admins.length + regularVolunteers.length;
 
   return (
     <AuthLayout>
@@ -186,13 +220,13 @@ export default function AdminVolunteersPage() {
 
           <div className={styles.listHeader}>
             <p className={styles.sectionLabel}>All Members</p>
-            <span className={styles.countBadge}>{mainadmins.length + admins.length + regularVolunteers.length}</span>
+            <span className={styles.countBadge}>{filteredMemberCount}</span>
           </div>
 
           <div className={styles.filter}>
             <select
               value={roleFilter}
-              onChange={(e) => setRoleFilter(e.target.value as "All" | "Admin" | "Volunteer")}
+              onChange={(e) => setRoleFilter(e.target.value as RoleFilter)}
               className={styles.filterSelect}
             >
               <option value="All">All Roles</option>
@@ -203,7 +237,7 @@ export default function AdminVolunteersPage() {
 
             <select
               value={ageFilter}
-              onChange={(e) => setAgeFilter(e.target.value as "All" | "Adult" | "Minor")}
+              onChange={(e) => setAgeFilter(e.target.value as AgeFilter)}
               className={styles.filterSelect}
             >
               <option value="All">All Age Group</option>
@@ -216,6 +250,8 @@ export default function AdminVolunteersPage() {
               <div className={styles.emptyState}>Loading volunteers...</div>
             ) : volunteers.length === 0 ? (
               <div className={styles.emptyState}>No volunteers yet.</div>
+            ) : filteredMemberCount === 0 ? (
+              <div className={styles.emptyState}>No members match these filters.</div>
             ) : (
               <>
                 {/* MAIN ADMINS */}
@@ -223,7 +259,7 @@ export default function AdminVolunteersPage() {
                   <>
                     <div className={styles.listHeader}>
                       <p className={styles.sectionLabel}>Main Admins</p>
-                      <span className={styles.countBadge}>{admins.length}</span>
+                      <span className={styles.countBadge}>{mainadmins.length}</span>
                     </div>
 
                     {mainadmins.map((volunteer) => (
@@ -366,14 +402,7 @@ export default function AdminVolunteersPage() {
             volunteer={null}
             mode="create"
             onClose={() => setIsAddPopupOpen(false)}
-            onSave={(newVolunteer) =>
-              handleAddVolunteer({
-                firstName: newVolunteer.firstName,
-                lastName: newVolunteer.lastName,
-                role: newVolunteer.role || "Volunteer",
-                isAdult: newVolunteer.isAdult,
-              })
-            }
+            onSave={handleAddVolunteer}
             onDelete={() => {}}
           />
         )}

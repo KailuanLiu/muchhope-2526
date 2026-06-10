@@ -2,14 +2,62 @@ import { NextRequest, NextResponse } from "next/server";
 import connectDB from "lib/db";
 import { Volunteer } from "lib/VolunteerModel";
 
+function normalizeShiftDetails(shiftDetails: any) {
+  return {
+    eventName: String(shiftDetails?.eventName ?? "").trim(),
+    shiftType: String(shiftDetails?.shiftType ?? "").trim(),
+    shiftTime: String(shiftDetails?.shiftTime ?? "").trim(),
+  };
+}
+
+function normalizeVolunteer(volunteer: any) {
+  return {
+    ...volunteer,
+    id: volunteer.clerkId || volunteer._id.toString(),
+    email: volunteer.email ?? "",
+    phoneNumber: volunteer.phoneNumber ?? "",
+    role: volunteer.role ?? volunteer.userType ?? "Volunteer",
+    userType: volunteer.userType ?? volunteer.role ?? "Volunteer",
+    notes: volunteer.notes ?? "",
+    shiftDetails: normalizeShiftDetails(volunteer.shiftDetails),
+  };
+}
+
+function getVolunteerLookup(id: string) {
+  const lookup: any[] = [{ clerkId: id }];
+
+  if (/^[0-9a-fA-F]{24}$/.test(id)) {
+    lookup.push({ _id: id });
+  }
+
+  return { $or: lookup };
+}
+
+function getVolunteerUpdates(body: any) {
+  const updates: any = {};
+
+  for (const field of ["firstName", "lastName", "email", "phoneNumber", "userType", "role", "notes"]) {
+    if (body[field] !== undefined) {
+      updates[field] = typeof body[field] === "string" ? body[field].trim() : body[field];
+    }
+  }
+
+  if (body.isAdult !== undefined) {
+    updates.isAdult = body.isAdult;
+  }
+
+  if (body.shiftDetails !== undefined) {
+    updates.shiftDetails = normalizeShiftDetails(body.shiftDetails);
+  }
+
+  return updates;
+}
+
 export async function GET() {
   try {
     await connectDB();
     const volunteers = await Volunteer.find({}).lean();
-    const mapped = volunteers.map((v: any) => ({
-      ...v,
-      id: v.clerkId || v._id.toString(),
-    }));
+    const mapped = volunteers.map(normalizeVolunteer);
     return NextResponse.json({ volunteers: mapped });
   } catch (err) {
     console.error("GET /api/volunteers error:", err);
@@ -38,6 +86,8 @@ export async function POST(req: NextRequest) {
       userType: body.userType ?? "Volunteer",
       isAdult: body.isAdult ?? true,
       role: body.role ?? "Volunteer",
+      notes: body.notes ?? "",
+      shiftDetails: normalizeShiftDetails(body.shiftDetails),
     };
 
     // Only include email if provided (avoids unique index conflict on empty strings)
@@ -49,10 +99,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(
       {
-        volunteer: {
-          ...doc.toObject(),
-          id: doc.clerkId || doc._id.toString(),
-        },
+        volunteer: normalizeVolunteer(doc.toObject()),
       },
       { status: 201 },
     );
@@ -72,22 +119,16 @@ export async function PUT(req: NextRequest) {
   try {
     await connectDB();
     const body = await req.json();
+    const updates = getVolunteerUpdates(body);
 
-    const updated = await Volunteer.findOneAndUpdate(
-      { $or: [{ clerkId: id }, { _id: id }] },
-      { $set: body },
-      { new: true },
-    ).lean();
+    const updated = await Volunteer.findOneAndUpdate(getVolunteerLookup(id), { $set: updates }, { new: true }).lean();
 
     if (!updated) {
       return NextResponse.json({ error: "Volunteer not found" }, { status: 404 });
     }
 
     return NextResponse.json({
-      volunteer: {
-        ...updated,
-        id: (updated as any).clerkId || (updated as any)._id.toString(),
-      },
+      volunteer: normalizeVolunteer(updated),
     });
   } catch (err) {
     console.error("PUT /api/volunteers error:", err);
@@ -105,9 +146,7 @@ export async function DELETE(req: NextRequest) {
   try {
     await connectDB();
 
-    const deleted = await Volunteer.findOneAndDelete({
-      $or: [{ clerkId: id }, { _id: id }],
-    });
+    const deleted = await Volunteer.findOneAndDelete(getVolunteerLookup(id));
 
     if (!deleted) {
       return NextResponse.json({ error: "Volunteer not found" }, { status: 404 });

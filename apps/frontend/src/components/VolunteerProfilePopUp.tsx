@@ -25,7 +25,17 @@ const emptyVolunteer: Volunteer = {
   phoneNumber: "",
   isAdult: undefined,
   age: undefined,
+  notes: "",
+  shiftDetails: {
+    eventName: "",
+    shiftType: "",
+    shiftTime: "",
+  },
 };
+
+function displayValue(value: string | undefined) {
+  return value?.trim() || "Not provided";
+}
 
 export default function VolunteerProfilePopUp({ volunteer, mode = "edit", onClose, onSave, onDelete }: Props) {
   const [editing, setEditing] = useState(mode === "create");
@@ -222,7 +232,7 @@ export default function VolunteerProfilePopUp({ volunteer, mode = "edit", onClos
                 placeholder="Enter email"
               />
             ) : (
-              <div className={styles.valueBox}>{form.email || ""}</div>
+              <div className={styles.valueBox}>{displayValue(form.email)}</div>
             )}
           </div>
 
@@ -236,7 +246,7 @@ export default function VolunteerProfilePopUp({ volunteer, mode = "edit", onClos
                 placeholder="Enter phone number"
               />
             ) : (
-              <div className={styles.valueBox}>{form.phoneNumber || ""}</div>
+              <div className={styles.valueBox}>{displayValue(form.phoneNumber)}</div>
             )}
           </div>
         </div>
@@ -265,7 +275,7 @@ export default function VolunteerProfilePopUp({ volunteer, mode = "edit", onClos
                 placeholder="Enter event name"
               />
             ) : (
-              <div className={styles.valueBox}>{form.shiftDetails?.eventName || ""}</div>
+              <div className={styles.valueBox}>{displayValue(form.shiftDetails?.eventName)}</div>
             )}
           </div>
 
@@ -292,7 +302,7 @@ export default function VolunteerProfilePopUp({ volunteer, mode = "edit", onClos
                 placeholder="Ex: Check-in, Setup, Cleanup"
               />
             ) : (
-              <div className={styles.valueBox}>{form.shiftDetails?.shiftType || ""}</div>
+              <div className={styles.valueBox}>{displayValue(form.shiftDetails?.shiftType)}</div>
             )}
           </div>
         </div>
@@ -320,7 +330,7 @@ export default function VolunteerProfilePopUp({ volunteer, mode = "edit", onClos
               placeholder="Ex: 4:00 PM - 6:00 PM"
             />
           ) : (
-            <div className={styles.valueBox}>{form.shiftDetails?.shiftTime || ""}</div>
+            <div className={styles.valueBox}>{displayValue(form.shiftDetails?.shiftTime)}</div>
           )}
         </div>
 
@@ -335,7 +345,7 @@ export default function VolunteerProfilePopUp({ volunteer, mode = "edit", onClos
               placeholder="Enter notes"
             />
           ) : (
-            <div className={styles.textareaBox}>{form.notes || ""}</div>
+            <div className={styles.textareaBox}>{displayValue(form.notes)}</div>
           )}
         </div>
 
