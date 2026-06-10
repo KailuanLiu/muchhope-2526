@@ -2,6 +2,7 @@
 
 import styles from "../styles/shiftSelectionPopUp.module.css";
 import { useState } from "react";
+import { useUser } from "@clerk/nextjs";
 
 interface Shift {
   type: string;
