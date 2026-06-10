@@ -243,6 +243,19 @@ export default function Signup({ signUp, setActive, isLoaded }: SignupProps) {
           session: signUpAttempt.createdSessionId,
         });
 
+        await fetch("/api/volunteers", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            email: formData.email,
+            clerkId: signUpAttempt.createdUserId,
+            isAdult: formData.age === "Yes",
+            userType: "Volunteer",
+          }),
+        });
+
         // Go to home after successful signup
         router.push("/");
       } else {
