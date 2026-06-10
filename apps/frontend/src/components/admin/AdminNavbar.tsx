@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -16,20 +17,28 @@ export default function AdminNavbar({
 }) {
   const pathname = usePathname();
   const { signOut } = useClerk();
+  const [eventsOpen, setEventsOpen] = useState(false);
+
+  const isManageEventsActive = pathname === "/Events/Upcoming" || pathname === "/Events/PastEvents";
 
   async function handleSignOut() {
     await signOut({ redirectUrl: "/auth/login" });
   }
 
-  const navItems = [
+  const navItemsBefore = [
     { label: "Home", href: "/admin", icon: "/icons/house-chimney-floor.svg" },
     { label: "My Profile", href: "/admin/profile", icon: "/icons/user-alt-1.svg" },
-    { label: "Manage Events", href: "/Events/Upcoming", icon: "/icons/calendar-lines-pen.svg" },
-    { label: "Manage Users", href: "/admin/manage-users", icon: "/icons/users.svg" },
+  ];
 
-    // TODO: make about us and contact us editable and make sure its connected to the backend
+  const navItemsAfter = [
+    { label: "Manage Users", href: "/admin/manage-users", icon: "/icons/users.svg" },
     { label: "About Us", href: "/About", icon: "/icons/circle-information.svg" },
     { label: "Contact Us", href: "/ContactUs", icon: "/icons/send-icon.svg" },
+  ];
+
+  const eventItems = [
+    { label: "Upcoming", href: "/Events/Upcoming" },
+    { label: "Past", href: "/Events/PastEvents" },
   ];
 
   return (
@@ -38,16 +47,56 @@ export default function AdminNavbar({
         <button className={styles.toggleButton} onClick={() => setCollapsed(!collapsed)} aria-label="Toggle sidebar">
           <img src="/icons/menu.svg" alt="menu button" />
         </button>
+        {!collapsed && <Image src="/white-logo.png" alt="Much Hope" width={80} height={68} className={styles.logo} />}
       </div>
 
-      {!collapsed && (
-        <div className={adminStyles.logoBox}>
-          <Image src="/white-logo.png" alt="Much Hope" width={200} height={170} className={styles.logo} />
-        </div>
-      )}
-
       <ul className={styles.navList}>
-        {navItems.map((item) => (
+        {navItemsBefore.map((item) => (
+          <li key={item.href}>
+            <Link href={item.href} className={`${styles.navLink} ${pathname === item.href ? styles.active : ""}`}>
+              {item.icon && <img src={item.icon} alt="" className={styles.icon} />}
+              <span className={styles.linkText}>{item.label}</span>
+            </Link>
+          </li>
+        ))}
+
+        <li>
+          <button
+            type="button"
+            className={`${styles.navLink} ${adminStyles.dropdownToggle} ${isManageEventsActive ? styles.active : ""}`}
+            onClick={() => setEventsOpen(!eventsOpen)}
+          >
+            <img src="/icons/calendar-lines-pen.svg" alt="" className={styles.icon} />
+            {!collapsed && (
+              <>
+                <span className={styles.linkText}>Manage Events</span>
+                <img
+                  src={eventsOpen ? "/icons/chevron-down.svg" : "/icons/chevron-right.svg"}
+                  alt=""
+                  className={adminStyles.chevron}
+                />
+              </>
+            )}
+          </button>
+
+          {!collapsed && eventsOpen && (
+            <ul className={adminStyles.submenu}>
+              {eventItems.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={`${adminStyles.submenuLink} ${pathname === item.href ? adminStyles.subActive : ""}`}
+                  >
+                    <span className={adminStyles.submenuBox}></span>
+                    <span>{item.label}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+
+        {navItemsAfter.map((item) => (
           <li key={item.href}>
             <Link href={item.href} className={`${styles.navLink} ${pathname === item.href ? styles.active : ""}`}>
               {item.icon && <img src={item.icon} alt="" className={styles.icon} />}

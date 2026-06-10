@@ -11,7 +11,7 @@
 
 .modal {
   background: #fff;
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 2.5rem 3rem;
   width: 100%;
   max-width: 900px;
@@ -43,7 +43,8 @@
 .title {
   font-size: 2.25rem;
   font-weight: 700;
-  color: #111;
+  font-style: italic;
+  color: #2d1a4e;
   margin: 0 0 1.5rem 0;
 }
 
@@ -53,12 +54,26 @@
   grid-template-columns: 55% 1fr;
   gap: 2rem;
   align-items: start;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.imageContainer {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #e0e0e0;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .imagePlaceholder {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  height: 100%;
   background-color: #e0e0e0;
   background-image:
     linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%),
@@ -69,20 +84,12 @@
     0 12px,
     12px -12px,
     -12px 0px;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 .info {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.5rem;
   padding-top: 0.25rem;
 }
 
@@ -94,31 +101,47 @@
   font-size: 0.95rem;
 }
 
+.metaIcon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: #555;
+}
+
 .description {
   font-size: 0.9rem;
   color: #444;
-  line-height: 1.6;
-  margin: 0.5rem 0 1.25rem 0;
+  line-height: 1.7;
+  margin: 0.75rem 0 1.5rem 0;
 }
 
 .registerButton {
-  width: 100%;
-  padding: 0.8rem;
-  background-color: #402479;
-  color: rgba(227, 175, 99);
+  display: inline-block;
+  padding: 0.85rem 2.5rem;
+  background-color: #2d1a4e;
+  color: #fff;
   border: none;
   border-radius: 8px;
   font-size: 1rem;
+  font-weight: 600;
   font-family: inherit;
   cursor: pointer;
-  margin-top: auto;
+  text-align: center;
+  width: fit-content;
 }
 
 .registerButton:hover {
-  background-color: #533492;
+  background-color: #402479;
 }
 
-/* Photo gallery */
+/* Divider */
+.divider {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 1rem 0;
+}
+
+/* Photo Gallery */
 .gallery {
   margin-top: 0.5rem;
 }
@@ -133,11 +156,23 @@
 .galleryGrid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 0.5rem;
-  margin-bottom: 1.25rem;
+  gap: 0.75rem;
+}
+
+.galleryThumbWrapper {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #e0e0e0;
 }
 
 .galleryThumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.galleryThumbPlaceholder {
   aspect-ratio: 1;
   background-color: #e0e0e0;
   background-image:
@@ -149,11 +184,66 @@
     0 7px,
     7px -7px,
     -7px 0px;
-  border-radius: 6px;
+  border-radius: 8px;
 }
 
-.divider {
-  border: none;
-  border-top: 1px solid #ddd;
+/* Sub-Events */
+.subEventsSection {
+  margin-top: 0.5rem;
+}
+
+.subEventsTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2d1a4e;
+  margin: 0 0 0.75rem 0;
+}
+
+.subEventsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.subEventItem {
+  background: #f8f6fb;
+  border: 1px solid #e8e3f3;
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.subEventName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
   margin: 0;
+}
+
+.subEventDescription {
+  font-size: 0.85rem;
+  color: #555;
+  line-height: 1.5;
+  margin: 0.25rem 0 0 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .modal {
+    padding: 1.5rem;
+  }
+
+  .body {
+    grid-template-columns: 1fr;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .galleryGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }

@@ -2,12 +2,93 @@
 
 /* Admin logoBox has slightly different padding */
 .logoBox {
-  padding: 0.25rem 0.5rem 0.25rem;
+  padding: 0;
   height: auto;
   margin-top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
 /* Admin topSection has no bottom margin */
 .topSection {
-  margin-bottom: 0;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.25rem 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Dropdown toggle */
+.dropdownToggle {
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #f8f6f7;
+}
+
+/* Chevron icon */
+.chevron {
+  width: 16px;
+  height: 16px;
+  margin-left: auto;
+  opacity: 0.7;
+}
+
+/* Submenu */
+.submenu {
+  list-style: none;
+  padding: 8px 0 0 32px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.submenu li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.submenuLink {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 16px;
+  color: #f8f6f7;
+  text-decoration: none;
+  font-size: 1.05rem;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  box-sizing: border-box;
+  transition: background-color 0.2s ease;
+}
+
+.submenuLink:hover {
+  background: rgba(255, 255, 255, 0.1);
+  text-decoration: none;
+}
+
+.subActive {
+  background: rgba(255, 255, 255, 0.15);
+  color: #f8f6f7;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.submenuBox {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.3);
+  margin-right: 10px;
+  flex-shrink: 0;
 }

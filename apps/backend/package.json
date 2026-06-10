@@ -15,11 +15,13 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@clerk/express": "^2.1.17",
     "cors": "^2.8.6",
     "dotenv": "^17.2.4",
     "express": "^5.2.1",
     "express-session": "^1.19.0",
-    "mongoose": "^8.22.1"
+    "mongoose": "^8.22.1",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@jest/globals": "^30.3.0",

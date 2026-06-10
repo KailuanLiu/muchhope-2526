@@ -25,7 +25,8 @@
     "dotenv": "^17.4.2",
     "jest": "^30.3.0",
     "mongodb-memory-server": "^11.0.1",
-    "resend": "^6.12.2"
+    "resend": "^6.12.2",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.55.0",

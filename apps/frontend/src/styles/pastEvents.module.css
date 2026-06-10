@@ -1,64 +1,102 @@
-.pageLayout {
-  min-height: 100vh;
+:root {
+  --mh-bg: #f8f6f7;
+  --mh-purple: #402479;
+  --mh-gold: #e3af64;
+  --mh-cream: #ffe9ac;
+  --mh-ink: #212121;
 }
 
 .mainContent {
-  height: 100vh;
-  overflow-y: auto;
-  overflow-x: hidden;
+  min-height: 100vh;
+  padding: 54px 42px 64px;
   box-sizing: border-box;
-  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: var(--mh-bg);
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.mainContentExpanded {
-  margin-left: 200px;
-}
-
-.mainContentCollapsed {
-  margin-left: 60px;
-}
-
 .hero {
-  width: 100%;
-  padding: 3rem 2rem;
-  background-color: #d9d9d9;
+  max-width: 1120px;
+  margin: 0 auto 38px;
+}
+
+.breadcrumb {
   display: flex;
   align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  margin: 0;
+  gap: 8px;
+  margin-bottom: 18px;
+  font-size: 13px;
+  color: #8c8c8c;
+}
+
+.breadcrumbLink {
+  color: #8c8c8c;
+  text-decoration: none;
+}
+
+.breadcrumbLink:hover {
+  text-decoration: underline;
+}
+
+.breadcrumbSeparator {
+  color: #b0b0b0;
+}
+
+.activeBreadcrumb {
+  color: #5c4b8a;
+  font-weight: 500;
 }
 
 .heroTitle {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #555;
   margin: 0;
+  color: var(--mh-purple);
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  font-weight: 700;
+  line-height: 1.1;
 }
 
-.pastEventsList {
-  padding: 2rem;
-  max-width: 900px;
+.heroSubtitle {
+  margin: 12px 0 0;
+  color: #373737;
+  font-size: clamp(1rem, 2vw, 1.2rem);
 }
 
 .eventGrid {
-  padding: 2rem;
+  max-width: 1120px;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-  max-width: 900px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 38px 34px;
 }
 
 .loadingText,
 .errorText,
 .emptyText {
-  text-align: center;
-  padding: 2rem;
-  color: #333333;
+  margin: 0;
+  color: #444;
   font-size: 1rem;
 }
 
 .errorText {
-  color: #721c24;
+  padding: 0.9rem 1rem;
+  border-radius: 10px;
+  background: #fdeaea;
+  color: #a12626;
+  border: 1px solid #f2bcbc;
+}
+
+@media (max-width: 1100px) {
+  .eventGrid {
+    gap: 26px;
+  }
+}
+
+@media (max-width: 900px) {
+  .mainContent {
+    padding: 30px 18px 42px;
+  }
+
+  .eventGrid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
 }

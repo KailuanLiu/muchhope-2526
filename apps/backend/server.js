@@ -1,6 +1,8 @@
-require("dotenv").config();
-
 const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, "../../.env") });
+require("dotenv").config({ path: path.resolve(__dirname, ".env"), override: true });
+process.env.CLERK_PUBLISHABLE_KEY ||= process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
 const express = require("express");
 const cors = require("cors");
 const session = require("express-session");
@@ -8,6 +10,8 @@ const session = require("express-session");
 const connectDB = require("./lib/db.js");
 const volunteersRoutes = require("./src/routes/volunteerRoutes.js");
 const eventRoutes = require("./src/routes/eventRoutes.js");
+const shiftRoutes = require("./src/routes/shiftRoutes.js");
+const { clerkMiddleware } = require("@clerk/express");
 // uncomment below when implemented
 // const authRoutes = require("./routes/authRoutes.js");
 // const adminRoutes = require("./routes/adminRoutes.js");
@@ -17,33 +21,38 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 // Middleware
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+const CORS_ORIGIN = process.env.CORS_ORIGIN || "http://localhost:3000";
+app.use(cors({ origin: CORS_ORIGIN, credentials: true }));
 app.use(express.json());
+app.use(clerkMiddleware());
 
 app.use(
   session({
-    secret: process.env.TOKEN_SECRET_KEY,
+    secret: process.env.TOKEN_SECRET_KEY || "dev-fallback-secret",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false },
+    cookie: { secure: process.env.NODE_ENV === "production" },
   }),
 );
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Origin", CORS_ORIGIN);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE, PUT");
   next();
 });
 
-// Logger middleware
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.path}`);
-  next();
-});
+// Logger middleware (only in development)
+if (process.env.NODE_ENV !== "production") {
+  app.use((req, res, next) => {
+    console.log(`${req.method} ${req.path}`);
+    next();
+  });
+}
 
 app.use("/volunteers", volunteersRoutes);
 app.use("/events", eventRoutes);
+app.use("/shifts", shiftRoutes);
 
 // Static files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -58,7 +67,6 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // app.use("/api/Events", eventRoutes);
 
 app.get("/", (req, res) => {
-  console.log("Hello World, I am here");
   res.status(200).send("Much Hope Root");
 });
 

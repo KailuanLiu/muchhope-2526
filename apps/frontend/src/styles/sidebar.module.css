@@ -3,7 +3,7 @@
 .sidebar {
   position: fixed;
   z-index: 100;
-  width: 200px;
+  width: 215px;
   min-height: 100vh;
   box-sizing: border-box;
   background-color: #402479;
@@ -11,7 +11,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 2rem 0;
+  padding: 1rem 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   overflow: hidden;
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -29,28 +29,34 @@
 .topSection {
   display: flex;
   align-items: center;
-  padding: 0 0.5rem 0.5rem;
-  margin-bottom: 0.5rem;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.25rem 0.75rem 1.25rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .toggleButton {
-  width: 35px;
-  height: 35px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
   color: #f8f6f7;
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
+  background: none;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
-  margin: 0 0 0.5rem 0.5rem;
-  padding: 0;
+  margin: 0;
+  padding: 4px;
+  flex-shrink: 0;
+  opacity: 0.85;
 }
 
 .toggleButton:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.1);
+  opacity: 1;
 }
 
 /* Logo */
@@ -58,8 +64,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 0.5rem;
-  margin-bottom: 1rem;
+  padding: 0;
+  margin-bottom: 0.5rem;
+  width: 100%;
 }
 
 .logoText {
@@ -72,6 +79,8 @@
 .logo {
   border-radius: 4px;
   object-fit: contain;
+  display: block;
+  margin: 0 auto;
 }
 
 /* Navigation */
@@ -156,4 +165,16 @@
 
 .signOutButton:hover {
   background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive — collapse sidebar on small screens */
+@media (max-width: 900px) {
+  .sidebar {
+    width: 60px;
+  }
+
+  .sidebar .linkText {
+    opacity: 0;
+    pointer-events: none;
+  }
 }

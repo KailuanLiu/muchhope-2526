@@ -6,9 +6,7 @@ import { isSuperAdmin } from "lib/roles";
 export async function POST(req: NextRequest) {
   // 1. Verify caller is mainadmin
   const { userId: callerId, sessionClaims } = await auth();
-  console.log("sessionClaims:", JSON.stringify(sessionClaims));
   const callerRole = (sessionClaims?.metadata as { role?: UserRole } | undefined)?.role ?? "user";
-  console.log("sessionClaims:", JSON.stringify(sessionClaims));
   if (!callerId || !isSuperAdmin(callerRole)) {
     return NextResponse.json({ error: "Forbidden: only the main admin can promote users." }, { status: 403 });
   }

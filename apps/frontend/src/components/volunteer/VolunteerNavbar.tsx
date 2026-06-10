@@ -18,11 +18,9 @@ export default function VolunteerNavbar({
   const pathname = usePathname();
   const { signOut } = useClerk();
   const [eventsOpen, setEventsOpen] = useState(false);
-  const isMyEventsActive =
-    pathname === "/Events/Upcoming" || pathname === "/Events/PastEvents" || pathname === "/Volunteer";
+  const isMyEventsActive = pathname === "/Events/Upcoming" || pathname === "/Events/PastEvents";
 
   async function handleSignOut() {
-    console.log("signed out");
     await signOut({ redirectUrl: "/auth/login" });
   }
 
@@ -37,7 +35,6 @@ export default function VolunteerNavbar({
   const eventItems = [
     { label: "Upcoming", href: "/Events/Upcoming" },
     { label: "Past", href: "/Events/PastEvents" },
-    { label: "Volunteer", href: "/Volunteer" },
   ];
 
   return (
@@ -46,13 +43,8 @@ export default function VolunteerNavbar({
         <button className={styles.toggleButton} onClick={() => setCollapsed(!collapsed)} aria-label="Toggle sidebar">
           <img src="/icons/menu.svg" alt="menu button" />
         </button>
+        {!collapsed && <Image src="/white-logo.png" alt="Much Hope" width={80} height={68} className={styles.logo} />}
       </div>
-
-      {!collapsed && (
-        <div className={styles.logoBox}>
-          <Image src="/white-logo.png" alt="Much Hope" width={200} height={170} className={styles.logo} />
-        </div>
-      )}
 
       <nav className={volStyles.navArea}>
         <ul className={styles.navList}>

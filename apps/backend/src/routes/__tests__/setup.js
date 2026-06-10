@@ -142,20 +142,57 @@ const VolunteerSchemaDefinition = {
   isAdult: { type: Boolean, required: true },
 };
 
-let Event, Volunteer;
+const ShiftSchemaDefinition = {
+  eventId: { type: String, required: true },
+  volunteerId: { type: String, required: true },
+  volunteerEmail: { type: String, required: true },
+  shiftType: { type: String, required: true },
+  shiftTime: { type: String, required: true },
+  date: { type: String, required: true },
+};
+
+let Event, Volunteer, Shift;
+
+function setupClerkMock() {
+  if (typeof jest === "undefined") return;
+
+  jest.doMock("@clerk/express", () => {
+    const buildAuth = (req) => ({
+      isAuthenticated: req.headers["x-test-authenticated"] !== "false",
+      userId: req.headers["x-test-user-id"] || "test_user",
+      sessionClaims: {
+        metadata: {
+          role: req.headers["x-user-role"] || "mainadmin",
+        },
+      },
+    });
+
+    return {
+      clerkMiddleware: () => (req, res, next) => {
+        req.auth = () => buildAuth(req);
+        next();
+      },
+      getAuth: (req) => (req.auth ? req.auth() : buildAuth(req)),
+    };
+  });
+}
 
 function setupTestDB() {
+  setupClerkMock();
+
   events = [];
   volunteers = [];
+  const shifts = [];
 
   Event = createFakeModel(EventSchemaDefinition, events);
   Volunteer = createFakeModel(VolunteerSchemaDefinition, volunteers);
+  Shift = createFakeModel(ShiftSchemaDefinition, shifts);
 
   // Patch the cached initModels module so getModels() returns our fakes
   const initModels = require("../../../database/initModels");
-  initModels.getModels = () => ({ Event, Volunteer });
+  initModels.getModels = () => ({ Event, Volunteer, Shift });
 
-  return { Event, Volunteer };
+  return { Event, Volunteer, Shift };
 }
 
 function clearTestDB() {
