@@ -8,6 +8,7 @@ import styles from "../../../styles/upcomingEvents.module.css";
 import EventCard from "../../../components/EventCard";
 import EventInfoPopUp from "../../../components/EventInfoPopUp";
 import ShiftSelectionPopUp from "../../../components/ShiftSelectionPopUp";
+import AdminShiftViewPopUp from "../../../components/AdminShiftViewPopUp";
 import AuthLayout from "../../AuthLayout";
 import { useIsSuperAdmin, useIsAdmin } from "../../../../lib/roles";
 
@@ -29,7 +30,7 @@ interface SubEvent {
   description: string;
 }
 
-type ModalState = "none" | "moreInfo" | "shiftSelect";
+type ModalState = "none" | "moreInfo" | "shiftSelect" | "adminShiftView";
 
 type EventFormState = {
   title: string;
@@ -114,7 +115,7 @@ export default function UpcomingEventsPage() {
       return;
     }
     setSelectedEvent(event);
-    setModalState("moreInfo");
+    setModalState(isAdminUser ? "adminShiftView" : "moreInfo");
   };
 
   const closeModal = () => {
@@ -402,6 +403,10 @@ export default function UpcomingEventsPage() {
           onClose={closeModal}
           onSave={handleSaveShift}
         />
+      )}
+
+      {modalState === "adminShiftView" && selectedEvent && (
+        <AdminShiftViewPopUp event={selectedEvent} onClose={closeModal} />
       )}
     </AuthLayout>
   );

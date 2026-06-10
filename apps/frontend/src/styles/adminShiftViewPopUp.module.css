@@ -1,0 +1,154 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 580px;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+}
+
+.closeButton {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #888;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+}
+
+.closeButton:hover {
+  color: #111;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 0.25rem 0;
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  color: #777;
+  margin: 0 0 1.5rem 0;
+}
+
+.loading {
+  text-align: center;
+  color: #777;
+  padding: 2rem 0;
+}
+
+.error {
+  color: #c0392b;
+  font-size: 0.9rem;
+}
+
+.empty {
+  color: #777;
+  font-size: 0.9rem;
+  padding: 1rem 0;
+}
+
+.shiftGroup {
+  margin-bottom: 1.5rem;
+}
+
+.shiftGroupHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.shiftGroupTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #402479;
+  margin: 0;
+}
+
+.shiftGroupTime {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.volunteerList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.volunteerItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+}
+
+.volunteerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.volunteerName {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #111;
+}
+
+.volunteerEmail {
+  font-size: 0.78rem;
+  color: #777;
+}
+
+.removeButton {
+  padding: 0.3rem 0.85rem;
+  background-color: #c0392b;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-family: inherit;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.removeButton:hover:not(:disabled) {
+  background-color: #a93226;
+}
+
+.removeButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.noVolunteers {
+  font-size: 0.85rem;
+  color: #aaa;
+  padding: 0.4rem 0;
+}

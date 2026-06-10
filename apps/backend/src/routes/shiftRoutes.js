@@ -4,9 +4,35 @@ const { getModels } = require("../../database/initModels");
 
 router.get("/", async (req, res) => {
   try {
-    const { Shift } = getModels();
-    const { email } = req.query;
-    if (!email) return res.status(400).json({ message: "email query param is required" });
+    const { Shift, Volunteer } = getModels();
+    const { email, eventId } = req.query;
+
+    // Admin view: return all shifts for an event, enriched with volunteer display names
+    if (eventId) {
+      const shifts = await Shift.find({ eventId }).lean();
+
+      // Deduplicate emails before querying, since one volunteer may have multiple shifts
+      const emails = [...new Set(shifts.map((s) => s.volunteerEmail))];
+
+      // Batch lookup: one DB query for all volunteers instead of one per shift
+      const volunteers = await Volunteer.find({ email: { $in: emails } }).lean();
+
+      // Build a map so each shift lookup is O(1) instead of scanning the array
+      const volunteerMap = Object.fromEntries(volunteers.map((v) => [v.email, v]));
+
+      const enriched = shifts.map((shift) => {
+        const vol = volunteerMap[shift.volunteerEmail];
+        return {
+          ...shift,
+          // Volunteers are stored in a separate DB (volunteersDB vs eventsDB), so vol may be
+          // undefined if the record hasn't synced. Fall back to email as a readable identifier.
+          volunteerName: vol ? `${vol.firstName} ${vol.lastName}` : shift.volunteerEmail,
+        };
+      });
+      return res.status(200).json(enriched);
+    }
+
+    if (!email) return res.status(400).json({ message: "email or eventId query param is required" });
 
     const now = new Date();
     const shifts = await Shift.find({ volunteerEmail: email }).lean();
