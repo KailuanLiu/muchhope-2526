@@ -11,6 +11,7 @@ const navLinks = [
   { href: "/Events/Upcoming", label: "Events" },
   { href: "/About", label: "About Us" },
   { href: "/ContactUs", label: "Contact Us" },
+  { href: "/Donate", label: "Donate" },
 ];
 
 export default function Navbar() {

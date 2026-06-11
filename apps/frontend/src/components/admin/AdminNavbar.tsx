@@ -18,8 +18,10 @@ export default function AdminNavbar({
   const pathname = usePathname();
   const { signOut } = useClerk();
   const [eventsOpen, setEventsOpen] = useState(false);
+  const [donationsOpen, setDonationsOpen] = useState(false);
 
   const isManageEventsActive = pathname === "/Events/Upcoming" || pathname === "/Events/PastEvents";
+  const isManageDonationsActive = pathname === "/admin/donations" || pathname === "/Donate";
 
   async function handleSignOut() {
     await signOut({ redirectUrl: "/auth/login" });
@@ -39,6 +41,11 @@ export default function AdminNavbar({
   const eventItems = [
     { label: "Upcoming", href: "/Events/Upcoming" },
     { label: "Past", href: "/Events/PastEvents" },
+  ];
+
+  const donationItems = [
+    { label: "Records", href: "/admin/donations" },
+    { label: "Make Donation", href: "/Donate" },
   ];
 
   return (
@@ -82,6 +89,42 @@ export default function AdminNavbar({
           {!collapsed && eventsOpen && (
             <ul className={adminStyles.submenu}>
               {eventItems.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={`${adminStyles.submenuLink} ${pathname === item.href ? adminStyles.subActive : ""}`}
+                  >
+                    <span className={adminStyles.submenuBox}></span>
+                    <span>{item.label}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+
+        <li>
+          <button
+            type="button"
+            className={`${styles.navLink} ${adminStyles.dropdownToggle} ${isManageDonationsActive ? styles.active : ""}`}
+            onClick={() => setDonationsOpen(!donationsOpen)}
+          >
+            <img src="/icons/heart-alt.svg" alt="" className={styles.icon} />
+            {!collapsed && (
+              <>
+                <span className={styles.linkText}>Manage Donations</span>
+                <img
+                  src={donationsOpen ? "/icons/chevron-down.svg" : "/icons/chevron-right.svg"}
+                  alt=""
+                  className={adminStyles.chevron}
+                />
+              </>
+            )}
+          </button>
+
+          {!collapsed && donationsOpen && (
+            <ul className={adminStyles.submenu}>
+              {donationItems.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}

@@ -1,0 +1,398 @@
+.page {
+  min-height: 100vh;
+  background: #f8f8f8;
+  padding: 48px 24px 80px;
+}
+
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  color: #8c8c8c;
+  font-size: 13px;
+}
+
+.breadcrumbLink {
+  color: #8c8c8c;
+  text-decoration: none;
+}
+
+.breadcrumbLink:hover {
+  text-decoration: underline;
+}
+
+.breadcrumbSeparator {
+  color: #b0b0b0;
+}
+
+.activeBreadcrumb {
+  color: #5c4b8a;
+  font-weight: 500;
+}
+
+.pageHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.title {
+  margin: 0;
+  color: #181818;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin: 8px 0 0;
+  color: #747474;
+  font-size: 0.95rem;
+}
+
+.actionLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 8px;
+  background: #6f4aa2;
+  color: #ffffff;
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.actionLink:hover {
+  background: #5c3b8a;
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.summaryItem {
+  padding: 18px 20px;
+  border: 1px solid #ece8f3;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.summaryLabel,
+.sectionLabel,
+.cardLabel {
+  color: #8e8e8e;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.summaryValue {
+  display: block;
+  margin-top: 6px;
+  color: #402479;
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.listHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.sectionLabel {
+  margin: 0;
+}
+
+.listSubtext {
+  margin: 4px 0 0;
+  color: #747474;
+  font-size: 0.86rem;
+}
+
+.recordControls {
+  display: flex;
+  align-items: end;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.controlLabel {
+  display: grid;
+  gap: 5px;
+  color: #8e8e8e;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.controlSelect {
+  min-width: 150px;
+  height: 38px;
+  padding: 0 34px 0 12px;
+  border: 1px solid #ded7ea;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #252525;
+  font: inherit;
+  font-size: 0.9rem;
+  letter-spacing: 0;
+  text-transform: none;
+  cursor: pointer;
+}
+
+.controlSelect:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.controlSelect:focus {
+  outline: none;
+  border-color: #6f4aa2;
+  box-shadow: 0 0 0 3px rgba(111, 74, 162, 0.12);
+}
+
+.exportButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 8px;
+  background: #402479;
+  color: #ffffff;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.exportButton:hover:not(:disabled) {
+  background: #2f1b5e;
+}
+
+.exportButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+.exportError {
+  margin: -4px 0 12px;
+  color: #9d2828;
+  font-size: 0.88rem;
+}
+
+.countBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: #efe8fb;
+  color: #5c4b8a;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.9fr) minmax(260px, 1.2fr) minmax(180px, 0.6fr);
+  gap: 20px;
+  align-items: center;
+  padding: 18px 20px;
+  border-radius: 8px;
+  background: #f3f3f3;
+}
+
+.cardMain {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: #d7def8;
+  color: #4450a8;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.donorBlock,
+.detailsBlock {
+  min-width: 0;
+}
+
+.donorName {
+  margin: 0 0 5px;
+  color: #171717;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.contactLine {
+  margin: 2px 0 0;
+  color: #666666;
+  font-size: 0.86rem;
+  overflow-wrap: anywhere;
+}
+
+.detailsBlock {
+  display: grid;
+  gap: 12px;
+}
+
+.eventText,
+.provisionsText {
+  margin: 5px 0 0;
+  color: #252525;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.eventText {
+  font-weight: 700;
+}
+
+.eventDate {
+  margin: 3px 0 0;
+  color: #666666;
+  font-size: 0.86rem;
+}
+
+.photoLink {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  margin-top: 6px;
+  color: #402479;
+  font-size: 0.86rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.photoLink:hover {
+  text-decoration: underline;
+}
+
+.photoThumb {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.photoLink span {
+  overflow-wrap: anywhere;
+}
+
+.metaBlock {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  justify-items: end;
+  text-align: right;
+}
+
+.quantity {
+  display: block;
+  margin-top: 4px;
+  color: #402479;
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.dateText {
+  display: block;
+  margin-top: 4px;
+  color: #555555;
+  font-size: 0.9rem;
+}
+
+.emptyState,
+.errorState {
+  padding: 24px;
+  border: 1px solid #ece8f3;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #7f7f7f;
+  text-align: center;
+}
+
+.errorState {
+  border-color: #f1cccc;
+  background: #fff1f1;
+  color: #9d2828;
+}
+
+@media (max-width: 900px) {
+  .summaryGrid,
+  .card {
+    grid-template-columns: 1fr;
+  }
+
+  .metaBlock {
+    justify-items: start;
+    text-align: left;
+  }
+}
+
+@media (max-width: 620px) {
+  .page {
+    padding: 32px 16px 64px;
+  }
+
+  .pageHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .listHeader,
+  .recordControls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .controlSelect,
+  .exportButton,
+  .countBadge {
+    width: 100%;
+  }
+}
