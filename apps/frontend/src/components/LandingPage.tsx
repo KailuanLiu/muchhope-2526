@@ -64,15 +64,10 @@ export default function LandingPage() {
     <div className={styles.pageWrapper}>
       <section className={styles.heroContainer}>
         <div className={styles.overlay}>
+          <Link href="/" className={styles.logoLink}>
+            <img src="/white-logo.png" alt="Much Hope" className={styles.logoImage} />
+          </Link>
           <h1 className={styles.title}>Join us in serving local communities in need!</h1>
-          <Link href="/auth/login" className={styles.logoLink}>
-            <img src="/color-logo.png" alt="MuchHope" className={styles.logoImage} />
-          </Link>
-          {/*
-          <Link href="/Auth/Login" className={styles.ctaButton}> 
-          </Link>
-          */}
-          <h1 className={styles.title}>MuchHope</h1>
           <p className={styles.subtitle}>Providing resources and support for the homeless community in San Jose.</p>
           <Link href="/Events/Upcoming" className={styles.ctaButton}>
             Volunteer
