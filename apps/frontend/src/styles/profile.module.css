@@ -552,3 +552,14 @@
     font-size: 1.75rem;
   }
 }
+
+.uploadError {
+  margin-top: 8px;
+  color: #991b1b;
+}
+
+.uploading {
+  margin-top: 8px;
+  filter: brightness(60%);
+  border-radius: 50%;
+}
