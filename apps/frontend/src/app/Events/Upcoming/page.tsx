@@ -19,6 +19,8 @@ interface EventData {
   time: string;
   location: string;
   description: string;
+  imageUrl?: string;
+  galleryImages?: string[];
   subEvents?: SubEvent[];
 }
 
@@ -38,6 +40,8 @@ type EventFormState = {
   time: string;
   location: string;
   description: string;
+  imageUrl?: string;
+  galleryImages?: string[];
   subEvents: SubEvent[];
 };
 
@@ -55,6 +59,8 @@ const EMPTY_FORM: EventFormState = {
   time: "",
   location: "",
   description: "",
+  imageUrl: "",
+  galleryImages: [],
   subEvents: [],
 };
 
@@ -83,6 +89,9 @@ export default function UpcomingEventsPage() {
   const [saveError, setSaveError] = useState("");
   const [saveSuccess, setSaveSuccess] = useState("");
   const subEventsEndRef = useRef<HTMLDivElement>(null);
+
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
 
   async function loadEvents() {
     try {
@@ -149,6 +158,8 @@ export default function UpcomingEventsPage() {
       time: event.time,
       location: event.location,
       description: event.description,
+      imageUrl: event.imageUrl || "",
+      galleryImages: event.galleryImages || [],
       subEvents: event.subEvents || [],
     });
 
@@ -210,6 +221,8 @@ export default function UpcomingEventsPage() {
           time: formState.time,
           location: formState.location,
           description: formState.description,
+          imageUrl: formState.imageUrl,
+          galleryImages: formState.galleryImages,
           subEvents: formState.subEvents,
         }),
       });
@@ -226,6 +239,91 @@ export default function UpcomingEventsPage() {
       setSaveError(err instanceof Error ? err.message : "Save failed");
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleEventImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    if (!file.type.startsWith("image/")) {
+      setUploadError("Please upload an image file.");
+      return;
+    }
+
+    setUploading(true);
+    setUploadError("");
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await fetch("/api/upload-image", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        setUploadError("Failed to upload image.");
+        return;
+      }
+
+      const e = await response.json();
+
+      setFormState((prev) => ({
+        ...prev,
+        imageUrl: e.imageUrl,
+      }));
+    } catch {
+      setUploadError("Failed to upload photo.");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleGalleryChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+
+    setUploading(true);
+    setUploadError("");
+
+    const urls: string[] = [];
+
+    try {
+      for (const file of files) {
+        if (!file.type.startsWith("image/")) {
+          setUploadError("Please upload an image file.");
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const response = await fetch("/api/upload-image", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!response.ok) {
+          setUploadError("Failed to upload image.");
+          return;
+        }
+
+        const e = await response.json();
+        urls.push(e.imageUrl);
+      }
+
+      setFormState((prev) => ({
+        ...prev,
+        galleryImages: [...(prev.galleryImages ?? []), ...urls],
+      }));
+    } catch {
+      setUploadError("failed to upload images.");
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -322,6 +420,16 @@ export default function UpcomingEventsPage() {
                 onChange={(e) => updateField("description", e.target.value)}
               />
 
+              <input className={styles.formInput} type="file" accept="image/*" onChange={handleEventImageChange} />
+
+              <input
+                className={styles.formInput}
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleGalleryChange}
+              />
+
               <div className={styles.subEventsSection}>
                 <div className={styles.subEventsHeader}>
                   <h3 className={styles.subEventsTitle}>Sub-Events</h3>
@@ -376,6 +484,9 @@ export default function UpcomingEventsPage() {
                       onChange={(e) => updateSubEvent(index, "description", e.target.value)}
                       rows={2}
                     />
+
+                    {uploadError && <p className={styles.errorMessage}>{uploadError}</p>}
+                    {uploading && <p className={styles.statusText}>Uploading image...</p>}
                   </div>
                 ))}
                 <div ref={subEventsEndRef} />
