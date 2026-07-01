@@ -170,17 +170,28 @@
   border-bottom: none;
 }
 
-.sidebarLink {
-  display: block;
+.sidebarButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   margin-top: 0.9rem;
-  font-size: 0.8rem;
+  width: 100%;
+  background: transparent;
+  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  padding: 0.5rem 1rem;
+  font-size: 0.82rem;
   font-weight: 600;
-  color: #5b2b82;
+  cursor: pointer;
   text-decoration: none;
+  transition: background 0.15s ease;
+  font-family: inherit;
+  box-sizing: border-box;
 }
 
-.sidebarLink:hover {
-  text-decoration: underline;
+.sidebarButton:hover {
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .sidebarStatLabel {
@@ -332,27 +343,6 @@
   border-color: #7b5cb8;
   background: #fff;
   box-shadow: 0 0 0 3px rgba(91, 43, 130, 0.1);
-}
-
-/* ── Password row ── */
-.passwordRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 4px 0;
-}
-
-.passwordLabel {
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: #333;
-  margin: 0 0 2px;
-}
-
-.passwordHint {
-  font-size: 0.8rem;
-  color: #aaa;
-  margin: 0;
 }
 
 /* ── Edit form ── */
@@ -510,12 +500,6 @@
 
   .viewField:last-child {
     border-bottom: none;
-  }
-
-  .passwordRow {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
   }
 }
 

@@ -423,15 +423,9 @@ export default function AdminProfile({ initialData, onSave }: ProfileFormProps) 
         </div>
 
         {!isChangingPassword ? (
-          <div className={styles.passwordRow}>
-            <div>
-              <p className={styles.passwordLabel}>Password</p>
-              <p className={styles.passwordHint}>Last changed: never</p>
-            </div>
-            <button type="button" className={styles.editButton} onClick={() => setIsChangingPassword(true)}>
-              Change Password
-            </button>
-          </div>
+          <button type="button" className={styles.editButton} onClick={() => setIsChangingPassword(true)}>
+            Change Password
+          </button>
         ) : (
           <form onSubmit={handlePasswordSubmit}>
             <div className={styles.form}>

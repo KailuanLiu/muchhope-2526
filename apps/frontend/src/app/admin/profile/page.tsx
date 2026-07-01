@@ -138,7 +138,7 @@ export default function ProfilePage() {
                 <span className={styles.sidebarStatValue}>San Jose, CA</span>
               </div>
 
-              <a href="#security" className={styles.sidebarLink}>
+              <a href="#security" className={styles.sidebarButton}>
                 Change Password
               </a>
             </div>
