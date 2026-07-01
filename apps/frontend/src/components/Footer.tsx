@@ -134,16 +134,16 @@ export default function Footer() {
               <Link href="/" className={styles.link}>
                 Home
               </Link>
-              <Link href="/events?view=upcoming" className={styles.link}>
+              <Link href="/Events/Upcoming" className={styles.link}>
                 Upcoming Events
               </Link>
-              <Link href="/events?view=past" className={styles.link}>
+              <Link href="/Events/PastEvents" className={styles.link}>
                 Past Events
               </Link>
-              <Link href="/volunteer" className={styles.link}>
+              <Link href="/Events/Upcoming" className={styles.link}>
                 Volunteer
               </Link>
-              <Link href="/about-us" className={styles.link}>
+              <Link href="/About" className={styles.link}>
                 About Us
               </Link>
             </nav>

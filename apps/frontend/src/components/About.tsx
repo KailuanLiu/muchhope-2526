@@ -14,7 +14,7 @@ export default function About() {
     <AuthLayout>
       <div className={styles.aboutContainer}>
         <h2 className={styles.aboutTitle}> About Us </h2>
-        <img src="/event-photos/about-us-page.JPG" alt="about us" className={styles.aboutImage} />
+        <img src="/event-photos/about-us-page.jpg" alt="about us" className={styles.aboutImage} />
         <p className={styles.aboutDescription}>
           {" "}
           Like most metropolitan areas, San Jose California has a large homeless population. This under-served segment

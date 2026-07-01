@@ -1,6 +1,6 @@
 .page {
   min-height: 100vh;
-  padding: 48px 32px 64px;
+  padding: 16px 32px 16px;
   background: #f8f6f7;
   box-sizing: border-box;
 }
@@ -14,7 +14,7 @@
   flex: 1;
   min-width: 0;
   min-height: 100vh;
-  overflow-y: flex;
+  overflow-y: visible;
 }
 
 .hero {
@@ -24,6 +24,7 @@
   text-align: center;
   border-radius: 28px;
   background: linear-gradient(180deg, #fff6dc 0%, #f8f6f7 100%);
+  scroll-margin-top: 88px;
 }
 
 .title {

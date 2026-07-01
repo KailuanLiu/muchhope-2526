@@ -1,10 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../styles/contact.module.css";
 import AuthLayout from "@/app/AuthLayout";
 
 export default function Contact() {
+  // Make sure the page always lands at the top on "Get in Touch" instead of
+  // wherever the browser last scrolled to (can happen on navigation from the navbar).
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   //variable to store form data inputted by the user
   const [formData, setFormData] = useState({
     firstName: "",
@@ -98,7 +104,7 @@ export default function Contact() {
   return (
     <AuthLayout>
       <div className={styles.page}>
-        <div className={styles.hero}>
+        <div id="get-in-touch" className={styles.hero}>
           <h1 className={styles.title}>Get in Touch</h1>
           <p className={styles.description}>
             Have a question or want to get in touch? Send us a message and we&apos;ll respond as soon as possible.
