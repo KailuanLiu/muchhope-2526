@@ -1,4 +1,7 @@
+import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
+import { isAdmin } from "lib/roles";
+import type { UserRole } from "lib/roles.types";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
@@ -11,8 +14,16 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ message: "email or eventId query param is required" }, { status: 400 });
   }
 
+  // Fetching shifts by eventId exposes volunteer PII — restrict to admins
+  if (eventId) {
+    const { userId, sessionClaims } = await auth();
+    const role = (sessionClaims?.metadata as { role?: UserRole } | undefined)?.role ?? "user";
+    if (!userId || !isAdmin(role)) {
+      return NextResponse.json({ error: "Forbidden: admin access required." }, { status: 403 });
+    }
+  }
+
   const url = new URL(`${API_BASE}/shifts`);
-  // eventId is not restricted at the API level, but only AdminShiftViewPopUp calls this path
   if (eventId) {
     url.searchParams.set("eventId", eventId);
   } else {

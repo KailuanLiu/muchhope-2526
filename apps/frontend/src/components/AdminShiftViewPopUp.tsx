@@ -3,9 +3,6 @@
 import { useEffect, useState } from "react";
 import styles from "../styles/adminShiftViewPopUp.module.css";
 
-// TODO: hardcoded placeholder; shift types and their order should come from the database
-const SHIFT_ORDER = ["Setup", "Cooking", "Serving", "Clean Up"];
-
 interface ShiftRecord {
   _id: string;
   eventId: string;
@@ -72,8 +69,15 @@ export default function AdminShiftViewPopUp({ event, onClose }: AdminShiftViewPo
     }
   };
 
-  // All shifts of the same type share the same time, so grab it from the first match
-  const grouped = SHIFT_ORDER.map((type) => ({
+  // Derive shift groups dynamically from actual data — no hardcoded list
+  const groupOrder: string[] = [];
+  for (const shift of shifts) {
+    if (!groupOrder.includes(shift.shiftType)) {
+      groupOrder.push(shift.shiftType);
+    }
+  }
+
+  const grouped = groupOrder.map((type) => ({
     type,
     time: shifts.find((s) => s.shiftType === type)?.shiftTime ?? "",
     volunteers: shifts.filter((s) => s.shiftType === type),
