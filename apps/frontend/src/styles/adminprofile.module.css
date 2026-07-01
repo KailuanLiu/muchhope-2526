@@ -1,7 +1,8 @@
 .pageContainer {
-  padding: 2rem 2.5rem;
+  padding: clamp(1.25rem, 3vw, 2rem) clamp(1rem, 4vw, 2.5rem);
   max-width: 1200px;
   width: 100%;
+  margin: 0 auto;
   box-sizing: border-box;
 }
 
@@ -33,7 +34,7 @@
 }
 
 .pageTitle {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 700;
   color: #181818;
   margin: 0 0 1.75rem;
@@ -42,9 +43,9 @@
 /* ── Two-column layout ── */
 .twoCol {
   display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 1.5rem;
-  align-items: stretch;
+  grid-template-columns: minmax(220px, 280px) 1fr;
+  gap: clamp(1rem, 3vw, 1.5rem);
+  align-items: start;
   width: 100%;
 }
 
@@ -56,7 +57,8 @@
   background: #fff;
   width: 100%;
   box-sizing: border-box;
-  height: 100%;
+  position: sticky;
+  top: 1.5rem;
 }
 
 .sidebarTop {
@@ -213,7 +215,7 @@
   background: #fff;
   border: 1px solid #e8e8e8;
   border-radius: 16px;
-  padding: 1.75rem 2rem;
+  padding: clamp(1.25rem, 3vw, 1.75rem) clamp(1.25rem, 4vw, 2rem);
   width: 100%;
   box-sizing: border-box;
   min-width: 0;
@@ -277,7 +279,7 @@
 /* ── Read-only view grid ── */
 .viewGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 0;
 }
 
@@ -288,7 +290,7 @@
   border-bottom: 1px solid #f5f5f5;
 }
 
-.viewField:nth-last-child(-n + 2) {
+.viewField:last-child {
   border-bottom: none;
 }
 
@@ -348,7 +350,7 @@
 /* ── Edit form ── */
 .form {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1.25rem;
 }
 
@@ -473,6 +475,7 @@
   }
 
   .sidebarCard {
+    position: static;
     display: grid;
     grid-template-columns: auto 1fr;
   }
@@ -486,38 +489,18 @@
     margin: 0 0 0.75rem;
   }
 
-  .form {
-    grid-template-columns: 1fr;
-  }
-
-  .viewGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .viewField:nth-last-child(-n + 2) {
-    border-bottom: 1px solid #f5f5f5;
-  }
-
-  .viewField:last-child {
-    border-bottom: none;
+  .sidebarButton {
+    width: auto;
   }
 }
 
 @media (max-width: 600px) {
-  .pageContainer {
-    padding: 1.5rem 1rem;
-  }
-
-  .pageTitle {
-    font-size: 1.6rem;
-  }
-
   .buttonGroup {
     flex-direction: column;
   }
 
   .mainPanel {
-    padding: 1.25rem;
+    padding: clamp(1rem, 4vw, 1.75rem);
   }
 }
 
