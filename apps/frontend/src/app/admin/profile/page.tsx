@@ -73,35 +73,6 @@ export default function ProfilePage() {
   return (
     <AuthLayout hideFooter>
       <div className={styles.pageContainer}>
-        <h1 className={styles.pageTitle}>Admin Dashboard</h1>
-        <div className={styles.profileHeader}>
-          <div className={`${styles.photoContainer} ${uploading ? styles.uploading : ""}`}>
-            {photoUrl ? (
-              <img src={photoUrl} alt="Profile" className={styles.profilePhoto} />
-            ) : (
-              <div className={styles.photoPlaceholder}>
-                <span className={styles.photoInitials}>
-                  {firstName.charAt(0)}
-                  {lastName.charAt(0)}
-                </span>
-              </div>
-            )}
-            {uploading && <div className={styles.uploading}>Uploading...</div>}
-          </div>
-          <div className={styles.headerInfo}>
-            <h2 className={styles.userName}>
-              {firstName} {lastName}
-            </h2>
-            <p className={styles.userEmail}>{email}</p>
-          </div>
-          <button className={styles.editPhotoButton} onClick={handleEditPhoto}>
-            Edit Photo
-          </button>
-
-          {uploadError && <p className={styles.uploadError}>{uploadError}</p>}
-
-          <input ref={fileInput} type="file" onChange={handlePhotoChange} style={{ display: "none" }} />
-        </div>
         <div className={styles.breadcrumb}>
           <Link href="/admin" className={styles.breadcrumbLink}>
             Admin
@@ -116,7 +87,7 @@ export default function ProfilePage() {
           {/* ── Left: Sidebar card ── */}
           <aside className={styles.sidebarCard}>
             <div className={styles.sidebarTop}>
-              <div className={styles.avatarWrap}>
+              <div className={`${styles.avatarWrap} ${uploading ? styles.uploading : ""}`}>
                 {photoUrl ? (
                   <img src={photoUrl} alt="Profile" className={styles.avatarImg} />
                 ) : (
@@ -128,6 +99,19 @@ export default function ProfilePage() {
                   </div>
                 )}
               </div>
+
+              <button type="button" className={styles.editPhotoButton} onClick={handleEditPhoto} disabled={uploading}>
+                {uploading ? "Uploading..." : "Edit Photo"}
+              </button>
+              <input
+                ref={fileInput}
+                type="file"
+                accept="image/*"
+                onChange={handlePhotoChange}
+                style={{ display: "none" }}
+              />
+              {uploadError && <p className={styles.uploadError}>{uploadError}</p>}
+
               <h2 className={styles.sidebarName}>
                 {firstName} {lastName}
               </h2>
