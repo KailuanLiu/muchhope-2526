@@ -417,7 +417,7 @@ export default function AdminProfile({ initialData, onSave }: ProfileFormProps) 
       </div>
 
       {/* ── Security ── */}
-      <div className={styles.sectionBlock}>
+      <div id="security" className={styles.sectionBlock}>
         <div className={styles.sectionHeader}>
           <h2 className={styles.sectionTitle}>Security</h2>
         </div>

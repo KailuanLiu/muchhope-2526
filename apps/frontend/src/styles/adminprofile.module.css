@@ -166,8 +166,21 @@
   gap: 0.5rem;
 }
 
-.sidebarStat:last-child {
+.sidebarStat:last-of-type {
   border-bottom: none;
+}
+
+.sidebarLink {
+  display: block;
+  margin-top: 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #5b2b82;
+  text-decoration: none;
+}
+
+.sidebarLink:hover {
+  text-decoration: underline;
 }
 
 .sidebarStatLabel {

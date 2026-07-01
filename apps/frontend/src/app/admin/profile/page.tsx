@@ -133,6 +133,14 @@ export default function ProfilePage() {
                 <span className={styles.sidebarStatLabel}>Role</span>
                 <span className={styles.sidebarStatValue}>Admin</span>
               </div>
+              <div className={styles.sidebarStat}>
+                <span className={styles.sidebarStatLabel}>Location</span>
+                <span className={styles.sidebarStatValue}>San Jose, CA</span>
+              </div>
+
+              <a href="#security" className={styles.sidebarLink}>
+                Change Password
+              </a>
             </div>
           </aside>
 
