@@ -2,6 +2,7 @@
 
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
+import React, { useRef, useState } from "react";
 import AuthLayout from "../AuthLayout";
 import ProfileForm from "../../components/volunteer/Profile";
 import UpcomingShifts from "../../components/UpcomingShifts";
@@ -9,9 +10,49 @@ import styles from "../../styles/profile.module.css";
 
 export default function ProfilePage() {
   const { user, isLoaded } = useUser();
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+
+  const fileInput = useRef<HTMLInputElement>(null);
 
   const handleEditPhoto = () => {
-    // TODO: Handle photo upload
+    fileInput.current?.click();
+  };
+
+  const handlePhotoChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    if (!file.type.startsWith("image/")) {
+      setUploadError("Please upload an image file.");
+      return;
+    }
+
+    setUploading(true);
+    setUploadError("");
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await fetch("/api/profile", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        setUploadError("Failed to upload photo.");
+        return;
+      }
+      await user?.reload();
+    } catch {
+      setUploadError("Failed to upload photo.");
+    } finally {
+      setUploading(false);
+    }
   };
 
   if (!isLoaded) {
@@ -41,7 +82,7 @@ export default function ProfilePage() {
         </div>
         <h1 className={styles.pageTitle}>My Profile</h1>
         <div className={styles.profileHeader}>
-          <div className={styles.photoContainer}>
+          <div className={`${styles.photoContainer} ${uploading ? styles.uploading : ""}`}>
             {photoUrl ? (
               <img src={photoUrl} alt="Profile" className={styles.profilePhoto} />
             ) : (
@@ -52,6 +93,7 @@ export default function ProfilePage() {
                 </span>
               </div>
             )}
+            {uploading && <div className={styles.uploading}>Uploading...</div>}
           </div>
           <div className={styles.headerInfo}>
             <h2 className={styles.userName}>
@@ -62,6 +104,10 @@ export default function ProfilePage() {
           <button className={styles.editPhotoButton} onClick={handleEditPhoto}>
             Edit Photo
           </button>
+
+          {uploadError && <p className={styles.uploadError}>{uploadError}</p>}
+
+          <input ref={fileInput} type="file" onChange={handlePhotoChange} style={{ display: "none" }} />
         </div>
 
         <div className={styles.columnsWrapper}>

@@ -15,6 +15,8 @@ const EventSchema = new Schema({
   time: { type: String, required: true },
   location: { type: String, required: true },
   description: { type: String, required: true },
+  imageUrl: { type: String, default: "" },
+  galleryImages: { type: [String], default: [] },
   subEvents: [SubEventSchema],
   admins: [
     {

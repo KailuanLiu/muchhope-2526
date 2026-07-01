@@ -34,3 +34,24 @@ export async function PUT(req: NextRequest) {
 
   return NextResponse.json({ success: true });
 }
+
+export async function POST(req: NextRequest) {
+  const { userId } = await auth();
+
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const formData = await req.formData();
+  const file = formData.get("file");
+
+  if (!(file instanceof File)) {
+    return NextResponse.json({ error: "File not found." }, { status: 400 });
+  }
+
+  const client = await clerkClient();
+
+  await client.users.updateUserProfileImage(userId, { file });
+
+  return NextResponse.json({ success: true });
+}
