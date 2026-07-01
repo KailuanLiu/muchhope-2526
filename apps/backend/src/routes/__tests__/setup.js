@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 // In-memory stores
 let events = [];
 let volunteers = [];
+let shifts = [];
 
 function generateId() {
   return new mongoose.Types.ObjectId().toString();
@@ -70,6 +71,10 @@ function createFakeModel(schemaDefinition, collection) {
     } else {
       result = collection.filter((item) => {
         return Object.entries(query).every(([key, value]) => {
+          // Handle $in operator
+          if (value && typeof value === "object" && value.$in) {
+            return value.$in.includes(item[key]);
+          }
           const keys = key.split(".");
           if (keys.length === 1) {
             return String(item[key]) === String(value);
@@ -182,7 +187,7 @@ function setupTestDB() {
 
   events = [];
   volunteers = [];
-  const shifts = [];
+  shifts = [];
 
   Event = createFakeModel(EventSchemaDefinition, events);
   Volunteer = createFakeModel(VolunteerSchemaDefinition, volunteers);
@@ -198,11 +203,13 @@ function setupTestDB() {
 function clearTestDB() {
   events.length = 0;
   volunteers.length = 0;
+  shifts.length = 0;
 }
 
 function teardownTestDB() {
   events = [];
   volunteers = [];
+  shifts = [];
 }
 
 module.exports = { setupTestDB, teardownTestDB, clearTestDB };

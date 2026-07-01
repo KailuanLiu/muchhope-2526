@@ -63,8 +63,18 @@ describe("AdminNavbar", () => {
 
     expect(screen.getByText("Home").closest("a")).toHaveAttribute("href", "/admin");
     expect(screen.getByText("My Profile").closest("a")).toHaveAttribute("href", "/admin/profile");
-    expect(screen.getByText("Manage Events").closest("a")).toHaveAttribute("href", "/Admin/Events");
     expect(screen.getByText("Manage Users").closest("a")).toHaveAttribute("href", "/admin/manage-users");
+    // Manage Events is now a dropdown button, not a link
+    expect(screen.getByText("Manage Events")).toBeInTheDocument();
+  });
+
+  it("expands Manage Events dropdown and shows sub-links", () => {
+    render(<AdminNavbar {...defaultProps} />);
+    fireEvent.click(screen.getByText("Manage Events"));
+    expect(screen.getByText("Upcoming")).toBeInTheDocument();
+    expect(screen.getByText("Past")).toBeInTheDocument();
+    expect(screen.getByText("Upcoming").closest("a")).toHaveAttribute("href", "/Events/Upcoming");
+    expect(screen.getByText("Past").closest("a")).toHaveAttribute("href", "/Events/PastEvents");
   });
 
   it("renders the logo when not collapsed", () => {

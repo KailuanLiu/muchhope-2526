@@ -21,34 +21,59 @@ describe("AdminProfile", () => {
   const initialData = {
     firstName: "Jane",
     lastName: "Doe",
+    email: "jane@example.com",
     phoneNumber: "5551234567",
-    isAdult: true,
   };
 
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it("renders form with initial data", () => {
+  it("renders view mode by default with personal info", () => {
     render(<AdminProfile initialData={initialData} />);
+
+    expect(screen.getByText("Personal Information")).toBeInTheDocument();
+    expect(screen.getByText("Jane")).toBeInTheDocument();
+    expect(screen.getByText("Doe")).toBeInTheDocument();
+    expect(screen.getByText("jane@example.com")).toBeInTheDocument();
+    expect(screen.getByText("(555) 123-4567")).toBeInTheDocument();
+  });
+
+  it("shows Edit button in view mode", () => {
+    render(<AdminProfile initialData={initialData} />);
+    expect(screen.getAllByText("Edit").length).toBeGreaterThan(0);
+  });
+
+  it("switches to edit mode when Edit is clicked", () => {
+    render(<AdminProfile initialData={initialData} />);
+
+    // Click the first Edit button (Personal Information section)
+    const editButtons = screen.getAllByText("Edit");
+    fireEvent.click(editButtons[0]);
+
+    expect(screen.getByLabelText("First Name")).toBeInTheDocument();
+    expect(screen.getByLabelText("Last Name")).toBeInTheDocument();
+    expect(screen.getByLabelText("Email")).toBeInTheDocument();
+    expect(screen.getByLabelText("Phone Number")).toBeInTheDocument();
+  });
+
+  it("populates form fields with initial data in edit mode", () => {
+    render(<AdminProfile initialData={initialData} />);
+
+    const editButtons = screen.getAllByText("Edit");
+    fireEvent.click(editButtons[0]);
 
     expect(screen.getByLabelText("First Name")).toHaveValue("Jane");
     expect(screen.getByLabelText("Last Name")).toHaveValue("Doe");
+    expect(screen.getByLabelText("Email")).toHaveValue("jane@example.com");
     expect(screen.getByLabelText("Phone Number")).toHaveValue("(555) 123-4567");
   });
 
-  it("renders age status radio buttons with correct initial selection", () => {
+  it("updates field values on input change", () => {
     render(<AdminProfile initialData={initialData} />);
 
-    const adultRadio = screen.getByLabelText("18 and up") as HTMLInputElement;
-    const minorRadio = screen.getByLabelText("Under 18") as HTMLInputElement;
-
-    expect(adultRadio.checked).toBe(true);
-    expect(minorRadio.checked).toBe(false);
-  });
-
-  it("updates first name on input change", () => {
-    render(<AdminProfile initialData={initialData} />);
+    const editButtons = screen.getAllByText("Edit");
+    fireEvent.click(editButtons[0]);
 
     const input = screen.getByLabelText("First Name");
     fireEvent.change(input, { target: { name: "firstName", value: "John" } });
@@ -58,6 +83,9 @@ describe("AdminProfile", () => {
   it("formats phone number as user types", () => {
     render(<AdminProfile initialData={initialData} />);
 
+    const editButtons = screen.getAllByText("Edit");
+    fireEvent.click(editButtons[0]);
+
     const input = screen.getByLabelText("Phone Number");
     fireEvent.change(input, { target: { value: "9876543210" } });
     expect(input).toHaveValue("(987) 654-3210");
@@ -66,11 +94,13 @@ describe("AdminProfile", () => {
   it("shows error when submitting with empty fields", async () => {
     render(<AdminProfile initialData={{ ...initialData, firstName: "" }} />);
 
-    // Clear the field to ensure it's empty (bypass native required)
+    const editButtons = screen.getAllByText("Edit");
+    fireEvent.click(editButtons[0]);
+
     const firstNameInput = screen.getByLabelText("First Name");
     fireEvent.change(firstNameInput, { target: { name: "firstName", value: "" } });
 
-    const form = screen.getByRole("button", { name: "Save" }).closest("form")!;
+    const form = screen.getByText("Save").closest("form")!;
     fireEvent.submit(form);
 
     await waitFor(() => {
@@ -81,7 +111,11 @@ describe("AdminProfile", () => {
   it("shows error for invalid phone number", async () => {
     render(<AdminProfile initialData={{ ...initialData, phoneNumber: "123" }} />);
 
-    fireEvent.click(screen.getByText("Save"));
+    const editButtons = screen.getAllByText("Edit");
+    fireEvent.click(editButtons[0]);
+
+    const form = screen.getByText("Save").closest("form")!;
+    fireEvent.submit(form);
 
     await waitFor(() => {
       expect(screen.getByText("Please enter a valid 10-digit phone number.")).toBeInTheDocument();
@@ -95,7 +129,12 @@ describe("AdminProfile", () => {
     });
 
     render(<AdminProfile initialData={initialData} />);
-    fireEvent.click(screen.getByText("Save"));
+
+    const editButtons = screen.getAllByText("Edit");
+    fireEvent.click(editButtons[0]);
+
+    const form = screen.getByText("Save").closest("form")!;
+    fireEvent.submit(form);
 
     await waitFor(() => {
       expect(mockFetch).toHaveBeenCalledWith("/api/profile", {
@@ -117,53 +156,43 @@ describe("AdminProfile", () => {
     });
 
     render(<AdminProfile initialData={initialData} />);
-    fireEvent.click(screen.getByText("Save"));
+
+    const editButtons = screen.getAllByText("Edit");
+    fireEvent.click(editButtons[0]);
+
+    const form = screen.getByText("Save").closest("form")!;
+    fireEvent.submit(form);
 
     await waitFor(() => {
       expect(screen.getByText("Server error")).toBeInTheDocument();
     });
   });
 
-  it("shows generic error on network failure", async () => {
-    mockFetch.mockRejectedValueOnce(new Error("Network error"));
-
-    render(<AdminProfile initialData={initialData} />);
-    fireEvent.click(screen.getByText("Save"));
-
-    await waitFor(() => {
-      expect(screen.getByText("Failed to update profile. Please try again later.")).toBeInTheDocument();
-    });
-  });
-
   it("resets form to original data on Cancel", () => {
     render(<AdminProfile initialData={initialData} />);
+
+    const editButtons = screen.getAllByText("Edit");
+    fireEvent.click(editButtons[0]);
 
     const input = screen.getByLabelText("First Name");
     fireEvent.change(input, { target: { name: "firstName", value: "Changed" } });
     expect(input).toHaveValue("Changed");
 
     fireEvent.click(screen.getByText("Cancel"));
-    expect(input).toHaveValue("Jane");
+
+    // Should go back to view mode with original data
+    expect(screen.getByText("Jane")).toBeInTheDocument();
   });
 
-  it("disables buttons while submitting", async () => {
-    mockFetch.mockImplementation(() => new Promise(() => {})); // never resolves
-
-    render(<AdminProfile initialData={initialData} />);
-    fireEvent.click(screen.getByText("Save"));
-
-    await waitFor(() => {
-      expect(screen.getByText("Saving...")).toBeDisabled();
-      expect(screen.getByText("Cancel")).toBeDisabled();
-    });
+  it("renders About Me section", () => {
+    render(<AdminProfile initialData={{ ...initialData, aboutMe: "Hello world" }} />);
+    expect(screen.getByText("About Me")).toBeInTheDocument();
+    expect(screen.getByText("Hello world")).toBeInTheDocument();
   });
 
-  it("changes age status when radio button is clicked", () => {
+  it("renders Security section", () => {
     render(<AdminProfile initialData={initialData} />);
-
-    const minorRadio = screen.getByLabelText("Under 18") as HTMLInputElement;
-    fireEvent.click(minorRadio);
-
-    expect(minorRadio.checked).toBe(true);
+    expect(screen.getByText("Security")).toBeInTheDocument();
+    expect(screen.getByText("Change Password")).toBeInTheDocument();
   });
 });

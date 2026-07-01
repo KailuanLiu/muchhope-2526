@@ -225,6 +225,12 @@ describe("POST /api/volunteers", () => {
       userType: "Volunteer",
       isAdult: true,
       role: "Volunteer",
+      notes: "",
+      shiftDetails: {
+        eventName: "",
+        shiftType: "",
+        shiftTime: "",
+      },
     });
   });
 });

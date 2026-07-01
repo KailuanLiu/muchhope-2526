@@ -38,9 +38,11 @@ describe("EventCard", () => {
     expect(img).toHaveAttribute("src", "/event.jpg");
   });
 
-  it("renders a placeholder when no imageUrl is provided", () => {
-    const { container } = render(<EventCard {...baseProps} />);
-    expect(container.querySelector(".imagePlaceholder")).toBeInTheDocument();
+  it("renders default image when no imageUrl is provided", () => {
+    render(<EventCard {...baseProps} />);
+    const img = screen.getByAltText("Beach Cleanup");
+    expect(img).toBeInTheDocument();
+    expect(img).toHaveAttribute("src", "/events-page.jpeg");
   });
 
   it("links to the event detail page", () => {
