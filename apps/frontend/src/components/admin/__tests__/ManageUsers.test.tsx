@@ -63,10 +63,10 @@ const mockFetch = vi.fn();
 global.fetch = mockFetch;
 
 const mockVolunteers = [
-  { id: "1", firstName: "Alice", lastName: "Smith", role: "Admin", isAdult: true },
-  { id: "2", firstName: "Bob", lastName: "Jones", role: "Volunteer", isAdult: true },
-  { id: "3", firstName: "Charlie", lastName: "Brown", role: "Main Admin", isAdult: true },
-  { id: "4", firstName: "Diana", lastName: "Prince", role: "Volunteer", isAdult: false },
+  { id: "1", firstName: "Alice", lastName: "Smith", role: "Admin", isAdult: true, clerkId: "user_alice" },
+  { id: "2", firstName: "Bob", lastName: "Jones", role: "Volunteer", isAdult: true, clerkId: "user_bob" },
+  { id: "3", firstName: "Charlie", lastName: "Brown", role: "Main Admin", isAdult: true, clerkId: "user_charlie" },
+  { id: "4", firstName: "Diana", lastName: "Prince", role: "Volunteer", isAdult: false, clerkId: "user_diana" },
 ];
 
 describe("ManageUsers (AdminVolunteersPage)", () => {
@@ -229,6 +229,114 @@ describe("ManageUsers (AdminVolunteersPage)", () => {
     await waitFor(() => {
       // The total count badge shows the number of all filtered members
       expect(screen.getByText("4")).toBeInTheDocument();
+    });
+  });
+
+  it("renders a Promote button for volunteers", async () => {
+    render(<AdminVolunteersPage />);
+
+    await waitFor(() => {
+      expect(screen.getByText("Bob Jones")).toBeInTheDocument();
+    });
+
+    const promoteButtons = screen.getAllByText("Promote");
+    // Bob and Diana are both regular volunteers
+    expect(promoteButtons.length).toBe(2);
+  });
+
+  it("renders a Demote button for admins", async () => {
+    render(<AdminVolunteersPage />);
+
+    await waitFor(() => {
+      expect(screen.getByText("Alice Smith")).toBeInTheDocument();
+    });
+
+    // Only Alice is a regular Admin (Charlie is Main Admin and shouldn't have a demote button)
+    const demoteButtons = screen.getAllByText("Demote");
+    expect(demoteButtons.length).toBe(1);
+  });
+
+  it("calls promote API when Promote button is clicked", async () => {
+    mockFetch
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ volunteers: mockVolunteers }),
+        text: async () => JSON.stringify({ volunteers: mockVolunteers }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ success: true, promoted: "user_bob" }),
+      });
+
+    render(<AdminVolunteersPage />);
+
+    await waitFor(() => {
+      expect(screen.getByText("Bob Jones")).toBeInTheDocument();
+    });
+
+    const promoteButtons = screen.getAllByText("Promote");
+    fireEvent.click(promoteButtons[0]);
+
+    await waitFor(() => {
+      expect(mockFetch).toHaveBeenCalledWith("/api/admin/promote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: "user_bob" }),
+      });
+    });
+  });
+
+  it("calls demote API when Demote button is clicked", async () => {
+    mockFetch
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ volunteers: mockVolunteers }),
+        text: async () => JSON.stringify({ volunteers: mockVolunteers }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ success: true, demoted: "user_alice" }),
+      });
+
+    render(<AdminVolunteersPage />);
+
+    await waitFor(() => {
+      expect(screen.getByText("Alice Smith")).toBeInTheDocument();
+    });
+
+    const demoteButtons = screen.getAllByText("Demote");
+    fireEvent.click(demoteButtons[0]);
+
+    await waitFor(() => {
+      expect(mockFetch).toHaveBeenCalledWith("/api/admin/demote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: "user_alice" }),
+      });
+    });
+  });
+
+  it("shows an error when trying to change role of a user without clerkId", async () => {
+    const volunteersWithoutClerkId = [
+      { id: "5", firstName: "Eve", lastName: "Adams", role: "Volunteer", isAdult: true },
+    ];
+
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ volunteers: volunteersWithoutClerkId }),
+      text: async () => JSON.stringify({ volunteers: volunteersWithoutClerkId }),
+    });
+
+    render(<AdminVolunteersPage />);
+
+    await waitFor(() => {
+      expect(screen.getByText("Eve Adams")).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByText("Promote"));
+
+    await waitFor(() => {
+      expect(screen.getByText(/has not signed in yet/i)).toBeInTheDocument();
     });
   });
 });

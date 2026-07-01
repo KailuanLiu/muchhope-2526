@@ -16,4 +16,5 @@ export type Volunteer = {
   userType?: string;
   notes?: string;
   shiftDetails?: VolunteerShiftDetails;
+  clerkId?: string;
 };

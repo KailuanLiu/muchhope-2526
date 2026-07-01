@@ -32,6 +32,8 @@ export default function AdminVolunteersPage() {
   const [submitting, setSubmitting] = useState(false);
   const [selectedVolunteer, setSelectedVolunteer] = useState<Volunteer | null>(null);
   const [isAddPopupOpen, setIsAddPopupOpen] = useState(false);
+  const [roleActionId, setRoleActionId] = useState<string | null>(null);
+  const [roleActionError, setRoleActionError] = useState("");
 
   // filtering
   const [roleFilter, setRoleFilter] = useState<RoleFilter>("All");
@@ -157,6 +159,42 @@ export default function AdminVolunteersPage() {
     }
   }
 
+  async function handleRoleChange(volunteer: Volunteer, action: "promote" | "demote") {
+    if (!volunteer.clerkId) {
+      setRoleActionError("This user has not signed in yet, so their role cannot be changed.");
+      return;
+    }
+
+    setRoleActionError("");
+    setRoleActionId(volunteer.id);
+
+    try {
+      const endpoint = action === "promote" ? "/api/admin/promote" : "/api/admin/demote";
+
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: volunteer.clerkId }),
+      });
+
+      const data = await res.json().catch(() => null);
+
+      if (!res.ok) {
+        throw new Error(data?.error || `Failed to ${action} user`);
+      }
+
+      const nextRole = action === "promote" ? "Admin" : "Volunteer";
+      setVolunteers((prev) =>
+        prev.map((v) => (v.id === volunteer.id ? { ...v, role: nextRole, userType: nextRole } : v)),
+      );
+    } catch (error) {
+      console.error(`${action} volunteer error:`, error);
+      setRoleActionError(error instanceof Error ? error.message : `Failed to ${action} user`);
+    } finally {
+      setRoleActionId(null);
+    }
+  }
+
   function getInitials(firstName: string, lastName: string) {
     return `${firstName[0] ?? ""}${lastName[0] ?? ""}`.toUpperCase();
   }
@@ -217,6 +255,8 @@ export default function AdminVolunteersPage() {
               </button>
             </div>
           </section>
+
+          {roleActionError && <p className={styles.errorText}>{roleActionError}</p>}
 
           <div className={styles.listHeader}>
             <p className={styles.sectionLabel}>All Members</p>
@@ -329,6 +369,15 @@ export default function AdminVolunteersPage() {
 
                           <button
                             type="button"
+                            onClick={() => handleRoleChange(volunteer, "demote")}
+                            disabled={roleActionId === volunteer.id}
+                            className={styles.viewButton}
+                          >
+                            {roleActionId === volunteer.id ? "Demoting..." : "Demote"}
+                          </button>
+
+                          <button
+                            type="button"
                             onClick={() => handleDeleteVolunteer(volunteer.id)}
                             className={styles.deleteButton}
                           >
@@ -368,6 +417,15 @@ export default function AdminVolunteersPage() {
                             onClick={() => setSelectedVolunteer(volunteer)}
                           >
                             View Info
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => handleRoleChange(volunteer, "promote")}
+                            disabled={roleActionId === volunteer.id}
+                            className={styles.viewButton}
+                          >
+                            {roleActionId === volunteer.id ? "Promoting..." : "Promote"}
                           </button>
 
                           <button

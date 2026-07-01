@@ -210,6 +210,21 @@
   background: #efe8fb;
 }
 
+.viewButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.errorText {
+  background: #fdecec;
+  border: 1px solid #efb3b3;
+  color: #c53d3d;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
 .deleteButton {
   display: inline-flex;
   align-items: center;
