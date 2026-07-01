@@ -8,7 +8,8 @@ type BackendEvent = {
   id?: string;
   event_name?: string;
   date?: string;
-  time?: string;
+  startTime?: string;
+  endTime?: string;
   location?: string;
   description?: string;
   volunteers?: Array<{
@@ -19,10 +20,17 @@ type BackendEvent = {
   }>;
 };
 
+function formatTimeRange(startTime?: string, endTime?: string) {
+  if (startTime && endTime) return `${startTime} - ${endTime}`;
+  return startTime || endTime || "";
+}
+
 function normalizeEvent(event: BackendEvent) {
   const id = event._id || event.id || "";
   const title = event.event_name || "";
   const description = event.description || "";
+  const startTime = event.startTime || "";
+  const endTime = event.endTime || "";
 
   return {
     ...event,
@@ -33,7 +41,10 @@ function normalizeEvent(event: BackendEvent) {
     image: "",
     imageUrl: "",
     date: event.date || "",
-    time: event.time || "",
+    startTime,
+    endTime,
+    // Combined string kept for components that display a single time value
+    time: formatTimeRange(startTime, endTime),
     location: event.location || "",
     description,
   };

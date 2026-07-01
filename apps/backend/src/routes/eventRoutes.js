@@ -26,7 +26,7 @@ async function requireMainAdmin(req, res, next) {
 }
 
 function toEventDateTime(event) {
-  const value = new Date(`${event.date} ${event.time}`);
+  const value = new Date(`${event.date} ${event.startTime}`);
   return Number.isNaN(value.getTime()) ? null : value;
 }
 

@@ -26,7 +26,8 @@ const sampleVolunteer = (overrides = {}) => ({
 const sampleEvent = (overrides = {}) => ({
   event_name: "Park Cleanup",
   date: "2025-07-15",
-  time: "8:00 AM",
+  startTime: "8:00 AM",
+  endTime: "10:00 AM",
   location: "Central Park",
   description: "Cleaning up the park.",
   volunteers: [],

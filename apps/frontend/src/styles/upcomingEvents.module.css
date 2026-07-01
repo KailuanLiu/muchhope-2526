@@ -209,6 +209,8 @@
 
 .timeRow {
   display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
 }
 
 @media (max-width: 1100px) {
@@ -303,6 +305,6 @@
 
 .subEventRow {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 0.6rem;
 }

@@ -15,7 +15,8 @@ afterEach(() => {
 const sampleEvent = (overrides = {}) => ({
   event_name: "Beach Cleanup",
   date: "2025-08-01",
-  time: "9:00 AM",
+  startTime: "9:00 AM",
+  endTime: "11:00 AM",
   location: "Santa Cruz Beach",
   description: "Cleaning up the beach for the community.",
   volunteers: [],
@@ -39,8 +40,8 @@ describe("GET /events", () => {
   });
 
   test("filters upcoming events", async () => {
-    await Event.create(sampleEvent({ date: "2020-01-01", time: "10:00 AM" }));
-    await Event.create(sampleEvent({ date: "2099-12-31", time: "10:00 AM", event_name: "Future" }));
+    await Event.create(sampleEvent({ date: "2020-01-01", startTime: "10:00 AM" }));
+    await Event.create(sampleEvent({ date: "2099-12-31", startTime: "10:00 AM", event_name: "Future" }));
 
     const res = await request(app).get("/events?timeframe=upcoming");
     expect(res.status).toBe(200);
@@ -49,8 +50,8 @@ describe("GET /events", () => {
   });
 
   test("filters past events", async () => {
-    await Event.create(sampleEvent({ date: "2020-01-01", time: "10:00 AM", event_name: "Past" }));
-    await Event.create(sampleEvent({ date: "2099-12-31", time: "10:00 AM" }));
+    await Event.create(sampleEvent({ date: "2020-01-01", startTime: "10:00 AM", event_name: "Past" }));
+    await Event.create(sampleEvent({ date: "2099-12-31", startTime: "10:00 AM" }));
 
     const res = await request(app).get("/events?timeframe=past");
     expect(res.status).toBe(200);
@@ -59,8 +60,8 @@ describe("GET /events", () => {
   });
 
   test("returns all events when no timeframe is specified", async () => {
-    await Event.create(sampleEvent({ date: "2020-01-01", time: "10:00 AM" }));
-    await Event.create(sampleEvent({ date: "2099-12-31", time: "10:00 AM" }));
+    await Event.create(sampleEvent({ date: "2020-01-01", startTime: "10:00 AM" }));
+    await Event.create(sampleEvent({ date: "2099-12-31", startTime: "10:00 AM" }));
 
     const res = await request(app).get("/events");
     expect(res.status).toBe(200);

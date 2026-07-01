@@ -17,6 +17,8 @@ interface EventData {
   title: string;
   date: string;
   time: string;
+  startTime?: string;
+  endTime?: string;
   location: string;
   description: string;
   imageUrl?: string;
@@ -27,7 +29,8 @@ interface EventData {
 interface SubEvent {
   title: string;
   date: string;
-  time: string;
+  startTime: string;
+  endTime: string;
   location: string;
   description: string;
 }
@@ -37,7 +40,8 @@ type ModalState = "none" | "moreInfo" | "shiftSelect" | "adminShiftView";
 type EventFormState = {
   title: string;
   date: string;
-  time: string;
+  startTime: string;
+  endTime: string;
   location: string;
   description: string;
   imageUrl?: string;
@@ -48,7 +52,8 @@ type EventFormState = {
 const EMPTY_SUB_EVENT: SubEvent = {
   title: "",
   date: "",
-  time: "",
+  startTime: "",
+  endTime: "",
   location: "",
   description: "",
 };
@@ -56,7 +61,8 @@ const EMPTY_SUB_EVENT: SubEvent = {
 const EMPTY_FORM: EventFormState = {
   title: "",
   date: "",
-  time: "",
+  startTime: "",
+  endTime: "",
   location: "",
   description: "",
   imageUrl: "",
@@ -155,12 +161,20 @@ export default function UpcomingEventsPage() {
     setFormState({
       title: event.title,
       date: event.date,
-      time: event.time,
+      startTime: event.startTime || "",
+      endTime: event.endTime || "",
       location: event.location,
       description: event.description,
       imageUrl: event.imageUrl || "",
       galleryImages: event.galleryImages || [],
-      subEvents: event.subEvents || [],
+      subEvents: (event.subEvents || []).map((sub) => ({
+        title: sub.title,
+        date: sub.date,
+        startTime: sub.startTime,
+        endTime: sub.endTime,
+        location: sub.location,
+        description: sub.description,
+      })),
     });
 
     setIsFormOpen(true);
@@ -218,7 +232,8 @@ export default function UpcomingEventsPage() {
         body: JSON.stringify({
           event_name: formState.title,
           date: formState.date,
-          time: formState.time,
+          startTime: formState.startTime,
+          endTime: formState.endTime,
           location: formState.location,
           description: formState.description,
           imageUrl: formState.imageUrl,
@@ -399,10 +414,17 @@ export default function UpcomingEventsPage() {
               <div className={styles.timeRow}>
                 <input
                   className={styles.formInput}
-                  type="text"
-                  placeholder="Time"
-                  value={formState.time}
-                  onChange={(e) => updateField("time", e.target.value)}
+                  type="time"
+                  placeholder="Start Time"
+                  value={formState.startTime}
+                  onChange={(e) => updateField("startTime", e.target.value)}
+                />
+                <input
+                  className={styles.formInput}
+                  type="time"
+                  placeholder="End Time"
+                  value={formState.endTime}
+                  onChange={(e) => updateField("endTime", e.target.value)}
                 />
               </div>
 
@@ -465,10 +487,17 @@ export default function UpcomingEventsPage() {
                       />
                       <input
                         className={styles.formInput}
-                        type="text"
-                        placeholder="Time"
-                        value={subEvent.time}
-                        onChange={(e) => updateSubEvent(index, "time", e.target.value)}
+                        type="time"
+                        placeholder="Start Time"
+                        value={subEvent.startTime}
+                        onChange={(e) => updateSubEvent(index, "startTime", e.target.value)}
+                      />
+                      <input
+                        className={styles.formInput}
+                        type="time"
+                        placeholder="End Time"
+                        value={subEvent.endTime}
+                        onChange={(e) => updateSubEvent(index, "endTime", e.target.value)}
                       />
                     </div>
                     <input
