@@ -85,7 +85,7 @@ describe("ManageUsers (AdminVolunteersPage)", () => {
     await waitFor(() => {
       expect(screen.getByRole("heading", { name: "Manage Users" })).toBeInTheDocument();
     });
-    expect(screen.getByText("Manage members profiles, roles, and contact information.")).toBeInTheDocument();
+    expect(screen.getByText("Manage members, roles, and contact information.")).toBeInTheDocument();
   });
 
   it("shows loading state initially", () => {
@@ -133,7 +133,7 @@ describe("ManageUsers (AdminVolunteersPage)", () => {
     render(<AdminVolunteersPage />);
 
     await waitFor(() => {
-      expect(screen.getByText("Add Member")).toBeInTheDocument();
+      expect(screen.getByText("+ Add Member")).toBeInTheDocument();
     });
   });
 
@@ -148,31 +148,36 @@ describe("ManageUsers (AdminVolunteersPage)", () => {
     expect(breadcrumbLink).toHaveAttribute("href", "/admin");
   });
 
-  it("renders role filter dropdown", async () => {
+  it("renders role filter pills", async () => {
     render(<AdminVolunteersPage />);
 
     await waitFor(() => {
-      expect(screen.getByDisplayValue("All Roles")).toBeInTheDocument();
+      expect(screen.getByText("Main Admin")).toBeInTheDocument();
     });
+    expect(screen.getAllByText("Admin").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Volunteer").length).toBeGreaterThan(0);
   });
 
-  it("renders age filter dropdown", async () => {
+  it("renders age filter pills", async () => {
     render(<AdminVolunteersPage />);
 
     await waitFor(() => {
-      expect(screen.getByDisplayValue("All Age Group")).toBeInTheDocument();
+      expect(screen.getByText("Adult")).toBeInTheDocument();
     });
+    expect(screen.getByText("Minor")).toBeInTheDocument();
   });
 
-  it("filters by role when role filter changes", async () => {
+  it("filters by role when a role pill is clicked", async () => {
     render(<AdminVolunteersPage />);
 
     await waitFor(() => {
       expect(screen.getByText("Alice Smith")).toBeInTheDocument();
     });
 
-    const roleSelect = screen.getByDisplayValue("All Roles");
-    fireEvent.change(roleSelect, { target: { value: "Admin" } });
+    const adminPills = screen.getAllByText("Admin");
+    // The filter pill (not the role badge on the card) is a button element
+    const adminFilterPill = adminPills.find((el) => el.tagName === "BUTTON");
+    fireEvent.click(adminFilterPill!);
 
     expect(screen.getByText("Alice Smith")).toBeInTheDocument();
     expect(screen.queryByText("Bob Jones")).not.toBeInTheDocument();
@@ -219,7 +224,8 @@ describe("ManageUsers (AdminVolunteersPage)", () => {
     fireEvent.click(deleteButtons[0]);
 
     await waitFor(() => {
-      expect(mockFetch).toHaveBeenCalledWith("/api/volunteers?id=3", { method: "DELETE" });
+      // List is sorted alphabetically by name — Alice Smith (id 1) is first
+      expect(mockFetch).toHaveBeenCalledWith("/api/volunteers?id=1", { method: "DELETE" });
     });
   });
 
@@ -227,8 +233,7 @@ describe("ManageUsers (AdminVolunteersPage)", () => {
     render(<AdminVolunteersPage />);
 
     await waitFor(() => {
-      // The total count badge shows the number of all filtered members
-      expect(screen.getByText("4")).toBeInTheDocument();
+      expect(screen.getByText("4 members")).toBeInTheDocument();
     });
   });
 

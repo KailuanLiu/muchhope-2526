@@ -10,6 +10,9 @@ import VolunteerProfilePopUp from "@/components/VolunteerProfilePopUp";
 type RoleFilter = "All" | "Main Admin" | "Admin" | "Volunteer";
 type AgeFilter = "All" | "Adult" | "Minor";
 
+const ROLE_FILTERS: RoleFilter[] = ["All", "Main Admin", "Admin", "Volunteer"];
+const AGE_FILTERS: AgeFilter[] = ["All", "Adult", "Minor"];
+
 function normalizeRole(role?: string, userType?: string): Exclude<RoleFilter, "All"> {
   const rawRole = (role || userType || "Volunteer").trim().toLowerCase();
 
@@ -24,6 +27,16 @@ function getIsAdult(volunteer: Volunteer) {
   if (typeof volunteer.age === "number") return volunteer.age >= 18;
 
   return true;
+}
+
+function getInitials(firstName: string, lastName: string) {
+  return `${firstName[0] ?? ""}${lastName[0] ?? ""}`.toUpperCase();
+}
+
+function roleBadgeClass(role: Exclude<RoleFilter, "All">) {
+  if (role === "Main Admin") return styles.roleBadgeMain;
+  if (role === "Admin") return styles.roleBadgeAdmin;
+  return styles.roleBadgeVolunteer;
 }
 
 export default function AdminVolunteersPage() {
@@ -195,12 +208,8 @@ export default function AdminVolunteersPage() {
     }
   }
 
-  function getInitials(firstName: string, lastName: string) {
-    return `${firstName[0] ?? ""}${lastName[0] ?? ""}`.toUpperCase();
-  }
-
-  const { mainadmins, admins, regularVolunteers } = useMemo(() => {
-    const sorted = volunteers
+  const filteredVolunteers = useMemo(() => {
+    return volunteers
       .map((volunteer) => ({
         ...volunteer,
         role: normalizeRole(volunteer.role, volunteer.userType),
@@ -214,15 +223,7 @@ export default function AdminVolunteersPage() {
         if (ageFilter === "Minor") return !v.isAdult;
         return true;
       });
-
-    return {
-      mainadmins: sorted.filter((v) => v.role === "Main Admin"),
-      admins: sorted.filter((v) => v.role === "Admin"),
-      regularVolunteers: sorted.filter((v) => v.role !== "Admin" && v.role !== "Main Admin"),
-    };
   }, [volunteers, roleFilter, ageFilter]);
-
-  const filteredMemberCount = mainadmins.length + admins.length + regularVolunteers.length;
 
   return (
     <AuthLayout>
@@ -239,208 +240,111 @@ export default function AdminVolunteersPage() {
           <div className={styles.pageHeader}>
             <div>
               <h1 className={styles.title}>Manage Users</h1>
-              <p className={styles.subtitle}>Manage members profiles, roles, and contact information.</p>
+              <p className={styles.subtitle}>Manage members, roles, and contact information.</p>
             </div>
+
+            <button
+              type="button"
+              disabled={submitting}
+              className={styles.addButton}
+              onClick={() => setIsAddPopupOpen(true)}
+            >
+              {submitting ? "Adding..." : "+ Add Member"}
+            </button>
           </div>
 
-          <section className={styles.formSection}>
-            <div className={styles.form}>
-              <button
-                type="button"
-                disabled={submitting}
-                className={styles.addButton}
-                onClick={() => setIsAddPopupOpen(true)}
-              >
-                {submitting ? "Adding..." : "Add Member"}
-              </button>
+          <div className={styles.filterBar}>
+            <div className={styles.filterGroup}>
+              {ROLE_FILTERS.map((role) => (
+                <button
+                  key={role}
+                  type="button"
+                  className={`${styles.filterPill} ${roleFilter === role ? styles.filterPillActive : ""}`}
+                  onClick={() => setRoleFilter(role)}
+                >
+                  {role}
+                </button>
+              ))}
             </div>
-          </section>
+
+            <div className={styles.filterGroup}>
+              {AGE_FILTERS.map((age) => (
+                <button
+                  key={age}
+                  type="button"
+                  className={`${styles.filterPill} ${ageFilter === age ? styles.filterPillActive : ""}`}
+                  onClick={() => setAgeFilter(age)}
+                >
+                  {age}
+                </button>
+              ))}
+            </div>
+
+            <span className={styles.resultCount}>
+              {filteredVolunteers.length} member{filteredVolunteers.length === 1 ? "" : "s"}
+            </span>
+          </div>
 
           {roleActionError && <p className={styles.errorText}>{roleActionError}</p>}
 
-          <div className={styles.listHeader}>
-            <p className={styles.sectionLabel}>All Members</p>
-            <span className={styles.countBadge}>{filteredMemberCount}</span>
-          </div>
-
-          <div className={styles.filter}>
-            <select
-              value={roleFilter}
-              onChange={(e) => setRoleFilter(e.target.value as RoleFilter)}
-              className={styles.filterSelect}
-            >
-              <option value="All">All Roles</option>
-              <option value="Main Admin">Main Admins</option>
-              <option value="Admin">Admins</option>
-              <option value="Volunteer">Volunteers</option>
-            </select>
-
-            <select
-              value={ageFilter}
-              onChange={(e) => setAgeFilter(e.target.value as AgeFilter)}
-              className={styles.filterSelect}
-            >
-              <option value="All">All Age Group</option>
-              <option value="Adult">Adults</option>
-              <option value="Minor">Minors</option>
-            </select>
-          </div>
           <div className={styles.list}>
             {loading ? (
               <div className={styles.emptyState}>Loading volunteers...</div>
             ) : volunteers.length === 0 ? (
               <div className={styles.emptyState}>No volunteers yet.</div>
-            ) : filteredMemberCount === 0 ? (
+            ) : filteredVolunteers.length === 0 ? (
               <div className={styles.emptyState}>No members match these filters.</div>
             ) : (
-              <>
-                {/* MAIN ADMINS */}
-                {mainadmins.length > 0 && (
-                  <>
-                    <div className={styles.listHeader}>
-                      <p className={styles.sectionLabel}>Main Admins</p>
-                      <span className={styles.countBadge}>{mainadmins.length}</span>
+              filteredVolunteers.map((volunteer) => (
+                <article key={volunteer.id} className={styles.card}>
+                  <div className={styles.cardLeft}>
+                    <div className={styles.avatar}>{getInitials(volunteer.firstName, volunteer.lastName)}</div>
+
+                    <div className={styles.cardContent}>
+                      <h2 className={styles.name}>
+                        {volunteer.firstName} {volunteer.lastName}
+                      </h2>
+                      <span className={`${styles.roleBadge} ${roleBadgeClass(volunteer.role)}`}>{volunteer.role}</span>
                     </div>
+                  </div>
 
-                    {mainadmins.map((volunteer) => (
-                      <article key={volunteer.id} className={styles.card}>
-                        <div className={styles.cardLeft}>
-                          <div className={styles.avatar}>{getInitials(volunteer.firstName, volunteer.lastName)}</div>
+                  <div className={styles.actions}>
+                    <button type="button" className={styles.viewButton} onClick={() => setSelectedVolunteer(volunteer)}>
+                      View Info
+                    </button>
 
-                          <div className={styles.cardContent}>
-                            <h2 className={styles.name}>
-                              {volunteer.firstName} {volunteer.lastName}
-                            </h2>
-                            <p className={styles.roleText}>{volunteer.role}</p>
-                          </div>
-                        </div>
+                    {volunteer.role === "Admin" && (
+                      <button
+                        type="button"
+                        onClick={() => handleRoleChange(volunteer, "demote")}
+                        disabled={roleActionId === volunteer.id}
+                        className={styles.viewButton}
+                      >
+                        {roleActionId === volunteer.id ? "Demoting..." : "Demote"}
+                      </button>
+                    )}
 
-                        <div className={styles.actions}>
-                          <button
-                            type="button"
-                            className={styles.viewButton}
-                            onClick={() => setSelectedVolunteer(volunteer)}
-                          >
-                            View Info
-                          </button>
+                    {volunteer.role === "Volunteer" && (
+                      <button
+                        type="button"
+                        onClick={() => handleRoleChange(volunteer, "promote")}
+                        disabled={roleActionId === volunteer.id}
+                        className={styles.viewButton}
+                      >
+                        {roleActionId === volunteer.id ? "Promoting..." : "Promote"}
+                      </button>
+                    )}
 
-                          <button
-                            type="button"
-                            onClick={() => handleDeleteVolunteer(volunteer.id)}
-                            className={styles.deleteButton}
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </article>
-                    ))}
-                  </>
-                )}
-
-                {/* ADMINS */}
-                {admins.length > 0 && (
-                  <>
-                    <div className={styles.listHeader}>
-                      <p className={styles.sectionLabel}>Admins</p>
-                      <span className={styles.countBadge}>{admins.length}</span>
-                    </div>
-
-                    {admins.map((volunteer) => (
-                      <article key={volunteer.id} className={styles.card}>
-                        <div className={styles.cardLeft}>
-                          <div className={styles.avatar}>{getInitials(volunteer.firstName, volunteer.lastName)}</div>
-
-                          <div className={styles.cardContent}>
-                            <h2 className={styles.name}>
-                              {volunteer.firstName} {volunteer.lastName}
-                            </h2>
-                            <p className={styles.roleText}>{volunteer.role}</p>
-                          </div>
-                        </div>
-
-                        <div className={styles.actions}>
-                          <button
-                            type="button"
-                            className={styles.viewButton}
-                            onClick={() => setSelectedVolunteer(volunteer)}
-                          >
-                            View Info
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={() => handleRoleChange(volunteer, "demote")}
-                            disabled={roleActionId === volunteer.id}
-                            className={styles.viewButton}
-                          >
-                            {roleActionId === volunteer.id ? "Demoting..." : "Demote"}
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={() => handleDeleteVolunteer(volunteer.id)}
-                            className={styles.deleteButton}
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </article>
-                    ))}
-                  </>
-                )}
-
-                {/* VOLUNTEERS */}
-                {regularVolunteers.length > 0 && (
-                  <>
-                    <div className={styles.listHeader}>
-                      <p className={styles.sectionLabel}>Volunteers</p>
-                      <span className={styles.countBadge}>{regularVolunteers.length}</span>
-                    </div>
-
-                    {regularVolunteers.map((volunteer) => (
-                      <article key={volunteer.id} className={styles.card}>
-                        <div className={styles.cardLeft}>
-                          <div className={styles.avatar}>{getInitials(volunteer.firstName, volunteer.lastName)}</div>
-
-                          <div className={styles.cardContent}>
-                            <h2 className={styles.name}>
-                              {volunteer.firstName} {volunteer.lastName}
-                            </h2>
-                            <p className={styles.roleText}>{volunteer.role}</p>
-                          </div>
-                        </div>
-
-                        <div className={styles.actions}>
-                          <button
-                            type="button"
-                            className={styles.viewButton}
-                            onClick={() => setSelectedVolunteer(volunteer)}
-                          >
-                            View Info
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={() => handleRoleChange(volunteer, "promote")}
-                            disabled={roleActionId === volunteer.id}
-                            className={styles.viewButton}
-                          >
-                            {roleActionId === volunteer.id ? "Promoting..." : "Promote"}
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={() => handleDeleteVolunteer(volunteer.id)}
-                            className={styles.deleteButton}
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </article>
-                    ))}
-                  </>
-                )}
-              </>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteVolunteer(volunteer.id)}
+                      className={styles.deleteButton}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </article>
+              ))
             )}
           </div>
         </div>
