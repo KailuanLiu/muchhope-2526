@@ -1,96 +1,195 @@
-.aboutContainer {
-  max-width: 800px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  gap: 20px;
-  margin-bottom: 40px;
-  padding: 2rem;
+.page {
+  min-height: 100vh;
+  padding: 40px 32px 64px;
+  background: #f8f6f7;
   box-sizing: border-box;
 }
 
-.aboutTitle {
-  text-align: left;
-  font-size: 40px;
-  font-family: "Montserrat", sans-serif;
-  font-weight: 500;
+/* Hero */
+.hero {
+  max-width: 1000px;
+  margin: 0 auto 32px;
+  padding: 48px 32px;
+  text-align: center;
+  border-radius: 28px;
+  background: linear-gradient(180deg, #efe6fa 0%, #f8f6f7 100%);
 }
 
-.aboutImageContainer {
-  width: 100%;
+.heroTitle {
+  margin: 0 0 12px;
+  font-size: 2.75rem;
+  font-weight: 700;
+  color: #2d1a4e;
+  font-family: "Montserrat", "Helvetica Neue", sans-serif;
 }
 
-/* .aboutImage {
-  width: 100%;
-  max-width: 800px;
-  height: 400px;
+.heroSubtitle {
+  max-width: 640px;
   margin: 0 auto;
-} */
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #5f5966;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* Eyebrow label */
+.eyebrow {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #e3af64;
+  margin-bottom: 10px;
+}
+
+/* Mission card */
+.aboutCard {
+  max-width: 1000px;
+  margin: 0 auto 28px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  background: #ffffff;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.06);
+}
+
+.aboutImageWrap {
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  overflow: hidden;
+}
 
 .aboutImage {
   width: 100%;
-  max-height: 500px;
+  height: 100%;
+  min-height: 320px;
   object-fit: cover;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  border-radius: 4px;
+  display: block;
+}
+
+.aboutText {
+  padding: 44px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .aboutDescription {
-  margin-top: 30px;
-  text-align: left;
-  font-family: "Helvetica Neue", sans-serif;
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.75;
+  color: #4a4550;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.aboutBanner {
-  height: 200px;
-  width: 100vw;
-  background-color: #d9d9d9;
-  margin-left: calc(-50vw + 50%);
+/* Organizer card */
+.organizerCard {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  background: #402479;
+  border-radius: 28px;
+  padding: 40px;
+  color: #f8f6f7;
 }
 
 .aboutContactImage {
-  height: 300px;
-  width: 300px;
+  height: 180px;
+  width: 180px;
+  flex-shrink: 0;
   border-radius: 50%;
   object-fit: cover;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.aboutContactButton {
-  background-color: #d9d9d9;
-  padding: 8px 16px;
-  font-family: "Helvetica Neue", sans-serif;
-  font-size: 15px;
-  border: none;
-  border-radius: 3px;
-  margin-top: 10px;
-}
-
-.aboutContactContainer {
-  display: flex;
-  margin: 50px;
-  gap: 20px;
-  margin-top: 80px;
+  border: 4px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
 .aboutContactInfo {
-  margin-left: 40px;
-}
-
-.aboutContactTitle {
-  margin: 0;
-  font-family: "Montserrrat", sans-serif;
-  font-weight: 400;
-  font-size: 30px;
+  display: flex;
+  flex-direction: column;
 }
 
 .organizerTitle {
-  margin: 0;
-  font-weight: 500;
-  font-size: 35px;
+  margin: 0 0 12px;
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: #ffffff;
+  font-family: "Montserrat", "Helvetica Neue", sans-serif;
 }
 
 .aboutContactDesc {
-  font-family: "Helvetica Neue", sans-serif;
+  margin: 0 0 20px;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: rgba(248, 246, 247, 0.85);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.aboutContactButton {
+  align-self: flex-start;
+  background-color: #e3af64;
+  color: #2e1043;
+  padding: 12px 28px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+  box-shadow: 0 8px 18px rgba(227, 175, 100, 0.28);
+}
+
+.aboutContactButton:hover {
+  background-color: #d89f4f;
+  transform: translateY(-1px);
+}
+
+/* Responsive */
+@media (max-width: 860px) {
+  .page {
+    padding: 28px 16px 48px;
+  }
+
+  .hero {
+    padding: 36px 20px;
+  }
+
+  .heroTitle {
+    font-size: 2.1rem;
+  }
+
+  .aboutCard {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutImageWrap,
+  .aboutImage {
+    min-height: 240px;
+  }
+
+  .aboutText {
+    padding: 28px 24px;
+  }
+
+  .organizerCard {
+    flex-direction: column;
+    text-align: center;
+    padding: 32px 24px;
+  }
+
+  .aboutContactInfo {
+    align-items: center;
+  }
+
+  .aboutContactButton {
+    align-self: center;
+  }
 }
