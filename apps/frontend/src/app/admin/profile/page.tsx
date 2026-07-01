@@ -69,6 +69,8 @@ export default function ProfilePage() {
   const lastName = user?.lastName ?? "";
   const email = user?.primaryEmailAddress?.emailAddress ?? "";
   const photoUrl = user?.imageUrl ?? "";
+  const role = (user?.publicMetadata?.role as string) ?? "admin";
+  const roleLabel = role === "mainadmin" ? "Main Admin" : "Administrator";
 
   return (
     <AuthLayout hideFooter>
@@ -115,32 +117,11 @@ export default function ProfilePage() {
               <h2 className={styles.sidebarName}>
                 {firstName} {lastName}
               </h2>
-              <p className={styles.sidebarRole}>Administrator</p>
+              <p className={styles.sidebarRole}>{roleLabel}</p>
             </div>
 
             <div className={styles.sidebarBody}>
-              <span className={styles.verifiedBadge}>Main Admin</span>
-
-              <div className={styles.sidebarStat}>
-                <span className={styles.sidebarStatLabel}>Email</span>
-                <span className={styles.sidebarStatValue}>{email}</span>
-              </div>
-              <div className={styles.sidebarStat}>
-                <span className={styles.sidebarStatLabel}>Phone</span>
-                <span className={styles.sidebarStatValue}>{(user?.publicMetadata?.phoneNumber as string) ?? "—"}</span>
-              </div>
-              <div className={styles.sidebarStat}>
-                <span className={styles.sidebarStatLabel}>Role</span>
-                <span className={styles.sidebarStatValue}>Admin</span>
-              </div>
-              <div className={styles.sidebarStat}>
-                <span className={styles.sidebarStatLabel}>Location</span>
-                <span className={styles.sidebarStatValue}>San Jose, CA</span>
-              </div>
-
-              <a href="#security" className={styles.sidebarButton}>
-                Change Password
-              </a>
+              <span className={styles.verifiedBadge}>{roleLabel}</span>
             </div>
           </aside>
 

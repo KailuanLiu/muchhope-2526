@@ -39,6 +39,21 @@ describe("GET /shifts", () => {
     expect(res.body[0].date).toBe("2099-12-01");
   });
 
+  test("includes a shift scheduled for today", async () => {
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, "0");
+    const dd = String(now.getDate()).padStart(2, "0");
+    const today = `${yyyy}-${mm}-${dd}`;
+
+    await Shift.create(sampleShift({ date: today }));
+
+    const res = await request(app).get("/shifts?email=volunteer@example.com");
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveLength(1);
+    expect(res.body[0].date).toBe(today);
+  });
+
   test("returns shifts sorted by date ascending", async () => {
     await Shift.create(sampleShift({ date: "2099-12-31" }));
     await Shift.create(sampleShift({ date: "2099-06-01" }));

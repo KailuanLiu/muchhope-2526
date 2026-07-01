@@ -7,7 +7,7 @@ export async function PUT(req: NextRequest) {
   if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   // pase the request body
-  const { firstName, lastName, phoneNumber, isAdult, email } = await req.json();
+  const { firstName, lastName, phoneNumber, isAdult, email, aboutMe } = await req.json();
 
   const client = await clerkClient();
 
@@ -18,10 +18,13 @@ export async function PUT(req: NextRequest) {
     publicMetadata: {
       // spread exisitng metadata first so role and other fields are not wiped
       ...existingUser.publicMetadata,
-      phoneNumber,
-      isAdult,
     },
   };
+
+  if (phoneNumber !== undefined) userUpdate.publicMetadata.phoneNumber = phoneNumber;
+  if (isAdult !== undefined) userUpdate.publicMetadata.isAdult = isAdult;
+  // only update aboutMe when explicitly provided so other saves don't wipe it
+  if (aboutMe !== undefined) userUpdate.publicMetadata.aboutMe = aboutMe;
 
   // only update name fields if they were provided in the request
   if (firstName !== undefined) userUpdate.firstName = firstName;

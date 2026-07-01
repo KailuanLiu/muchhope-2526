@@ -71,7 +71,8 @@
 .loadingText,
 .errorText,
 .emptyText {
-  margin: 0;
+  max-width: 1120px;
+  margin: 0 auto;
   color: #444;
   font-size: 1rem;
 }

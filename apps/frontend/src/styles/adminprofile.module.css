@@ -40,36 +40,41 @@
   margin: 0 0 1.75rem;
 }
 
-/* ── Two-column layout ── */
+/* ── Two-column layout: one connected card ── */
 .twoCol {
   display: grid;
-  grid-template-columns: minmax(220px, 280px) 1fr;
-  gap: clamp(1rem, 3vw, 1.5rem);
-  align-items: start;
+  grid-template-columns: minmax(240px, 300px) 1fr;
+  align-items: stretch;
   width: 100%;
-}
-
-/* ── Sidebar card ── */
-.sidebarCard {
+  border: 1px solid #e8e8e8;
   border-radius: 16px;
   overflow: hidden;
-  border: 1px solid #e8e8e8;
   background: #fff;
+  box-shadow: 0 10px 40px rgba(64, 36, 121, 0.06);
+}
+
+/* ── Sidebar (left half of the connected card) ── */
+.sidebarCard {
   width: 100%;
   box-sizing: border-box;
-  position: sticky;
-  top: 1.5rem;
+  background: linear-gradient(135deg, #3d1f72 0%, #6b3fa0 100%);
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebarTop {
-  background: linear-gradient(135deg, #3d1f72 0%, #6b3fa0 100%);
   padding: 2rem 1.5rem;
   text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .avatarWrap {
-  width: 88px;
-  height: 88px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   margin: 0 auto 1rem;
   border: 3px solid rgba(255, 255, 255, 0.45);
@@ -96,7 +101,7 @@
 
 .avatarInitials {
   color: white;
-  font-size: 1.75rem;
+  font-size: 2.75rem;
   font-weight: 700;
   letter-spacing: 1px;
 }
@@ -142,21 +147,39 @@
   margin: 0;
 }
 
+.minorTag {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  padding: 2px 8px;
+  background: #e3af64;
+  color: #34104d;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-radius: 999px;
+  vertical-align: middle;
+}
+
 .sidebarBody {
-  padding: 1.25rem 1.5rem;
+  padding: 1.25rem 1.5rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 
 .verifiedBadge {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  background: #f0eafa;
-  color: #5b2b82;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
   font-size: 0.75rem;
   font-weight: 600;
   padding: 4px 12px;
   border-radius: 20px;
-  margin-bottom: 1rem;
 }
 
 .sidebarStat {
@@ -176,7 +199,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-top: 0.9rem;
+  align-self: stretch;
   width: 100%;
   background: transparent;
   color: #fff;
@@ -210,11 +233,9 @@
   word-break: break-all;
 }
 
-/* ── Main right panel ── */
+/* ── Main right panel (right half of the connected card) ── */
 .mainPanel {
   background: #fff;
-  border: 1px solid #e8e8e8;
-  border-radius: 16px;
   padding: clamp(1.25rem, 3vw, 1.75rem) clamp(1.25rem, 4vw, 2rem);
   width: 100%;
   box-sizing: border-box;
@@ -279,8 +300,8 @@
 /* ── Read-only view grid ── */
 .viewGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 0;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0 1.5rem;
 }
 
 .viewField {
@@ -474,23 +495,8 @@
     grid-template-columns: 1fr;
   }
 
-  .sidebarCard {
-    position: static;
-    display: grid;
-    grid-template-columns: auto 1fr;
-  }
-
   .sidebarTop {
-    text-align: left;
-    padding: 1.5rem;
-  }
-
-  .avatarWrap {
-    margin: 0 0 0.75rem;
-  }
-
-  .sidebarButton {
-    width: auto;
+    padding: 1.75rem 1.5rem 1rem;
   }
 }
 
@@ -502,6 +508,10 @@
   .mainPanel {
     padding: clamp(1rem, 4vw, 1.75rem);
   }
+
+  .viewGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .uploadError {
@@ -512,4 +522,9 @@
 
 .uploading {
   filter: brightness(60%);
+}
+
+/* ── Upcoming shifts (below the profile card, volunteer view) ── */
+.shiftsSection {
+  margin-top: clamp(1rem, 3vw, 1.5rem);
 }

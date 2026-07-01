@@ -59,6 +59,18 @@ describe("GET /events", () => {
     expect(res.body[0].event_name).toBe("Past");
   });
 
+  test("filters upcoming events using the date even when startTime is not a real time", async () => {
+    // Legacy records may only have a display `time` string, so startTime is a
+    // non-time value. The filter should fall back to the date alone.
+    await Event.create(sampleEvent({ date: "2020-01-01", startTime: "n/a", event_name: "Legacy Past" }));
+    await Event.create(sampleEvent({ date: "2099-12-31", startTime: "n/a", event_name: "Legacy Future" }));
+
+    const res = await request(app).get("/events?timeframe=upcoming");
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveLength(1);
+    expect(res.body[0].event_name).toBe("Legacy Future");
+  });
+
   test("returns all events when no timeframe is specified", async () => {
     await Event.create(sampleEvent({ date: "2020-01-01", startTime: "10:00 AM" }));
     await Event.create(sampleEvent({ date: "2099-12-31", startTime: "10:00 AM" }));

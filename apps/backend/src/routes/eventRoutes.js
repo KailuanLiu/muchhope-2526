@@ -26,21 +26,33 @@ async function requireMainAdmin(req, res, next) {
 }
 
 function toEventDateTime(event) {
-  const value = new Date(`${event.date} ${event.startTime}`);
-  return Number.isNaN(value.getTime()) ? null : value;
+  // Event dates are stored as "YYYY-MM-DD". startTime may be missing on older
+  // records (they only have a display `time` string), so fall back to the date
+  // alone and parse in local time to avoid UTC offset bugs.
+  const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(event?.date ?? "").trim());
+  if (!match) {
+    const parsed = new Date(event?.date);
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
+  }
+  return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
 }
 
 router.get("/", async (req, res) => {
   try {
     const { Event } = getModels();
     const { timeframe } = req.query;
-    const now = new Date();
+    // Compare by calendar day so events happening today count as upcoming.
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
     const events = await Event.find().lean();
     const filteredEvents = events.filter((event) => {
       const eventDate = toEventDateTime(event);
-      if (!eventDate || !timeframe) return true;
-      if (timeframe === "upcoming") return eventDate >= now;
-      if (timeframe === "past") return eventDate < now;
+      if (!timeframe) return true;
+      // If the date can't be parsed, exclude it from time-based views so stale
+      // records don't leak into "upcoming".
+      if (!eventDate) return false;
+      if (timeframe === "upcoming") return eventDate >= startOfToday;
+      if (timeframe === "past") return eventDate < startOfToday;
       return true;
     });
     filteredEvents.sort((a, b) => {

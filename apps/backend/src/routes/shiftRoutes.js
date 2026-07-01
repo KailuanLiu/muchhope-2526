@@ -34,10 +34,37 @@ router.get("/", async (req, res) => {
 
     if (!email) return res.status(400).json({ message: "email or eventId query param is required" });
 
-    const now = new Date();
+    // Compare by calendar day, not exact timestamp. Shift dates are stored as
+    // date-only strings (e.g. "2026-07-01"), which `new Date()` parses as UTC
+    // midnight. Comparing that against the current time would drop shifts that
+    // are scheduled for today (and can shift by a day depending on timezone).
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+
+    const parseShiftDate = (value) => {
+      // Accept "YYYY-MM-DD" (and ISO strings like "2026-07-01T00:00:00.000Z")
+      // and parse the calendar day in local time to avoid UTC offset bugs.
+      const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(value).trim());
+      if (match) {
+        return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+      }
+      const parsed = new Date(value);
+      if (Number.isNaN(parsed.getTime())) return null;
+      // Normalize to local midnight so comparisons are day-based.
+      return new Date(parsed.getFullYear(), parsed.getMonth(), parsed.getDate());
+    };
+
     const shifts = await Shift.find({ volunteerEmail: email }).lean();
-    const upcoming = shifts.filter((shift) => new Date(shift.date) >= now);
-    upcoming.sort((a, b) => new Date(a.date) - new Date(b.date));
+    const upcoming = shifts.filter((shift) => {
+      const shiftDate = parseShiftDate(shift.date);
+      return shiftDate && shiftDate >= startOfToday;
+    });
+    upcoming.sort((a, b) => {
+      const first = parseShiftDate(a.date);
+      const second = parseShiftDate(b.date);
+      if (!first || !second) return 0;
+      return first - second;
+    });
 
     res.status(200).json(upcoming);
   } catch (error) {
