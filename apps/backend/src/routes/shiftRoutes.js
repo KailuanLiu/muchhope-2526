@@ -87,8 +87,16 @@ router.delete("/:id", async (req, res) => {
   try {
     const { Shift } = getModels();
     const { id } = req.params;
+    const { volunteerEmail } = req.query;
 
-    const deletedShift = await Shift.findByIdAndDelete(id);
+    // When a volunteerEmail scope is supplied, only delete the shift if it
+    // belongs to that volunteer. Admin callers omit it to delete any shift.
+    const query = { _id: id };
+    if (volunteerEmail) {
+      query.volunteerEmail = volunteerEmail;
+    }
+
+    const deletedShift = await Shift.findOneAndDelete(query);
 
     if (!deletedShift) {
       return res.status(404).json({ message: "Shift not found" });

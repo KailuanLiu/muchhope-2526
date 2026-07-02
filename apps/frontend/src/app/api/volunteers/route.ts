@@ -1,6 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
+import { isAdmin } from "lib/roles";
+import type { UserRole } from "lib/roles.types";
 import connectDB from "lib/db";
 import { Volunteer } from "lib/VolunteerModel";
+
+async function getCaller() {
+  const { userId, sessionClaims } = await auth();
+  const role = (sessionClaims?.metadata as { role?: UserRole } | undefined)?.role ?? "user";
+  return { userId, role };
+}
 
 function normalizeShiftDetails(shiftDetails: any) {
   return {
@@ -55,8 +64,18 @@ function getVolunteerUpdates(body: any) {
 
 export async function GET() {
   try {
+    const { userId, role } = await getCaller();
+
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     await connectDB();
-    const volunteers = await Volunteer.find({}).lean();
+
+    // Admins can see the full roster. Everyone else only gets their own record
+    // so we don't leak other volunteers' PII (email, phone, notes).
+    const query = isAdmin(role) ? {} : { clerkId: userId };
+    const volunteers = await Volunteer.find(query).lean();
     const mapped = volunteers.map(normalizeVolunteer);
     return NextResponse.json({ volunteers: mapped });
   } catch (err) {
@@ -67,6 +86,12 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
+    const { userId, role } = await getCaller();
+
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     await connectDB();
     const body = await req.json();
 
@@ -78,14 +103,22 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "First name and last name are required." }, { status: 400 });
     }
 
+    const callerIsAdmin = isAdmin(role);
+
+    // Non-admins may only create their own volunteer record (the signup flow),
+    // always as a Volunteer tied to their own Clerk id.
+    const clerkId = callerIsAdmin ? (body.clerkId ?? "") : userId;
+    const userType = callerIsAdmin ? (body.userType ?? "Volunteer") : "Volunteer";
+    const roleValue = callerIsAdmin ? (body.role ?? "Volunteer") : "Volunteer";
+
     const docData: any = {
       firstName,
       lastName,
       phoneNumber: body.phoneNumber ?? "",
-      clerkId: body.clerkId ?? "",
-      userType: body.userType ?? "Volunteer",
+      clerkId,
+      userType,
       isAdult: body.isAdult ?? true,
-      role: body.role ?? "Volunteer",
+      role: roleValue,
       notes: body.notes ?? "",
       shiftDetails: normalizeShiftDetails(body.shiftDetails),
     };
@@ -110,6 +143,16 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
+  const { userId, role } = await getCaller();
+
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  if (!isAdmin(role)) {
+    return NextResponse.json({ error: "Forbidden: admin access required." }, { status: 403 });
+  }
+
   const id = req.nextUrl.searchParams.get("id");
 
   if (!id) {
@@ -137,6 +180,16 @@ export async function PUT(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
+  const { userId, role } = await getCaller();
+
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  if (!isAdmin(role)) {
+    return NextResponse.json({ error: "Forbidden: admin access required." }, { status: 403 });
+  }
+
   const id = req.nextUrl.searchParams.get("id");
 
   if (!id) {

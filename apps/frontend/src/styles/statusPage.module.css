@@ -1,0 +1,110 @@
+.pageContainer {
+  position: fixed;
+  inset: 0;
+  background-color: #f8f6f7;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-align: center;
+  z-index: 9999;
+}
+
+.card {
+  background-color: #ffe9ac;
+  padding: 40px 32px 44px;
+  border-radius: 16px;
+  width: 520px;
+  max-width: 92%;
+  box-shadow: none;
+}
+
+.logo {
+  width: 120px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.code {
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1;
+  color: #402479;
+  margin: 0 0 8px;
+}
+
+.title {
+  font-size: 26px;
+  margin: 0 0 12px;
+  color: #402479;
+}
+
+.message {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #212121;
+  margin: 0 auto 28px;
+  max-width: 400px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.primaryButton {
+  width: 80%;
+  max-width: 260px;
+  padding: 11px 12px;
+  background-color: #402479;
+  color: #f8f6f7;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.primaryButton:hover {
+  background-color: #2e1b58;
+}
+
+.secondaryButton {
+  width: 80%;
+  max-width: 260px;
+  padding: 10px 12px;
+  background-color: transparent;
+  color: #402479;
+  border: 1px solid #402479;
+  border-radius: 12px;
+  font-size: 15px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.secondaryButton:hover {
+  background-color: rgba(64, 36, 121, 0.08);
+}
+
+.helpText {
+  margin-top: 24px;
+  font-size: 14px;
+  color: #555;
+}
+
+.helpText a {
+  color: #402479;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.helpText a:hover {
+  text-decoration: underline;
+}

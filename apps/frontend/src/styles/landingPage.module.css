@@ -158,6 +158,15 @@ body {
   line-height: 1.4;
 }
 
+.cardDescription {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .emptyMessage {
   color: #888;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -270,8 +279,71 @@ body {
 
   .mainContentExpanded,
   .mainContentCollapsed {
-    margin-left: 60px;
-    width: calc(100% - 60px);
+    margin-left: 0;
+    width: 100%;
+    padding-top: 56px;
+  }
+}
+
+/* ── Mobile navigation shell (drawer + top bar) ── */
+.mobileTopBar {
+  display: none;
+}
+
+.mobileBackdrop {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .mobileTopBar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 56px;
+    padding: 0 14px;
+    background: #402479;
+    z-index: 90;
+    box-sizing: border-box;
+  }
+
+  .mobileMenuButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 6px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .mobileMenuButton:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .mobileMenuButton img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .mobileTopBarLogo {
+    height: 34px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .mobileBackdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 95;
   }
 }
 

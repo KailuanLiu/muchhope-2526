@@ -167,14 +167,51 @@
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Responsive — collapse sidebar on small screens */
+/* Desktop-only toggle vs mobile-only close button */
+.mobileClose {
+  display: none;
+}
+
+.closeIcon {
+  font-size: 1.75rem;
+  line-height: 1;
+  color: #f8f6f7;
+}
+
+/* Responsive — turn the sidebar into a slide-in drawer on small screens */
 @media (max-width: 900px) {
   .sidebar {
-    width: 60px;
+    width: 240px;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 2px 0 16px rgba(0, 0, 0, 0.25);
+  }
+
+  /* On mobile the collapsed state should not shrink the drawer */
+  .collapsed {
+    width: 240px;
   }
 
   .sidebar .linkText {
-    opacity: 0;
-    pointer-events: none;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .collapsed .navLink {
+    opacity: 1;
+  }
+
+  /* Slide in when opened */
+  .mobileOpen {
+    transform: translateX(0);
+  }
+
+  /* Swap the desktop collapse toggle for a close button */
+  .desktopToggle {
+    display: none;
+  }
+
+  .mobileClose {
+    display: flex;
   }
 }

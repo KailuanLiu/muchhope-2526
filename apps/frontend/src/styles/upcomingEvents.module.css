@@ -230,6 +230,26 @@
   }
 }
 
+@media (max-width: 600px) {
+  .overlay {
+    padding: 1rem;
+  }
+
+  .panel {
+    padding: 22px 18px;
+    border-radius: 18px;
+    max-height: calc(100vh - 2rem);
+  }
+
+  .subEventRow {
+    grid-template-columns: 1fr;
+  }
+
+  .timeRow {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Sub-Events Section */
 .subEventsSection {
   margin-top: 0.5rem;

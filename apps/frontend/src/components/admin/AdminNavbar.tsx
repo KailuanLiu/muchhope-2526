@@ -11,9 +11,13 @@ import adminStyles from "@/styles/adminnavbar.module.css";
 export default function AdminNavbar({
   collapsed,
   setCollapsed,
+  mobileOpen = false,
+  onMobileClose,
 }: {
   collapsed: boolean;
   setCollapsed: (value: boolean) => void;
+  mobileOpen?: boolean;
+  onMobileClose?: () => void;
 }) {
   const pathname = usePathname();
   const { signOut } = useClerk();
@@ -49,10 +53,21 @@ export default function AdminNavbar({
   ];
 
   return (
-    <nav className={`${styles.sidebar} ${collapsed ? styles.collapsed : ""}`}>
+    <nav className={`${styles.sidebar} ${collapsed ? styles.collapsed : ""} ${mobileOpen ? styles.mobileOpen : ""}`}>
       <div className={adminStyles.topSection}>
-        <button className={styles.toggleButton} onClick={() => setCollapsed(!collapsed)} aria-label="Toggle sidebar">
+        <button
+          className={`${styles.toggleButton} ${styles.desktopToggle}`}
+          onClick={() => setCollapsed(!collapsed)}
+          aria-label="Toggle sidebar"
+        >
           <img src="/icons/menu.svg" alt="menu button" />
+        </button>
+        <button
+          className={`${styles.toggleButton} ${styles.mobileClose}`}
+          onClick={() => onMobileClose?.()}
+          aria-label="Close menu"
+        >
+          <span className={styles.closeIcon}>&times;</span>
         </button>
         {!collapsed && <Image src="/white-logo.png" alt="Much Hope" width={80} height={68} className={styles.logo} />}
       </div>

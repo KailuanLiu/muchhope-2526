@@ -139,4 +139,24 @@ describe("DELETE /shifts/:id", () => {
     expect(res.status).toBe(404);
     expect(res.body.message).toMatch(/not found/i);
   });
+
+  test("deletes when volunteerEmail scope matches the shift owner", async () => {
+    const shift = await Shift.create(sampleShift());
+
+    const res = await request(app).delete(`/shifts/${shift._id}?volunteerEmail=volunteer@example.com`);
+    expect(res.status).toBe(200);
+    expect(res.body.message).toMatch(/deleted successfully/i);
+  });
+
+  test("returns 404 when volunteerEmail scope does not match the shift owner", async () => {
+    const shift = await Shift.create(sampleShift());
+
+    const res = await request(app).delete(`/shifts/${shift._id}?volunteerEmail=someone-else@example.com`);
+    expect(res.status).toBe(404);
+    expect(res.body.message).toMatch(/not found/i);
+
+    // The shift must still exist since the scoped delete didn't match.
+    const stillThere = await Shift.findById(shift._id);
+    expect(stillThere).not.toBeNull();
+  });
 });

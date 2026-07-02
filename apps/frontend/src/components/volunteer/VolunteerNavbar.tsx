@@ -11,9 +11,13 @@ import volStyles from "../../styles/volunteernavbar.module.css";
 export default function VolunteerNavbar({
   collapsed,
   setCollapsed,
+  mobileOpen = false,
+  onMobileClose,
 }: {
   collapsed: boolean;
   setCollapsed: (value: boolean) => void;
+  mobileOpen?: boolean;
+  onMobileClose?: () => void;
 }) {
   const pathname = usePathname();
   const { signOut } = useClerk();
@@ -38,10 +42,21 @@ export default function VolunteerNavbar({
   ];
 
   return (
-    <aside className={`${styles.sidebar} ${collapsed ? styles.collapsed : ""}`}>
+    <aside className={`${styles.sidebar} ${collapsed ? styles.collapsed : ""} ${mobileOpen ? styles.mobileOpen : ""}`}>
       <div className={styles.topSection}>
-        <button className={styles.toggleButton} onClick={() => setCollapsed(!collapsed)} aria-label="Toggle sidebar">
+        <button
+          className={`${styles.toggleButton} ${styles.desktopToggle}`}
+          onClick={() => setCollapsed(!collapsed)}
+          aria-label="Toggle sidebar"
+        >
           <img src="/icons/menu.svg" alt="menu button" />
+        </button>
+        <button
+          className={`${styles.toggleButton} ${styles.mobileClose}`}
+          onClick={() => onMobileClose?.()}
+          aria-label="Close menu"
+        >
+          <span className={styles.closeIcon}>&times;</span>
         </button>
         {!collapsed && <Image src="/white-logo.png" alt="Much Hope" width={80} height={68} className={styles.logo} />}
       </div>

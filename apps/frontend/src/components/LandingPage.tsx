@@ -21,8 +21,8 @@ async function getEvents(): Promise<Event[]> {
     const data = await res.json();
 
     return data.map((event: any) => ({
-      id: event._id,
-      title: event.event_name,
+      id: event.id ?? event._id,
+      title: event.title ?? event.event_name,
       description: event.description,
       location: event.location,
       date: event.date,
@@ -85,7 +85,7 @@ export default function LandingPage() {
               upcomingEvents.map((event) => (
                 <div key={event.id} className={styles.card}>
                   <h3>{event.title}</h3>
-                  <p>{event.description}</p>
+                  <p className={styles.cardDescription}>{event.description}</p>
                   <p>{event.location}</p>
                   <p>{new Date(event.date).toLocaleDateString()}</p>
                 </div>
@@ -105,7 +105,7 @@ export default function LandingPage() {
               pastEvents.map((event) => (
                 <div key={event.id} className={styles.card}>
                   <h3>{event.title}</h3>
-                  <p>{event.description}</p>
+                  <p className={styles.cardDescription}>{event.description}</p>
                   <p>{event.location}</p>
                   <p>{new Date(event.date).toLocaleDateString()}</p>
                 </div>

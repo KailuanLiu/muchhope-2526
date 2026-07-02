@@ -2,9 +2,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, notFound } from "next/navigation";
 import styles from "../../../styles/eventDetail.module.css";
-import Navbar from "../../../components/Navbar";
+import AuthLayout from "../../AuthLayout";
 
 type EventData = {
   id: string;
@@ -55,6 +55,11 @@ export default function EventDetailPage() {
 
   const galleryImages = event?.galleryImages || [];
 
+  // Loading finished, no error, but no matching event — render the 404 page.
+  if (!isLoading && !error && !event) {
+    notFound();
+  }
+
   const openLightbox = (index: number) => setLightboxIndex(index);
   const closeLightbox = () => setLightboxIndex(null);
 
@@ -71,9 +76,8 @@ export default function EventDetailPage() {
   };
 
   return (
-    <div className={styles.pageLayout}>
-      <Navbar />
-      <main className={styles.mainContent}>
+    <AuthLayout>
+      <div className={styles.mainContent}>
         {isLoading ? (
           <p className={styles.notFound}>Loading event...</p>
         ) : error ? (
@@ -155,9 +159,7 @@ export default function EventDetailPage() {
               )}
             </section>
           </div>
-        ) : (
-          <p className={styles.notFound}>Event not found.</p>
-        )}
+        ) : null}
 
         {lightboxIndex !== null && galleryImages.length > 0 && (
           <div className={styles.lightboxOverlay} onClick={closeLightbox}>
@@ -182,7 +184,7 @@ export default function EventDetailPage() {
             </div>
           </div>
         )}
-      </main>
-    </div>
+      </div>
+    </AuthLayout>
   );
 }

@@ -121,6 +121,15 @@ function createFakeModel(schemaDefinition, collection) {
     return removed;
   };
 
+  FakeModel.findOneAndDelete = async (query = {}) => {
+    const idx = collection.findIndex((item) =>
+      Object.entries(query).every(([key, value]) => String(item[key]) === String(value)),
+    );
+    if (idx < 0) return null;
+    const [removed] = collection.splice(idx, 1);
+    return removed;
+  };
+
   FakeModel.deleteMany = async () => {
     collection.length = 0;
   };

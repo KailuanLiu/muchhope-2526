@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs/server";
+import { auth, clerkClient } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 import { isAdmin } from "lib/roles";
 import type { UserRole } from "lib/roles.types";
@@ -47,6 +47,11 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    const { userId } = await auth();
+    if (!userId) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
     const body = await req.json();
     const res = await fetch(`${API_BASE}/shifts`, {
       method: "POST",
@@ -68,6 +73,11 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
+    const { userId, sessionClaims } = await auth();
+    if (!userId) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
 
@@ -75,7 +85,24 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ message: "Shift id is required" }, { status: 400 });
     }
 
-    const res = await fetch(`${API_BASE}/shifts/${id}`, {
+    const role = (sessionClaims?.metadata as { role?: UserRole } | undefined)?.role ?? "user";
+    const deleteUrl = new URL(`${API_BASE}/shifts/${id}`);
+
+    // Non-admins may only delete their own shifts. Scope the backend delete to
+    // the caller's email so they can't remove another volunteer's shift by id.
+    if (!isAdmin(role)) {
+      const client = await clerkClient();
+      const user = await client.users.getUser(userId);
+      const email = user.primaryEmailAddress?.emailAddress;
+
+      if (!email) {
+        return NextResponse.json({ message: "Could not resolve your account email." }, { status: 400 });
+      }
+
+      deleteUrl.searchParams.set("volunteerEmail", email);
+    }
+
+    const res = await fetch(deleteUrl.toString(), {
       method: "DELETE",
     });
 

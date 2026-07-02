@@ -7,6 +7,16 @@ vi.mock("lib/db", () => ({
   default: vi.fn().mockResolvedValue(undefined),
 }));
 
+// Mock Clerk auth — default to an authenticated admin caller.
+const mockAuth = vi.fn().mockResolvedValue({
+  userId: "clerk_admin",
+  sessionClaims: { metadata: { role: "mainadmin" } },
+});
+
+vi.mock("@clerk/nextjs/server", () => ({
+  auth: () => mockAuth(),
+}));
+
 // Mock the Volunteer model
 const mockFind = vi.fn();
 const mockCreate = vi.fn();
